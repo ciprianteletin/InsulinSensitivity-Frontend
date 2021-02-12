@@ -1,0 +1,23 @@
+#sticky-footer{
+  height: 6%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  background: #333;
+  color: #fff;
+}
+
+#main-footer{
+  height: 6%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  background: #333;
+  color: #fff;
+}
+
+#main-footer p{
+  padding-top:18px;
+}

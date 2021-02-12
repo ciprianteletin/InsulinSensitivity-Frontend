@@ -1,0 +1,73 @@
+.btn{
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #33cccc;
+  border: none;
+  border-radius: 5px;
+}
+
+.wider{
+  width: 100%;
+}
+
+.btn-success{
+  background: darkred;
+}
+
+.btn:hover{
+  opacity: 0.9;
+  background: #28a33f;
+}
+
+.full-background{
+  height: 94.2vh;
+  background: url('../../../assets/images/background.jpg') no-repeat center center/cover;
+}
+
+@media(max-width:570px){
+  .btn{
+    padding: 10px 10px;
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.2rem;
+  right: 2rem;
+  font-size: 5rem;
+  color: #333;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.model {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+
+  background-color: white;
+  padding: 6rem;
+  border-radius: 5px;
+  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
