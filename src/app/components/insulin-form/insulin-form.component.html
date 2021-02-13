@@ -1,1 +1,176 @@
-<p>insulin-form works!</p>
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>InsulinX Sidebar Menu</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+      <p>Choose action</p>
+      <li class="active">
+        <a href="#calculateSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Choose
+          indexs</a>
+        <ul class="collapse list-unstyled" id="calculateSubmenu">
+          <li>
+            <a href="javascript:void(0);" id="cederholm">Cederholm index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="gutt">Gutt index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="avingon">Avingon index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="OGIS">OGIS index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="matsuda">Matsuda index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="belfiore">Belfiore index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="stumvoll">Stumvoll index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="homa">HOMA index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="quicki">Quicki index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="revised">Revised Quicki</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="mcauley">McAuley index</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="spise">SPISE index</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="readmore.html">Read More</a>
+      </li>
+      <li>
+        <a href="#">Contact</a>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled CTAs">
+      <li>
+        <button class="btn-op bg-success text-warning" disabled="true">Calculate selected index</button>
+      </li>
+      <li>
+        <button class="btn-op excel" disabled="true">Download excel!</button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Content  -->
+  <div id="content">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="btn btn-info bg-success">
+          <i class="fas fa-align-left"></i>
+          <span>InsulinX</span>
+        </button>
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+          <i class="fas fa-align-justify"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link text-info" href="forms.html"><i class="fas fa-prescription-bottle-alt"></i>Calculate
+                indices</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link text-info" href="login.html"><i class="fas fa-sign-in-alt"></i>Login</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link text-info" href="register.html"><i class="fas fa-user-plus"></i>Register</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="fastingGlucose" class="text-info">Fasting glucose</label>
+            <input type="text" class="form-control" id="fastingGlucose" placeholder="mg/dl">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="30-min-glucose" class="text-info">30 min glucose</label>
+            <input type="text" class="form-control" id="30-min-glucose" placeholder="mg/dl">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="90-min-glucose" class="text-info">90 min glucose</label>
+            <input type="text" class="form-control" id="90-min-glucose" placeholder="mg/dl">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="120-min-glucose" class="text-info">120 min glucose</label>
+            <input type="text" class="form-control" id="120-min-glucose" placeholder="mg/dl">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="fastingInsulin" class="text-info">Fasting insulin</label>
+            <input type="text" class="form-control" id="fastingInsulin" placeholder="mg/dl">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="30-min-insulin" class="text-info">30 min insulin</label>
+            <input type="text" class="form-control" id="30-min-insulin" placeholder="mg/dl">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="90-min-insulin" class="text-info">90 min insulin</label>
+            <input type="text" class="form-control" id="90-min-insulin" placeholder="mg/dl">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="height" class="text-info">Height</label>
+            <input type="text" class="form-control" id="height" placeholder="x cm">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="weight" class="text-info">Weight</label>
+            <input type="text" class="form-control" id="weight" placeholder="x kg">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="dose" class="text-info">OGTT Dose</label>
+            <input type="text" class="form-control" id="dose" value="75 g">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="nefa" class="text-info">NEFA</label>
+            <input type="text" class="form-control" id="nefa" placeholder="x mmol/l">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="thyro" class="text-info">Thyroglobulin</label>
+            <input type="text" class="form-control" id="thyro" placeholder="x mg/dl">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="hdl" class="text-info">Cholesterol</label>
+            <input type="text" class="form-control" id="hdl" placeholder="x mg/dl">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="tri" class="text-info">Triglycerides</label>
+            <input type="text" class="form-control" id="tri" placeholder="x mg/dl">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-danger rounded">Compute a result</button>
+        <button type="button" class="btn btn-danger float-right rounded">Convert to mmol/l-pmol/l</button>
+      </form>
+    </div>
+  </div>
+</div>
