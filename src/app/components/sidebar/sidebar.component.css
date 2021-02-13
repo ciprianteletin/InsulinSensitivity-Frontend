@@ -90,12 +90,6 @@ ul.CTAs a {
   margin-bottom: 5px;
 }
 
-.btn-op.excel,
-.btn-op.excel:hover {
-  background: orange !important;
-  color: red !important;
-}
-
 .btn-op {
   cursor: pointer;
   display: inline-block;

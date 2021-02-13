@@ -12,6 +12,7 @@ import {PrincipalComponent} from './components/principal/principal.component';
 import {InsulinFormComponent} from './components/insulin-form/insulin-form.component';
 import { IndexComponent } from './components/index/index.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import {ModalDirective} from './directives/modal.directive';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     PrincipalComponent,
     InsulinFormComponent,
     IndexComponent,
-    SidebarComponent
+    SidebarComponent,
+    ModalDirective
   ],
   imports: [
     BrowserModule,

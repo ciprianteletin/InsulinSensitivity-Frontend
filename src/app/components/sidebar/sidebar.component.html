@@ -1,4 +1,4 @@
-<nav id="sidebar">
+<nav id="sidebar" [class]="{'active': active}">
   <div class="sidebar-header">
     <h3>InsulinX Sidebar Menu</h3>
   </div>
@@ -48,6 +48,23 @@
       </ul>
     </li>
     <li>
+      <a href="#">History</a>
+    </li>
+    <li>
+      <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
+      <ul class="collapse list-unstyled" id="settingsSubmenu">
+        <li>
+          <a href="#">Change password</a> <!--If not connected with gmail-->
+        </li>
+        <li>
+          <a href="#">Add information to account</a>
+        </li>
+        <li>
+          <a href="#">Reset History</a>
+        </li>
+      </ul>
+    </li>
+    <li>
       <a href="readmore.html">Read More</a>
     </li>
     <li>
@@ -58,9 +75,6 @@
   <ul class="list-unstyled CTAs">
     <li>
       <button class="btn-op bg-success text-warning" disabled="true">Calculate selected index</button>
-    </li>
-    <li>
-      <button class="btn-op excel" disabled="true">Download excel!</button>
     </li>
   </ul>
 </nav>

@@ -1,7 +1,7 @@
 <app-header></app-header>
 <main class="full-background">
-<div class="model hidden">
-  <button class="close-modal">&times;</button>
+<div class="model hidden" #modal appModal>
+  <button class="close-modal" (click)="onCloseModal()">&times;</button>
   <h1>What we really do?</h1>
   <p>
     We calculate up to twelve indices of insulin sensitivity or
@@ -14,7 +14,7 @@
     For more details about us and what we do, please contact us.
   </p>
 </div>
-<div class="overlay hidden"></div>
+<div class="overlay hidden" #overlay appModal></div>
 
 <div class="container">
   <div class="about-box">
@@ -23,7 +23,7 @@
       Our calculations depends on seven indexes of sensibility to insulin, highly accurate in determining any kind of risk to getting diabetes.
       For more information, press the button below.
     </p>
-    <button class="btn" id="read-more"><i class="fas fa-chevron-right"></i>Read More</button>
+    <button class="btn" id="read-more" (click)="onActivateModal()"><i class="fas fa-chevron-right"></i>Read More</button>
   </div>
 </div>
 </main>
