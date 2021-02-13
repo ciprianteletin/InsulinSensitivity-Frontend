@@ -14,15 +14,6 @@ a:focus {
   transition: all 0.3s;
 }
 
-.navbar {
-  padding: 15px 10px;
-  background: #fff;
-  border: none;
-  border-radius: 0;
-  margin-bottom: 40px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
 .navbar-btn {
   box-shadow: none;
   outline: none !important;
@@ -80,7 +71,7 @@ a:focus {
   background: cadetblue;
 }
 
-#sidebar ul li.active>a[aria-expanded="true"],
+#sidebar ul li.active > a[aria-expanded="true"],
 a[aria-expanded="true"] {
   color: #333;
   background: grey;
@@ -125,12 +116,15 @@ ul.CTAs a {
 
 #content {
   width: 100%;
-  padding: 20px;
   min-height: 100vh;
   transition: all 0.3s;
 }
 
-.btn-op{
+main {
+  padding-left: 20px;
+}
+
+.btn-op {
   cursor: pointer;
   display: inline-block;
   width: 100%;
@@ -147,9 +141,11 @@ ul.CTAs a {
   #sidebar {
     margin-left: -250px;
   }
+
   #sidebar.active {
     margin-left: 0;
   }
+
   #sidebarCollapse span {
     display: none;
   }

@@ -1,4 +1,4 @@
-.btn{
+.btn {
   cursor: pointer;
   display: inline-block;
   padding: 10px 20px;
@@ -8,20 +8,20 @@
   border-radius: 5px;
 }
 
-.wider{
+.wider {
   width: 100%;
 }
 
-.btn-success{
+.btn-success {
   background: darkred;
 }
 
-.btn:hover{
+.btn:hover {
   opacity: 0.9;
   background: #28a33f;
 }
 
-.container-login-register{
+.container-login-register {
   background: url('../../../assets/images/login-register.png') no-repeat center center/cover;
   height: 90vh;
   display: flex;
@@ -32,16 +32,16 @@
   z-index: 10;
 }
 
-.container-login-register a{
+.container-login-register a {
   text-decoration: none;
 }
 
-.container-login-register a:hover{
+.container-login-register a:hover {
   color: #28a33f;
 }
 
-@media(max-width:570px){
-  .btn{
+@media (max-width: 570px) {
+  .btn {
     padding: 10px 10px;
   }
 }
