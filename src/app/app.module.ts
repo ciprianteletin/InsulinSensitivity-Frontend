@@ -11,6 +11,7 @@ import {RegisterDetailsComponent} from './components/register-details/register-d
 import {PrincipalComponent} from './components/principal/principal.component';
 import {InsulinFormComponent} from './components/insulin-form/insulin-form.component';
 import { IndexComponent } from './components/index/index.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { IndexComponent } from './components/index/index.component';
     RegisterDetailsComponent,
     PrincipalComponent,
     InsulinFormComponent,
-    IndexComponent
+    IndexComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

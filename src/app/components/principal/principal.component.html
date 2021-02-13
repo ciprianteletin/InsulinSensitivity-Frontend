@@ -1,92 +1,11 @@
 <div class="wrapper">
   <!-- Sidebar  -->
-  <nav id="sidebar">
-    <div class="sidebar-header">
-      <h3>InsulinX Sidebar Menu</h3>
-    </div>
-
-    <ul class="list-unstyled components">
-      <p>Choose action</p>
-      <li class="active">
-        <a href="#calculateSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Choose
-          indexs</a>
-        <ul class="collapse list-unstyled" id="calculateSubmenu">
-          <li>
-            <a href="javascript:void(0);" id="cederholm">Cederholm index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="gutt">Gutt index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="avingon">Avingon index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="OGIS">OGIS index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="matsuda">Matsuda index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="belfiore">Belfiore index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="stumvoll">Stumvoll index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="homa">HOMA index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="quicki">Quicki index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="revised">Revised Quicki</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="mcauley">McAuley index</a>
-          </li>
-          <li>
-            <a href="javascript:void(0);" id="spise">SPISE index</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">History</a>
-      </li>
-      <li>
-        <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
-        <ul class="collapse list-unstyled" id="settingsSubmenu">
-          <li>
-            <a href="#">Change password</a> <!--If not connected with gmail-->
-          </li>
-          <li>
-            <a href="#">Add information to account</a>
-          </li>
-          <li>
-            <a href="#">Reset History</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="readmore.html">Read More</a>
-      </li>
-      <li>
-        <a href="#">Contact</a>
-      </li>
-    </ul>
-
-    <ul class="list-unstyled CTAs">
-      <li>
-        <button class="btn-op bg-success text-warning" disabled="true">Calculate selected index</button>
-      </li>
-      <li>
-        <button class="btn-op excel" disabled="true">Download excel!</button>
-      </li>
-    </ul>
-  </nav>
+  <app-sidebar></app-sidebar>
 
   <!-- Page Content  -->
   <div id="content">
     <app-header></app-header>
+    <div class="small-line"></div>
     <main>
       <h2>Abstract</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
