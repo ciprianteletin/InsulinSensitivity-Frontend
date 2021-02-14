@@ -1,12 +1,21 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class HeaderService {
   private activateSidebar = new Subject<void>();
+  private modifyState = new BehaviorSubject<boolean>(true);
 
-  changeValue(): void {
+  changeSidebarValue(): void {
     this.activateSidebar.next();
+  }
+
+  changeHeaderState(status: boolean): void {
+    this.modifyState.next(status);
+  }
+
+  getHeaderEvent(): Subject<boolean> {
+    return this.modifyState;
   }
 
   getSidebarEvent(): Subject<void> {

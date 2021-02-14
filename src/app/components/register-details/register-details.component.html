@@ -1,3 +1,33 @@
 <app-header></app-header>
-<!--TODO FORM-->
+<div class="container-login-register">
+  <form style="width: 20%">
+    <div class="form-group">
+      <label for="firstName" class="font-weight-bold">First Name</label>
+      <input type="text" class="form-control" id="firstName" placeholder="John">
+    </div>
+    <div class="form-group">
+      <label for="lastName" class="font-weight-bold">Last Name</label>
+      <input type="text" class="form-control" id="lastName" placeholder="Doe">
+    </div>
+    <div class="form-group">
+      <label for="phone" class="font-weight-bold">Phone Number</label>
+      <input type="text" class="form-control" id="phone" placeholder="07xxxxxxxx">
+    </div>
+    <div class="form-group">
+      <label for="age" class="font-weight-bold">Age</label>
+      <input type="number" class="form-control" id="age" placeholder="35">
+    </div>
+    <div class="form-group">
+      <label for="gender" class="font-weight-bold">Gender</label>
+      <select id="gender" class="form-control">
+        <option selected>Choose...</option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+      </select>
+    </div>
+<!--  TODO file chooser  -->
+    <button type="submit" class="btn btn-success wider">Register!</button>
+  </form>
+</div>
+
 <app-footer></app-footer>
