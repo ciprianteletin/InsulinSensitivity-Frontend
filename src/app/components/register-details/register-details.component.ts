@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {RegisterBasicModel} from '../../model/register-basic.model';
 import {NgForm} from '@angular/forms';
 import {RegisterService} from '../../services/register.service';
+import {GenericResponseModel} from '../../model/generic-response.model';
 
 @Component({
   selector: 'app-register-details',
@@ -12,6 +13,7 @@ import {RegisterService} from '../../services/register.service';
 export class RegisterDetailsComponent implements OnInit {
   @ViewChild('f') completeRegisterForm: NgForm;
   basicDetails: RegisterBasicModel;
+  isLoading = false;
 
   constructor(private router: Router,
               private registerService: RegisterService) {
@@ -23,6 +25,13 @@ export class RegisterDetailsComponent implements OnInit {
 
   onSubmitUser(): void {
     const completeUser = this.registerService.buildUserFromFormValues(this.completeRegisterForm, this.basicDetails);
+    this.isLoading = true;
+    this.registerService.registerCompleteUser(completeUser).subscribe((status: GenericResponseModel) => {
+      this.router.navigate(['/login']);
+      this.isLoading = false;
+    }, error => {
+        console.log(error);
+    });
   }
 
 }

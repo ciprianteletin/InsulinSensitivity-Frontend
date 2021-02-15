@@ -2,9 +2,15 @@ import {Injectable} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {RegisterBasicModel} from '../model/register-basic.model';
 import {CompleteUserModel} from '../model/complete-user.model';
+import {Observable} from 'rxjs';
+import {GenericResponseModel} from '../model/generic-response.model';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class RegisterService {
+  constructor(private http: HttpClient) {
+  }
+
   buildUserFromFormValues(form: NgForm, basicUser: RegisterBasicModel): CompleteUserModel {
     return {
       username: basicUser.username,
@@ -17,5 +23,9 @@ export class RegisterService {
       gender: form.value.gender,
       age: +form.value.age
     };
+  }
+
+  registerCompleteUser(completeUser: CompleteUserModel): Observable<GenericResponseModel> {
+    return this.http.post<GenericResponseModel>('http://localhost:8080/insulin/register', completeUser);
   }
 }

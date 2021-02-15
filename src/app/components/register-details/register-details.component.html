@@ -1,5 +1,9 @@
 <app-header></app-header>
 <div class="container-login-register">
+  <div *ngIf="isLoading" style="text-align: center">
+    <app-spinner></app-spinner>
+  </div>
+  <div *ngIf="isLoading" class="overlay"></div>
   <form style="width: 20%" #f="ngForm" (ngSubmit)="onSubmitUser()">
     <div class="form-group">
       <label for="firstName" class="font-weight-bold">First Name</label>

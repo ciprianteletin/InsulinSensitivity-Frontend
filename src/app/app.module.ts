@@ -16,6 +16,8 @@ import {ModalDirective} from './directives/modal.directive';
 import {FormsModule} from '@angular/forms';
 import {ConfirmPasswordValidator} from './directives/confirm-password.directive';
 import {OnlyNumbersDirective} from './directives/numbers.directive';
+import {LoadingSpinnerComponent} from './shared/loading-spinner.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,12 +33,14 @@ import {OnlyNumbersDirective} from './directives/numbers.directive';
     SidebarComponent,
     ModalDirective,
     ConfirmPasswordValidator,
-    OnlyNumbersDirective
+    OnlyNumbersDirective,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
