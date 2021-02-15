@@ -15,6 +15,7 @@ import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {ModalDirective} from './directives/modal.directive';
 import {FormsModule} from '@angular/forms';
 import {ConfirmPasswordValidator} from './directives/confirm-password.directive';
+import {OnlyNumbersDirective} from './directives/numbers.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {ConfirmPasswordValidator} from './directives/confirm-password.directive'
     IndexComponent,
     SidebarComponent,
     ModalDirective,
-    ConfirmPasswordValidator
+    ConfirmPasswordValidator,
+    OnlyNumbersDirective
   ],
   imports: [
     BrowserModule,

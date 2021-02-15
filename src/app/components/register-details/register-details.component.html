@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="container-login-register">
-  <form style="width: 20%" #f="ngForm">
+  <form style="width: 20%" #f="ngForm" (ngSubmit)="onSubmitUser()">
     <div class="form-group">
       <label for="firstName" class="font-weight-bold">First Name</label>
       <input type="text"
@@ -36,25 +36,25 @@
         name="phone"
         minlength="10"
         maxlength="10"
-        pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[()-\s\./0-9]*$"
+        pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-()\s\./0-9]*$"
         required>
     </div>
     <div class="form-group">
       <label for="age" class="font-weight-bold">Age</label>
-      <input type="number"
+      <input type="text"
              class="form-control"
+             appOnlyNumbers
              id="age"
              placeholder="35"
              ngModel
              name="age"
              required
-             min="16"
-             max="100">
+             minlength="2"
+             maxlength="2">
     </div>
     <div class="form-group">
       <label for="gender" class="font-weight-bold">Gender</label>
       <select id="gender" class="form-control" ngModel name="gender" required>
-        <option selected>Choose...</option>
         <option value="M">Male</option>
         <option value="F">Female</option>
       </select>
