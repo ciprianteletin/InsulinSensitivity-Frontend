@@ -1,26 +1,66 @@
 <app-header></app-header>
 <div class="container-login-register">
-  <form>
+  <form #f="ngForm">
     <div class="form-group">
       <label for="username" class="font-weight-bold">Username</label>
-      <input type="text" class="form-control" id="username" placeholder="Username">
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder="Username"
+        name="username"
+        ngModel
+        required>
     </div>
     <div class="form-group">
       <label for="email-input" class="font-weight-bold">Email</label>
-      <input type="email" class="form-control" id="email-input" aria-describedby="emailHelp"
-             placeholder="johndoe@gmail.com">
+      <input
+        type="email"
+        class="form-control"
+        id="email-input"
+        aria-describedby="emailHelp"
+        placeholder="johndoe@gmail.com"
+        name="email"
+        ngModel
+        required
+        email>
       <small id="emailHelp" class="form-text text-warning font-weight-bold">We'll never share your email with anyone
         else.</small>
     </div>
     <div class="form-group">
       <label for="password" class="font-weight-bold">Password</label>
-      <input type="password" class="form-control" id="password" placeholder="Password">
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        placeholder="Password"
+        name="password"
+        ngModel
+        #password="ngModel"
+        required
+        [minLength]="8">
     </div>
     <div class="form-group">
       <label for="confirm-pass" class="font-weight-bold">Confirm password</label>
-      <input type="password" class="form-control" id="confirm-pass" placeholder="Password">
+      <input
+        type="password"
+        class="form-control"
+        id="confirm-pass"
+        placeholder="Password"
+        name="confirmPassword"
+        ngModel
+        appPasswordValidator="password"
+        required
+        #confirm="ngModel"
+        [minLength]="8">
     </div>
-    <button type="submit" class="btn btn-success wider">Next page</button>
+    <small *ngIf="!confirm.valid && confirm.touched"
+           id="passHelp"
+           class="form-text text-warning font-weight-bold">Password & Confirm Password must be the same!</small>
+    <button
+      type="submit"
+      class="btn btn-success wider"
+      [disabled]="!f.valid">Next page</button>
     <p class="py-3"><a href="#"><img src="../../../assets/images/search.png" alt=""> - Sign Up with Gmail</a></p>
   </form>
 </div>

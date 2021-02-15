@@ -10,9 +10,11 @@ import {RegisterComponent} from './components/register/register.component';
 import {RegisterDetailsComponent} from './components/register-details/register-details.component';
 import {PrincipalComponent} from './components/principal/principal.component';
 import {InsulinFormComponent} from './components/insulin-form/insulin-form.component';
-import { IndexComponent } from './components/index/index.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import {IndexComponent} from './components/index/index.component';
+import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {ModalDirective} from './directives/modal.directive';
+import {FormsModule} from '@angular/forms';
+import {ConfirmPasswordValidator} from './directives/confirm-password.directive';
 
 @NgModule({
   declarations: [
@@ -26,11 +28,13 @@ import {ModalDirective} from './directives/modal.directive';
     InsulinFormComponent,
     IndexComponent,
     SidebarComponent,
-    ModalDirective
+    ModalDirective,
+    ConfirmPasswordValidator
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
