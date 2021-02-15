@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.headerSubscription = this.headerService.getHeaderEvent().subscribe((status: boolean) => {
-      console.log(status);
       this.basicHeader = status;
     });
   }

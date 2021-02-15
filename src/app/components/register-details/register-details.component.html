@@ -10,7 +10,8 @@
              name="firstName"
              ngModel
              required
-             [minLength]="3">
+             minLength="3"
+             maxlength="50">
     </div>
     <div class="form-group">
       <label for="lastName" class="font-weight-bold">Last Name</label>
@@ -21,7 +22,8 @@
              name="lastName"
              ngModel
              required
-             [minLength]="3">
+             minLength="3"
+             maxlength="100">
     </div>
     <div class="form-group">
       <label for="phone" class="font-weight-bold">Phone Number</label>
@@ -33,6 +35,7 @@
         ngModel
         name="phone"
         minlength="10"
+        maxlength="10"
         pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[()-\s\./0-9]*$"
         required>
     </div>
