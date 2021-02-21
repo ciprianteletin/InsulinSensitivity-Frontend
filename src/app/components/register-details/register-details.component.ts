@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {RegisterBasicModel} from '../../model/register-basic.model';
 import {NgForm} from '@angular/forms';
-import {RegisterService} from '../../services/register.service';
+import {AuthenticationService} from '../../services/authentication.service';
 import {GenericResponseModel} from '../../model/generic-response.model';
 
 @Component({
@@ -16,7 +16,7 @@ export class RegisterDetailsComponent implements OnInit {
   isLoading = false;
 
   constructor(private router: Router,
-              private registerService: RegisterService) {
+              private authenticationService: AuthenticationService) {
     this.basicDetails = this.router.getCurrentNavigation().extras.state.registerBasic;
   }
 
@@ -24,9 +24,9 @@ export class RegisterDetailsComponent implements OnInit {
   }
 
   onSubmitUser(): void {
-    const completeUser = this.registerService.buildUserFromFormValues(this.completeRegisterForm, this.basicDetails);
+    const completeUser = this.authenticationService.buildUserFromFormValues(this.completeRegisterForm, this.basicDetails);
     this.isLoading = true;
-    this.registerService.registerCompleteUser(completeUser).subscribe((status: GenericResponseModel) => {
+    this.authenticationService.registerCompleteUser(completeUser).subscribe((status: GenericResponseModel) => {
       this.router.navigate(['/login']);
       this.isLoading = false;
     }, error => {

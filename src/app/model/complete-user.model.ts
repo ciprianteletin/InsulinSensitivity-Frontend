@@ -5,7 +5,7 @@ export interface CompleteUserModel {
   role: string;
   firstName: string;
   lastName: string;
-  phone: string;
+  phoneNr: string;
   age: number;
   gender: string;
 }
