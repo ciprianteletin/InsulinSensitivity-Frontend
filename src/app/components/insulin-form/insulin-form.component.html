@@ -6,7 +6,7 @@
     <app-header></app-header>
 
     <div class="container">
-      <form>
+      <form id="reduce-width">
         <div class="form-row">
           <div class="form-group col-md-3">
             <label for="fastingGlucose" class="text-info">Fasting glucose</label>
@@ -73,8 +73,10 @@
             <input type="text" class="form-control" id="tri" placeholder="x mg/dl">
           </div>
         </div>
-        <button type="submit" class="btn btn-danger rounded">Compute a result</button>
-        <button type="button" class="btn btn-danger float-right rounded">Convert to mmol/l-pmol/l</button>
+        <div class="form-row">
+          <button type="submit" class="btn btn-danger rounded mr-3 mb-2">Compute a result</button>
+          <button type="button" class="btn btn-danger rounded mb-2" #convert>Convert to mmol/l-pmol/l</button>
+        </div>
       </form>
     </div>
   </div>

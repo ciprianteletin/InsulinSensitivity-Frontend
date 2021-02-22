@@ -8,6 +8,7 @@
 #content {
   width: 100%;
   min-height: 100vh;
+  height: auto;
   transition: all 0.3s;
 }
 
@@ -20,7 +21,25 @@
   top: 50px;
   left: 50px;
   background-color: white;
-  height: 60%;
-  width: 60%;
+  min-height: 60%;
+  height: auto;
+  width: 50%;
   background-color: rgba(2, 50, 88, 0.3);
+}
+
+@media(max-width: 1024px) {
+  .container {
+    background-color: transparent;
+    display: initial;
+    top: initial;
+    left: initial;
+    align-content: initial;
+    align-items: initial;
+    justify-content: initial;
+  }
+
+  #reduce-width {
+    width: 50%;
+    margin: 0 auto;
+  }
 }

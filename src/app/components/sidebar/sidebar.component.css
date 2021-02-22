@@ -15,9 +15,9 @@ a:focus {
 }
 
 #sidebar {
-  height: 100vh;
-  min-width: 250px;
-  max-width: 250px;
+  min-height: 100vh;
+  height: auto;
+  width: 250px;
   background: #333;
   color: #ffffff;
   transition: all 0.3s;
@@ -80,6 +80,7 @@ ul ul a {
 
 ul.CTAs {
   padding: 20px;
+  margin-bottom: 0;
 }
 
 ul.CTAs a {
@@ -106,13 +107,11 @@ ul.CTAs a {
 @media (max-width: 768px) {
   #sidebar {
     margin-left: -250px;
+    min-height: 100%;
+    height: auto;
   }
 
   #sidebar.active {
     margin-left: 0;
-  }
-
-  #sidebarCollapse span {
-    display: none;
   }
 }
