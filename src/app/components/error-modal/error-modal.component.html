@@ -1,0 +1,8 @@
+<div class="model hidden" #modal appModal>
+  <button class="close-modal" (click)="onCloseModal()">&times;</button>
+  <h1>{{this.errorResponse.reason}}</h1>
+  <p>
+    Status {{this.errorResponse.httpStatusCode}}: {{this.errorResponse.message}} Occurred at {{this.errorResponse.timeStamp}}
+  </p>
+</div>
+<div class="overlay hidden" #overlay appModal></div>

@@ -2,11 +2,13 @@ import {Injectable} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {RegisterBasicModel} from '../model/register-basic.model';
 import {CompleteUserModel} from '../model/complete-user.model';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {GenericResponseModel} from '../model/generic-response.model';
 import {UserModel} from '../model/user.model';
+import {Router} from '@angular/router';
+import {tap} from 'rxjs/operators';
 
 /**
  * Service that tackles every request/operation related to the authentication process. It returns an Observable, letting
@@ -16,7 +18,11 @@ import {UserModel} from '../model/user.model';
  */
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  constructor(private http: HttpClient) {
+  user = new BehaviorSubject(null);
+  timerRefreshToken: any;
+
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   buildUserFromFormValues(form: NgForm, basicUser: RegisterBasicModel): CompleteUserModel {
@@ -47,13 +53,29 @@ export class AuthenticationService {
    * from an interceptor and added to every request, if the user is logged, of course.
    */
   login(user: UserModel): Observable<HttpResponse<any>> {
-    return this.http.post(`${environment.url}/login`, user, {observe: 'response'});
+    return this.http.post(`${environment.url}/login`, user, {observe: 'response'})
+      .pipe(tap(response => this.handleAuth(response)));
   }
 
   /**
-   * Clear the local storage where the token resides.
+   * Clear all trace of the logged user and send a request to the server to delete related metaData in case of
+   * manual log-out. Also redirect the user to the main page
    */
   logout(): void {
+    this.user.next(null);
     localStorage.clear();
+    this.router.navigate(['/']);
+    if (this.timerRefreshToken) {
+      clearTimeout(this.timerRefreshToken);
+      this.timerRefreshToken = null;
+    }
+  }
+
+  /**
+   * Handle the auth response received from the server by emitting a user and storing the token
+   * inside the localStorage.
+   */
+  private handleAuth(response: HttpResponse<any>): void {
+
   }
 }

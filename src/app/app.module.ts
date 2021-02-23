@@ -17,7 +17,10 @@ import {FormsModule} from '@angular/forms';
 import {ConfirmPasswordValidator} from './directives/confirm-password.directive';
 import {OnlyNumbersDirective} from './directives/numbers.directive';
 import {LoadingSpinnerComponent} from './shared/loading-spinner.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthInterceptorService} from './interceptors/auth-interceptor.service';
+import {ErrorModalComponent} from './components/error-modal/error-modal.component';
+import {ErrorInterceptorService} from './interceptors/error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import {HttpClientModule} from '@angular/common/http';
     ModalDirective,
     ConfirmPasswordValidator,
     OnlyNumbersDirective,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ErrorModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,10 @@ import {HttpClientModule} from '@angular/common/http';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -3,7 +3,7 @@ import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  styleUrls: ['./index.component.css', '../../../assets/styles/modal.css']
 })
 export class IndexComponent implements OnInit {
   @ViewChild('modal') modal: ElementRef;

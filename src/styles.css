@@ -24,38 +24,10 @@ body {
     align-items: center;
     max-width: 100%;
   }
-
-  .about-box {
-    max-width: 100%;
-    text-align: center;
-    padding: 20px;
-    margin: auto;
-  }
-
-  .about-box h1 {
-    font-size: 20px;
-  }
 }
 
 @media (max-width: 570px) {
-  .about-box p {
-    display: none;
-  }
-
-  .about-box {
-    padding: 10px 0px;
-    text-align: left;
-    font-size: 15px;
-  }
-
   .btn {
     padding: 10px 10px;
   }
-}
-
-.about-box {
-  max-width: 30%;
-  text-align: left;
-  background: transparent;
-  box-shadow: 0 8px 6px -6px green;
 }

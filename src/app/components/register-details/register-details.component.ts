@@ -29,9 +29,7 @@ export class RegisterDetailsComponent implements OnInit {
     this.authenticationService.registerCompleteUser(completeUser).subscribe((status: GenericResponseModel) => {
       this.router.navigate(['/login']);
       this.isLoading = false;
-    }, error => {
-        console.log(error);
-    });
+    }, error => this.isLoading = false);
   }
 
 }
