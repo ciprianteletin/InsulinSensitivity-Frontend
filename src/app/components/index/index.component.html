@@ -1,29 +1,31 @@
 <app-header></app-header>
 <main class="full-background">
-<div class="model hidden" #modal appModal>
-  <button class="close-modal" (click)="onCloseModal()">&times;</button>
-  <h1>What we really do?</h1>
-  <p>
-    We calculate up to twelve indices of insulin sensitivity or
-    insulin resistance in order to provide accurate data about any risk
-    of diabetes or other similar problems. In order to calculate this kind
-    of data we likely need input from an Oral Glucose Tolerance Test and some
-    additional data like BMI, age, sex etc. Each formula is proved scientifically
-    to be as accurate as possible. By using a combination of those indices, we
-    can provide accurate results regarding your healthy.<br>
-    For more details about us and what we do, please contact us.
-  </p>
-</div>
-<div class="overlay hidden" #overlay appModal></div>
-
-<div class="container">
-  <div class="about-box">
-    <h1>Welcome to our page!</h1>
-    <p>We provide advanced calculations to determine the risk of having diabetes or pre-diabetes, in order to prevent something that could affect your life.
-      Our calculations depends on seven indexes of sensibility to insulin, highly accurate in determining any kind of risk to getting diabetes.
-      For more information, press the button below.
+  <div class="model hidden" #modal appModal>
+    <button class="close-modal" (click)="onCloseModal()">&times;</button>
+    <h1>What we really do?</h1>
+    <p>
+      We calculate up to twelve indices of insulin sensitivity or
+      insulin resistance in order to provide accurate data about any risk
+      of diabetes or other similar problems. In order to calculate this kind
+      of data we likely need input from an Oral Glucose Tolerance Test and some
+      additional data like BMI, age, sex etc. Each formula is proved scientifically
+      to be as accurate as possible. By using a combination of those indices, we
+      can provide accurate results regarding your healthy.<br>
+      For more details about us and what we do, please contact us.
     </p>
-    <button class="btn" id="read-more" (click)="onActivateModal()"><i class="fas fa-chevron-right"></i>Read More</button>
   </div>
-</div>
+  <div class="overlay hidden" #overlay appModal></div>
+  <div class="container">
+    <div class="about-box">
+      <h1>Welcome to our page!</h1>
+      <p>We provide advanced calculations to determine the risk of having diabetes or pre-diabetes, in order to prevent
+        something that could affect your life.
+        Our calculations depends on seven indexes of sensibility to insulin, highly accurate in determining any kind of
+        risk to getting diabetes.
+        For more information, press the button below.
+      </p>
+      <button class="btn" id="read-more" (click)="onActivateModal()"><i class="fas fa-chevron-right"></i>Read More
+      </button>
+    </div>
+  </div>
 </main>

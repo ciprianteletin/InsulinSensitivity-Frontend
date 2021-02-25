@@ -6,6 +6,7 @@ import {RegisterComponent} from './components/register/register.component';
 import {RegisterDetailsComponent} from './components/register-details/register-details.component';
 import {PrincipalComponent} from './components/principal/principal.component';
 import {InsulinFormComponent} from './components/insulin-form/insulin-form.component';
+import {NotFoundComponent} from './components/not-found/not-found.component';
 
 // TODO add more pages and also error page
 const routes: Routes = [
@@ -14,7 +15,9 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'register/details', component: RegisterDetailsComponent},
   {path: 'insulin', component: PrincipalComponent},
-  {path: 'insulin/calculator', component: InsulinFormComponent}
+  {path: 'insulin/calculator', component: InsulinFormComponent},
+  {path: 'not-found', component: NotFoundComponent},
+  {path: '**', redirectTo: 'not-found'}
 ];
 
 @NgModule({

@@ -3,12 +3,13 @@ import {NgForm} from '@angular/forms';
 import {RegisterBasicModel} from '../model/register-basic.model';
 import {CompleteUserModel} from '../model/complete-user.model';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {GenericResponseModel} from '../model/generic-response.model';
 import {UserModel} from '../model/user.model';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 /**
  * Service that tackles every request/operation related to the authentication process. It returns an Observable, letting
@@ -19,6 +20,7 @@ import {tap} from 'rxjs/operators';
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
   user = new BehaviorSubject(null);
+  private jwtHelper = new JwtHelperService();
   timerRefreshToken: any;
 
   constructor(private http: HttpClient,
@@ -53,7 +55,12 @@ export class AuthenticationService {
    * from an interceptor and added to every request, if the user is logged, of course.
    */
   login(user: UserModel): Observable<HttpResponse<any>> {
-    return this.http.post(`${environment.url}/login`, user, {observe: 'response'})
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+      withCredentials: true,
+      observe: 'response' as 'response'
+    };
+    return this.http.post(`${environment.url}/login`, user, httpOptions)
       .pipe(tap(response => this.handleAuth(response)));
   }
 
@@ -76,6 +83,14 @@ export class AuthenticationService {
    * inside the localStorage.
    */
   private handleAuth(response: HttpResponse<any>): void {
-
+    const token = response.headers.get(environment.tokenHeader);
+    this.timerRefreshToken = setTimeout(() => {
+    }, this.jwtHelper.getTokenExpirationDate(token).getMilliseconds());
+    localStorage.setItem('Bearer', token);
+    const loggedUser: UserModel = {
+      id: response.body.id,
+      username: response.body.username,
+    };
+    this.user.next(loggedUser);
   }
 }

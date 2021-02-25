@@ -21,6 +21,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptorService} from './interceptors/auth-interceptor.service';
 import {ErrorModalComponent} from './components/error-modal/error-modal.component';
 import {ErrorInterceptorService} from './interceptors/error-interceptor.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {ErrorInterceptorService} from './interceptors/error-interceptor.service'
     OnlyNumbersDirective,
     LoadingSpinnerComponent,
     ErrorModalComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
