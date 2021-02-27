@@ -16,7 +16,7 @@ export class AuthInterceptorService implements HttpInterceptor {
         return next.handle(req);
       }
       const modifiedReq = req.clone({
-        params: new HttpParams().set('Bearer', localStorage.getItem(environment.tokenHeader))
+        headers: req.headers.append(environment.authorization, `Bearer ${localStorage.getItem(environment.bearer)}`)
       });
       return next.handle(modifiedReq);
     }));

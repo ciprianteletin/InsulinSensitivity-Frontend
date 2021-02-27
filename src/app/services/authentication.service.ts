@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 import {RegisterBasicModel} from '../model/register-basic.model';
 import {CompleteUserModel} from '../model/complete-user.model';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {GenericResponseModel} from '../model/generic-response.model';
 import {UserModel} from '../model/user.model';
@@ -21,7 +21,8 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 export class AuthenticationService {
   user = new BehaviorSubject(null);
   private jwtHelper = new JwtHelperService();
-  timerRefreshToken: any;
+  private timerRefreshToken: any;
+  private userId: number;
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -55,13 +56,11 @@ export class AuthenticationService {
    * from an interceptor and added to every request, if the user is logged, of course.
    */
   login(user: UserModel): Observable<HttpResponse<any>> {
-    const httpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json'}),
-      withCredentials: true,
-      observe: 'response' as 'response'
-    };
-    return this.http.post(`${environment.url}/login`, user, httpOptions)
-      .pipe(tap(response => this.handleAuth(response)));
+    return this.http.post(`${environment.url}/login`, user, environment.httpOptions)
+      .pipe(tap(response => {
+        this.handleAuth(response);
+        this.emitNewUser(response);
+      }));
   }
 
   /**
@@ -72,6 +71,28 @@ export class AuthenticationService {
     this.user.next(null);
     localStorage.clear();
     this.router.navigate(['/']);
+    this.clearTimeoutIfNeeded();
+  }
+
+  /**
+   * Handle the auth response received from the server by emitting a user and storing the token
+   * inside the localStorage. Also it launch a timeout of 14 minutes in order to refresh the token.
+   * The duration of the token is 15 minutes but we take in consideration that some operations
+   * might take some time.
+   */
+  private handleAuth(response: HttpResponse<any>): void {
+    const token = response.headers.get(environment.tokenHeader);
+    const refreshTime = this.jwtHelper.getTokenExpirationDate(token).getTime()
+      - new Date().getTime() - environment.oneMinuteInMs;
+    this.clearTimeoutIfNeeded();
+    this.timerRefreshToken = setTimeout(() => this.getNewToken(), refreshTime);
+    localStorage.setItem(environment.bearer, token);
+  }
+
+  /**
+   * Clear the current time-out, even if it's already expired.
+   */
+  private clearTimeoutIfNeeded(): void {
     if (this.timerRefreshToken) {
       clearTimeout(this.timerRefreshToken);
       this.timerRefreshToken = null;
@@ -79,18 +100,23 @@ export class AuthenticationService {
   }
 
   /**
-   * Handle the auth response received from the server by emitting a user and storing the token
-   * inside the localStorage.
+   * Handles and emit a new user, the logged one, operation available only on login.
    */
-  private handleAuth(response: HttpResponse<any>): void {
-    const token = response.headers.get(environment.tokenHeader);
-    this.timerRefreshToken = setTimeout(() => {
-    }, this.jwtHelper.getTokenExpirationDate(token).getMilliseconds());
-    localStorage.setItem('Bearer', token);
+  private emitNewUser(response: HttpResponse<any>): void {
     const loggedUser: UserModel = {
       id: response.body.id,
       username: response.body.username,
     };
+    this.userId = response.body.id;
     this.user.next(loggedUser);
+  }
+
+  /**
+   * Every 14-15 minutes a new token is received from backend. This methods prevents any theft who might stole
+   * the token to use the application, because in 15 minutes the token will be invalid and a new one will be emitted.
+   */
+  private getNewToken(): void {
+    this.http.get<GenericResponseModel>(`${environment.url}/refresh/${this.userId}`, environment.httpOptions)
+      .subscribe(response => this.handleAuth(response));
   }
 }
