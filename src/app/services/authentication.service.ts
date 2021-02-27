@@ -74,6 +74,18 @@ export class AuthenticationService {
     this.clearTimeoutIfNeeded();
   }
 
+  autoLogin(): void {
+    this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
+      .subscribe(res => {
+        // if the status is 204, it means that "NO_CONTENT" was sent
+        if (res.status !== 204) {
+          this.handleAuth(res);
+          this.emitNewUser(res);
+          this.router.navigate(['/insulin']);
+        }
+      });
+  }
+
   /**
    * Handle the auth response received from the server by emitting a user and storing the token
    * inside the localStorage. Also it launch a timeout of 14 minutes in order to refresh the token.

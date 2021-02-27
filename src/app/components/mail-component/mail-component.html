@@ -1,0 +1,24 @@
+<app-header></app-header>
+<div class="container-login-register">
+  <router-outlet></router-outlet>
+  <form #f="ngForm" (ngSubmit)="sendEmail()">
+    <div class="form-group">
+      <label for="email" class="font-weight-bold">Email</label>
+      <input type="text"
+             class="form-control"
+             id="email"
+             placeholder="johndoe@gmail.com"
+             name="email"
+             ngModel
+             required
+             email>
+    </div>
+    <small id="emailHelp" class="form-text text-warning font-weight-bold">We'll never share your email with anyone
+      else.</small>
+    <button type="submit"
+            class="btn btn-success wider"
+            [disabled]="!f.valid">Submit email</button>
+  </form>
+</div>
+<app-footer></app-footer>
+

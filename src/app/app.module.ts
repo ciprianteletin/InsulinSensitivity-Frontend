@@ -22,6 +22,8 @@ import {AuthInterceptorService} from './interceptors/auth-interceptor.service';
 import {ErrorModalComponent} from './components/error-modal/error-modal.component';
 import {ErrorInterceptorService} from './interceptors/error-interceptor.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import {MailComponent} from './components/mail-component/mail-component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     LoadingSpinnerComponent,
     ErrorModalComponent,
     NotFoundComponent,
+    ResetPasswordComponent,
+    MailComponent,
   ],
   imports: [
     BrowserModule,

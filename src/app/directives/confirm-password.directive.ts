@@ -1,5 +1,5 @@
-import {Attribute, Directive, Input} from '@angular/core';
-import {FormControl, NG_VALIDATORS, NgModel, ValidationErrors, Validator} from '@angular/forms';
+import {Attribute, Directive} from '@angular/core';
+import {FormControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
 
 @Directive({
   selector: '[appPasswordValidator]',

@@ -7,15 +7,20 @@ import {RegisterDetailsComponent} from './components/register-details/register-d
 import {PrincipalComponent} from './components/principal/principal.component';
 import {InsulinFormComponent} from './components/insulin-form/insulin-form.component';
 import {NotFoundComponent} from './components/not-found/not-found.component';
+import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
+import {MailComponent} from './components/mail-component/mail-component';
 
 // TODO add more pages and also error page
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginComponent, children: [
+      {path: 'reset', component: MailComponent}
+    ]},
   {path: 'register', component: RegisterComponent},
   {path: 'register/details', component: RegisterDetailsComponent},
   {path: 'insulin', component: PrincipalComponent},
   {path: 'insulin/calculator', component: InsulinFormComponent},
+  {path: 'resetPassword', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}
 ];

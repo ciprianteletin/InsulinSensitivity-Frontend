@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('f') loginForm: NgForm;
+  resetPassword = false;
 
   constructor(private authService: AuthenticationService,
               private router: Router) {
@@ -23,5 +24,4 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/insulin']);
     });
   }
-
 }
