@@ -14,7 +14,7 @@ import {MailComponent} from './components/mail-component/mail-component';
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
   {path: 'login', component: LoginComponent, children: [
-      {path: 'reset', component: MailComponent}
+      {path: 'forget', component: MailComponent}
     ]},
   {path: 'register', component: RegisterComponent},
   {path: 'register/details', component: RegisterDetailsComponent},

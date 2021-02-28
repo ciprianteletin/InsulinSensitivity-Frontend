@@ -1,7 +1,7 @@
 <app-header></app-header>
-<div class="container-login-register">
-  <router-outlet></router-outlet>
-  <form *ngIf="resetPassword" #f="ngForm" (ngSubmit)="login()">
+<router-outlet></router-outlet>
+<div *ngIf="!resetPassword" class="container-login-register">
+  <form #f="ngForm" (ngSubmit)="login()">
     <div class="form-group">
       <label for="username-email" class="font-weight-bold">Username or Email</label>
       <input type="text"
@@ -36,7 +36,7 @@
     <button type="submit"
             class="btn btn-success wider"
     [disabled]="!f.valid">Login!</button>
-    <button type="button" (click)="resetPassword = true" class="btn-link bg-transparent border-0">Forgot your password?</button>
+    <button type="button" (click)="onForgetPassword()" class="btn-link bg-transparent border-0">Forgot your password?</button>
     <p class="py-3"><a href="#"><img src="../../../assets/images/search.png" alt=""> - Login with Gmail</a></p>
   </form>
 </div>

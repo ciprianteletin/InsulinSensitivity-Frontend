@@ -1,24 +1,32 @@
-<app-header></app-header>
 <div class="container-login-register">
-  <router-outlet></router-outlet>
-  <form #f="ngForm" (ngSubmit)="sendEmail()">
-    <div class="form-group">
-      <label for="email" class="font-weight-bold">Email</label>
-      <input type="text"
-             class="form-control"
-             id="email"
-             placeholder="johndoe@gmail.com"
-             name="email"
-             ngModel
-             required
-             email>
+  <section>
+    <div class="content">
+      <h1>Forgot your password?</h1>
+      <p>Please provide your email in the input from the left. You will soon receive an email with
+      a link where you will be greeted by a form where you will input your newly password. After
+      that, you will be able to use your account as before. Be careful, the link is available only
+      for a duration of three hours, after that you will need to request another link.</p>
     </div>
-    <small id="emailHelp" class="form-text text-warning font-weight-bold">We'll never share your email with anyone
-      else.</small>
-    <button type="submit"
-            class="btn btn-success wider"
-            [disabled]="!f.valid">Submit email</button>
-  </form>
+    <div class="form-box">
+      <form #f="ngForm" class="center" (ngSubmit)="sendEmail()">
+        <div class="form-group">
+          <label for="email" class="font-weight-bold">Email</label>
+          <small id="emailHelp" class="form-text text-warning font-weight-bold">We'll never share your email with anyone
+            else.</small>
+          <input type="text"
+                 class="form-control"
+                 id="email"
+                 placeholder="johndoe@gmail.com"
+                 name="email"
+                 ngModel
+                 required
+                 email>
+        </div>
+        <button type="submit"
+                class="btn btn-success wider"
+                [disabled]="!f.valid">Submit email
+        </button>
+      </form>
+    </div>
+  </section>
 </div>
-<app-footer></app-footer>
-
