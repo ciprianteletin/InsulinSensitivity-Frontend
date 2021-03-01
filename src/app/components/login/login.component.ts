@@ -2,14 +2,15 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
+import {CanLeave} from '../../guards/utils/can.leave';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css', '../../../assets/styles/login-register.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy, CanLeave {
   @ViewChild('f') loginForm: NgForm;
   resetPassword: boolean;
   routerEvent: Subscription;
@@ -37,5 +38,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routerEvent.unsubscribe();
+  }
+
+  private isFormEmpty(): boolean {
+    return this.loginForm.value.username === '' && this.loginForm.value.password === '';
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.resetPassword) {
+      return true;
+    }
+    if (!this.isFormEmpty()) {
+      return confirm('Do you want to discard the changes?');
+    }
+    return true;
   }
 }

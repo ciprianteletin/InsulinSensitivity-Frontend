@@ -2,13 +2,15 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {RegisterBasicModel} from '../../model/register-basic.model';
+import {CanLeave} from '../../guards/utils/can.leave';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css', '../../../assets/styles/login-register.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, CanLeave {
   @ViewChild('f') registerForm: NgForm;
 
   constructor(private router: Router) {
@@ -24,5 +26,18 @@ export class RegisterComponent implements OnInit {
         registerBasic: basicModel
       }
     });
+  }
+
+  private isFormEmpty(): boolean {
+    const values = this.registerForm.value;
+    return values.username === '' && values.password === '' &&
+      values.email === '' && values.confirmPassword === '';
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.isFormEmpty()) {
+      return confirm('Do you want to discard the changes?');
+    }
+    return true;
   }
 }
