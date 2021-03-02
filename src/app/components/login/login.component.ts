@@ -4,6 +4,8 @@ import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {CanLeave} from '../../guards/utils/can.leave';
+import {NotificationService} from '../../services/notification.service';
+import {NotificationType} from '../../constants/notification-type.enum';
 
 @Component({
   selector: 'app-login',
@@ -14,30 +16,36 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
   @ViewChild('f') loginForm: NgForm;
   resetPassword: boolean;
   routerEvent: Subscription;
+  registerNotificationEvent: Subscription;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
-              private activeRoute: ActivatedRoute) {
+              private activeRoute: ActivatedRoute,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
     this.routerEvent = this.router.events.subscribe(value => {
       this.resetPassword = !(this.router.url.toString() === '/login');
     });
+
+    this.registerNotificationEvent = this.notificationService
+      .getRegisterNotification().subscribe(flag => {
+        if (flag) {
+          this.notificationService.notify(NotificationType.SUCCESS, 'Your account was created with success!');
+        }
+      });
   }
 
   login(): void {
     this.authService.login(this.loginForm.value).subscribe(user => {
       this.router.navigate(['/insulin']);
+      this.notificationService.emitLoginNotification(true, 'You are now logged in!');
     });
   }
 
   onForgetPassword(): void {
     this.router.navigate(['forget'], {relativeTo: this.activeRoute});
-  }
-
-  ngOnDestroy(): void {
-    this.routerEvent.unsubscribe();
   }
 
   private isFormEmpty(): boolean {
@@ -48,9 +56,14 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
     if (this.resetPassword) {
       return true;
     }
-    if (!this.isFormEmpty()) {
+    if (!this.isFormEmpty() && !this.loginForm.submitted) {
       return confirm('Do you want to discard the changes?');
     }
     return true;
+  }
+
+  ngOnDestroy(): void {
+    this.routerEvent.unsubscribe();
+    this.registerNotificationEvent.unsubscribe();
   }
 }

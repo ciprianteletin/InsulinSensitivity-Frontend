@@ -13,5 +13,6 @@ export const environment = {
     headers: new HttpHeaders({'Content-Type': 'application/json'}),
     withCredentials: true,
     observe: 'response' as 'response'
-  }
+  },
+  internal_error_code: 500,
 };

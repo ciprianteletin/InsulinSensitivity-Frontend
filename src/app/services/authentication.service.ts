@@ -10,6 +10,7 @@ import {UserModel} from '../model/user.model';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {NotificationService} from './notification.service';
 
 /**
  * Service that tackles every request/operation related to the authentication process. It returns an Observable, letting
@@ -25,7 +26,8 @@ export class AuthenticationService {
   private userId: number;
 
   constructor(private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private notificationService: NotificationService) {
   }
 
   buildUserFromFormValues(form: NgForm, basicUser: RegisterBasicModel): CompleteUserModel {
@@ -60,6 +62,7 @@ export class AuthenticationService {
       .pipe(tap(response => {
         this.handleAuth(response);
         this.emitNewUser(response);
+        this.notificationService.emitLoginNotification(true, 'Welcome back!');
       }));
   }
 

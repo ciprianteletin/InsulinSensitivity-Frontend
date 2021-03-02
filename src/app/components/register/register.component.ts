@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit, CanLeave {
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.isFormEmpty()) {
+    if (!this.isFormEmpty() && !this.registerForm.submitted) {
       return confirm('Do you want to discard the changes?');
     }
     return true;

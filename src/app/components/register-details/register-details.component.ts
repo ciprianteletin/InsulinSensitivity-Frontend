@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {GenericResponseModel} from '../../model/generic-response.model';
 import {Observable} from 'rxjs';
 import {CanLeave} from '../../guards/utils/can.leave';
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
   selector: 'app-register-details',
@@ -18,7 +19,8 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
   isLoading = false;
 
   constructor(private router: Router,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private notificationService: NotificationService) {
     this.basicDetails = this.router.getCurrentNavigation().extras.state.registerBasic;
   }
 
@@ -30,6 +32,7 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
     this.isLoading = true;
     this.authenticationService.registerCompleteUser(completeUser).subscribe((status: GenericResponseModel) => {
       this.router.navigate(['/login']);
+      this.notificationService.emitRegisterNotification(true);
       this.isLoading = false;
     }, error => this.isLoading = false);
   }
@@ -41,7 +44,7 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.isFormEmpty()) {
+    if (!this.isFormEmpty() && !this.completeRegisterForm.submitted) {
       return confirm('Do you want to discard the changes?');
     }
     return true;

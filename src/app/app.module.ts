@@ -24,6 +24,7 @@ import {ErrorInterceptorService} from './interceptors/error-interceptor.service'
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import {MailComponent} from './components/mail-component/mail-component';
+import {NotificationsModule} from './configs/notifications.module';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {MailComponent} from './components/mail-component/mail-component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NotificationsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
