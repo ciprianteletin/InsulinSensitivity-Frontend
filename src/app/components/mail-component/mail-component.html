@@ -1,11 +1,16 @@
+<div *ngIf="isLoading" style="text-align: center">
+  <app-spinner></app-spinner>
+</div>
+<div *ngIf="isLoading" class="overlay"></div>
+
 <div class="container-login-register">
   <section>
     <div class="content">
       <h1>Forgot your password?</h1>
       <p>Please provide your email in the input from the left. You will soon receive an email with
-      a link where you will be greeted by a form where you will input your newly password. After
-      that, you will be able to use your account as before. Be careful, the link is available only
-      for a duration of three hours, after that you will need to request another link.</p>
+        a link where you will be greeted by a form where you will input your newly password. After
+        that, you will be able to use your account as before. Be careful, the link is available only
+        for a duration of three hours, after that you will need to request another link.</p>
     </div>
     <div class="form-box">
       <form #f="ngForm" class="center" (ngSubmit)="sendEmail()">

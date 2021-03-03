@@ -43,11 +43,14 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
       values.phone === '' && values.age === '';
   }
 
+  /**
+   * Implements the CanLeave interface. Used in the canDeactivate Guard and it's making sure
+   * that the user really wants to leave the page and that it was not a mistake.
+   */
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isFormEmpty() && !this.completeRegisterForm.submitted) {
       return confirm('Do you want to discard the changes?');
     }
     return true;
   }
-
 }

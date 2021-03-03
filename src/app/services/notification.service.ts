@@ -8,6 +8,9 @@ export interface NotificationMessage {
   message: string;
 }
 
+/**
+ * Class used for notifications and managing different events which will launch a notification in the application.
+ */
 @Injectable({providedIn: 'root'})
 export class NotificationService {
   constructor(private notifier: NotifierService) {

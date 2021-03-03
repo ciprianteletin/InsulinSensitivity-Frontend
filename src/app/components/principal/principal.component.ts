@@ -17,6 +17,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loginEvent = this.notificationService.getLoginNotification().subscribe(notifications => {
       if (notifications.flag) {
+        this.loginEvent.unsubscribe();
         this.notificationService.notify(NotificationType.INFO, notifications.message);
       }
     });

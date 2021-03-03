@@ -25,6 +25,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import {MailComponent} from './components/mail-component/mail-component';
 import {NotificationsModule} from './configs/notifications.module';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {NotificationsModule} from './configs/notifications.module';
     NotificationsModule
   ],
   providers: [
+    CookieService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true}
   ],

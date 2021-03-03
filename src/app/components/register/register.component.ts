@@ -34,6 +34,10 @@ export class RegisterComponent implements OnInit, CanLeave {
       values.email === '' && values.confirmPassword === '';
   }
 
+  /**
+   * Implements the CanLeave interface. Used in the canDeactivate Guard and it's making sure
+   * that the user really wants to leave the page and that it was not a mistake.
+   */
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isFormEmpty() && !this.registerForm.submitted) {
       return confirm('Do you want to discard the changes?');

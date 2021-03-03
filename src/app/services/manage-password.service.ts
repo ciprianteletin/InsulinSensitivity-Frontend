@@ -15,6 +15,6 @@ export class ManagePasswordService {
   }
 
   sendEmail(email: string): Observable<GenericResponseModel> {
-    return this.http.get<GenericResponseModel>(`${environment.url}/forgetPassword/${email}`);
+    return this.http.get<GenericResponseModel>(`${environment.url}/forgotPassword/${email}`);
   }
 }

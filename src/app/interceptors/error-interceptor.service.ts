@@ -7,6 +7,10 @@ import {environment} from '../constants/environment';
 import {NotificationService} from '../services/notification.service';
 import {NotificationType} from '../constants/notification-type.enum';
 
+/**
+ * Gracefully intercepts every error in our request and decide the best
+ * way to display a descriptive notification related to the error.
+ */
 @Injectable()
 export class ErrorInterceptorService implements HttpInterceptor {
   constructor(private errorService: ErrorService,
@@ -18,9 +22,9 @@ export class ErrorInterceptorService implements HttpInterceptor {
       const error = genericError.error;
       if (error.httpStatusCode < environment.internal_error_code) {
         this.errorService.emitValue(error);
-        return throwError(error);
       }
-      this.notificationService.notify(NotificationType.ERROR, 'Internal server error, please try again later!');
+      this.notificationService.notify(NotificationType.ERROR, error.message);
+      return throwError(error);
     }));
   }
 }

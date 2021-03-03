@@ -24,6 +24,9 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
               private notificationService: NotificationService) {
   }
 
+  /**
+   * Subscribes to different events used for multiple purposes.
+   */
   ngOnInit(): void {
     this.routerEvent = this.router.events.subscribe(value => {
       this.resetPassword = !(this.router.url.toString() === '/login');
@@ -33,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
       .getRegisterNotification().subscribe(flag => {
         if (flag) {
           this.notificationService.notify(NotificationType.SUCCESS, 'Your account was created with success!');
+          this.registerNotificationEvent.unsubscribe();
         }
       });
   }
@@ -52,6 +56,10 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
     return this.loginForm.value.username === '' && this.loginForm.value.password === '';
   }
 
+  /**
+   * Implements the CanLeave interface. Used in the canDeactivate Guard and it's making sure
+   * that the user really wants to leave the page and that it was not a mistake.
+   */
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
     if (this.resetPassword) {
       return true;
