@@ -22,8 +22,9 @@ export class ErrorInterceptorService implements HttpInterceptor {
       const error = genericError.error;
       if (error.httpStatusCode < environment.internal_error_code) {
         this.errorService.emitValue(error);
+      } else {
+        this.notificationService.notify(NotificationType.ERROR, error.message);
       }
-      this.notificationService.notify(NotificationType.ERROR, error.message);
       return throwError(error);
     }));
   }
