@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
       .getRegisterNotification().subscribe(flag => {
         if (flag) {
           this.notificationService.notify(NotificationType.SUCCESS, 'Your account was created with success!');
-          this.registerNotificationEvent.unsubscribe();
+          this.notificationService.emitRegisterNotification(false);
         }
       });
   }

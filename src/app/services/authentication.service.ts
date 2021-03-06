@@ -72,11 +72,16 @@ export class AuthenticationService {
    */
   logout(): void {
     this.user.next(null);
-    localStorage.clear();
+    localStorage.removeItem(environment.tokenHeader);
     this.router.navigate(['/']);
     this.clearTimeoutIfNeeded();
   }
 
+  /**
+   * Method invoked at the start of the application. It calls a special endpoint and based on multiple details,
+   * like the refreshToken and the MetaInformation, the server will decide if the user was logged in
+   * in the last seven days on the current device and login him if he meets all criteria.
+   */
   autoLogin(): void {
     this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
       .subscribe(res => {
