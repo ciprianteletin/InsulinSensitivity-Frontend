@@ -11,7 +11,6 @@ import {ResetPasswordComponent} from './components/reset-password/reset-password
 import {MailComponent} from './components/mail-component/mail-component';
 import {CanDeactivateGuard} from './guards/can-deactivate.guard';
 
-// TODO add more pages and also error page
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
   {
@@ -24,7 +23,7 @@ const routes: Routes = [
   {path: 'insulin', component: PrincipalComponent},
   // TODO add canDeactivate to insulin calc.
   {path: 'insulin/calculator', component: InsulinFormComponent},
-  {path: 'resetPassword', component: ResetPasswordComponent},
+  {path: 'resetPassword/:code', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}
 ];
