@@ -6,6 +6,7 @@ import {Observable, Subscription} from 'rxjs';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {NotificationService} from '../../services/notification.service';
 import {NotificationType} from '../../constants/notification-type.enum';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,38 +15,39 @@ import {NotificationType} from '../../constants/notification-type.enum';
 })
 export class LoginComponent implements OnInit, OnDestroy, CanLeave {
   @ViewChild('f') loginForm: NgForm;
+
   resetPassword: boolean;
   routerEvent: Subscription;
-  registerNotificationEvent: Subscription;
+  siteKey: string;
+  displayCaptcha = false;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
               private activeRoute: ActivatedRoute,
               private notificationService: NotificationService) {
+    this.siteKey = '6LdlhXkaAAAAAF1yMLOiVExYDrkkaO_rtsJFDrQB';
   }
 
   /**
    * Subscribes to different events used for multiple purposes.
    */
   ngOnInit(): void {
-    this.routerEvent = this.router.events.subscribe(value => {
-      this.resetPassword = !(this.router.url.toString() === '/login');
-    });
-
-    this.registerNotificationEvent = this.notificationService
-      .getRegisterNotification().subscribe(flag => {
-        if (flag) {
-          this.notificationService.notify(NotificationType.SUCCESS, 'Your account was created with success!');
-          this.notificationService.emitRegisterNotification(false);
-        }
+    this.routerEvent = this.router.events
+      .subscribe(value => {
+        this.resetPassword = !(this.router.url.toString() === '/login');
       });
+
+    this.authService.getCaptchaEvent()
+      .pipe(take(1))
+      .subscribe(activateCaptcha => this.displayCaptcha = activateCaptcha);
   }
 
   login(): void {
-    this.authService.login(this.loginForm.value).subscribe(user => {
-      this.router.navigate(['/insulin']);
-      this.notificationService.emitLoginNotification(true, 'You are now logged in!');
-    });
+    this.authService.login(this.loginForm.value)
+      .subscribe(user => {
+        this.router.navigate(['/insulin']);
+        this.notificationService.notify(NotificationType.DEFAULT, 'You are now logged in!');
+      });
   }
 
   onForgetPassword(): void {
@@ -72,6 +74,5 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
 
   ngOnDestroy(): void {
     this.routerEvent.unsubscribe();
-    this.registerNotificationEvent.unsubscribe();
   }
 }

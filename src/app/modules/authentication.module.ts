@@ -8,6 +8,7 @@ import {OnlyNumbersDirective} from '../directives/numbers.directive';
 import {ConfirmPasswordValidator} from '../directives/confirm-password.directive';
 import {SharedModule} from './shared.module';
 import {FormsModule} from '@angular/forms';
+import {NgxCaptchaModule} from 'ngx-captcha';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,11 @@ import {FormsModule} from '@angular/forms';
     OnlyNumbersDirective,
     ConfirmPasswordValidator
   ],
-  imports: [SharedModule, FormsModule],
+  imports: [
+    SharedModule,
+    FormsModule,
+    NgxCaptchaModule
+  ],
   exports: [
     LoginComponent,
     RegisterComponent,

@@ -7,6 +7,8 @@ import {GenericResponseModel} from '../../model/generic-response.model';
 import {Observable} from 'rxjs';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {NotificationService} from '../../services/notification.service';
+import {ModelUtil} from '../../model/model.util';
+import {NotificationType} from '../../constants/notification-type.enum';
 
 @Component({
   selector: 'app-register-details',
@@ -28,11 +30,11 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
   }
 
   onSubmitUser(): void {
-    const completeUser = this.authenticationService.buildUserFromFormValues(this.completeRegisterForm, this.basicDetails);
+    const completeUser = ModelUtil.buildUserFromFormValues(this.completeRegisterForm, this.basicDetails);
     this.isLoading = true;
     this.authenticationService.registerCompleteUser(completeUser).subscribe((status: GenericResponseModel) => {
       this.router.navigate(['/login']);
-      this.notificationService.emitRegisterNotification(true);
+      this.notificationService.notify(NotificationType.SUCCESS, 'Your account was created with success!');
       this.isLoading = false;
     }, error => this.isLoading = false);
   }

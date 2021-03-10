@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {RegisterBasicModel} from '../model/register-basic.model';
 import {CompleteUserModel} from '../model/complete-user.model';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {GenericResponseModel} from '../model/generic-response.model';
 import {UserModel} from '../model/user.model';
 import {Router} from '@angular/router';
-import {tap} from 'rxjs/operators';
+import {takeWhile, tap} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from './notification.service';
+import {NotificationType} from '../constants/notification-type.enum';
 
 /**
  * Service that tackles every request/operation related to the authentication process. It returns an Observable, letting
@@ -21,6 +20,8 @@ import {NotificationService} from './notification.service';
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
   user = new BehaviorSubject(null);
+  private captchaEvent = new Subject<boolean>();
+
   private jwtHelper = new JwtHelperService();
   private timerRefreshToken: any;
   private userId: number;
@@ -28,20 +29,6 @@ export class AuthenticationService {
   constructor(private http: HttpClient,
               private router: Router,
               private notificationService: NotificationService) {
-  }
-
-  buildUserFromFormValues(form: NgForm, basicUser: RegisterBasicModel): CompleteUserModel {
-    return {
-      username: basicUser.username,
-      password: basicUser.password,
-      email: basicUser.email,
-      role: form.value.medic ? 'medic' : 'patient',
-      firstName: form.value.firstName,
-      lastName: form.value.lastName,
-      phoneNr: form.value.phone,
-      gender: form.value.gender,
-      age: +form.value.age
-    };
   }
 
   /**
@@ -59,11 +46,14 @@ export class AuthenticationService {
    */
   login(user: UserModel): Observable<HttpResponse<any>> {
     return this.http.post(`${environment.url}/login`, user, environment.httpOptions)
-      .pipe(tap(response => {
-        this.handleAuth(response);
-        this.emitNewUser(response);
-        this.notificationService.emitLoginNotification(true, 'Welcome back!');
-      }));
+      .pipe(
+        takeWhile(response => {
+          return this.checkIfCaptcha(response);
+        }),
+        tap(response => {
+          this.handleAuth(response);
+          this.emitNewUser(response);
+        }));
   }
 
   /**
@@ -90,8 +80,13 @@ export class AuthenticationService {
           this.handleAuth(res);
           this.emitNewUser(res);
           this.router.navigate(['/insulin']);
+          this.notificationService.notify(NotificationType.DEFAULT, 'Welcome back!');
         }
       });
+  }
+
+  getCaptchaEvent(): Subject<boolean> {
+    return this.captchaEvent;
   }
 
   /**
@@ -138,5 +133,16 @@ export class AuthenticationService {
   private getNewToken(): void {
     this.http.get<GenericResponseModel>(`${environment.url}/refresh/${this.userId}`, environment.httpOptions)
       .subscribe(response => this.handleAuth(response));
+  }
+
+  /**
+   * Check if the response obtained is related to captcha. If yes, captcha will be enabled and displayed.
+   */
+  private checkIfCaptcha(response: HttpResponse<any>): boolean {
+    if (!!response.body.activateCaptchaCode) {
+      this.captchaEvent.next(response.body.activateCaptchaCode);
+      return false;
+    }
+    return true;
   }
 }
