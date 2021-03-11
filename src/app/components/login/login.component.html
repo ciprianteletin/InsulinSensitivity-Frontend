@@ -30,16 +30,19 @@
           maxlength="50"
           required>
       </div>
-      <ngx-recaptcha2
-        *ngIf="displayCaptcha"
-        ngModel
-        name="captchaCode"
-        [siteKey]="siteKey"
-        size="normal"
-        theme="dark"
-        required
-      >
-      </ngx-recaptcha2>
+      <div *ngIf="displayCaptcha">
+        <div class="mb-2"></div>
+        <ngx-recaptcha2
+          #captchaElem
+          ngModel
+          name="captchaCode"
+          [siteKey]="siteKey"
+          size="normal"
+          theme="dark"
+          required
+        >
+        </ngx-recaptcha2>
+      </div>
       <div class="form-check">
         <input type="checkbox" class="form-check-input" id="remember-me">
         <label class="form-check-label" for="remember-me">Remember me</label>

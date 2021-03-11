@@ -25,7 +25,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
       } else {
         this.notificationService.notify(NotificationType.ERROR, error.message);
       }
-      return throwError(error);
+      return throwError(genericError);
     }));
   }
 }

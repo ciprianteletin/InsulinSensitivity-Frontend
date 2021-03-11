@@ -2,11 +2,13 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subscription, throwError} from 'rxjs';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {NotificationService} from '../../services/notification.service';
 import {NotificationType} from '../../constants/notification-type.enum';
-import {take} from 'rxjs/operators';
+import {catchError, take} from 'rxjs/operators';
+import {ReCaptcha2Component} from 'ngx-captcha';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +17,7 @@ import {take} from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit, OnDestroy, CanLeave {
   @ViewChild('f') loginForm: NgForm;
+  @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
 
   resetPassword: boolean;
   routerEvent: Subscription;
@@ -44,11 +47,16 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
 
   login(): void {
     this.authService.login(this.loginForm.value)
+      .pipe(catchError((genericError: HttpErrorResponse) => {
+        this.authService.checkIfCaptcha(genericError);
+        return throwError(genericError);
+      }))
       .subscribe(user => {
         this.router.navigate(['/insulin']);
         this.notificationService.notify(NotificationType.DEFAULT, 'You are now logged in!');
       });
   }
+
 
   onForgetPassword(): void {
     this.router.navigate(['forget'], {relativeTo: this.activeRoute});

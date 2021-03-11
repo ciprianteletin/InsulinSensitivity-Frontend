@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CompleteUserModel} from '../model/complete-user.model';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {GenericResponseModel} from '../model/generic-response.model';
 import {UserModel} from '../model/user.model';
@@ -47,9 +47,6 @@ export class AuthenticationService {
   login(user: UserModel): Observable<HttpResponse<any>> {
     return this.http.post(`${environment.url}/login`, user, environment.httpOptions)
       .pipe(
-        takeWhile(response => {
-          return this.checkIfCaptcha(response);
-        }),
         tap(response => {
           this.handleAuth(response);
           this.emitNewUser(response);
@@ -136,13 +133,13 @@ export class AuthenticationService {
   }
 
   /**
-   * Check if the response obtained is related to captcha. If yes, captcha will be enabled and displayed.
+   * Check if the response obtained contains a header related to captcha.
+   * If yes, captcha will be enabled and displayed.
    */
-  private checkIfCaptcha(response: HttpResponse<any>): boolean {
-    if (!!response.body.activateCaptchaCode) {
-      this.captchaEvent.next(response.body.activateCaptchaCode);
-      return false;
+  checkIfCaptcha(response: HttpErrorResponse): void {
+    const activateCaptcha = response.headers.get(environment.captchaHeader);
+    if (activateCaptcha && activateCaptcha === environment.captchaValue) {
+      this.captchaEvent.next(true);
     }
-    return true;
   }
 }
