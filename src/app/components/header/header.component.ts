@@ -1,30 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HeaderService} from '../../services/header.service';
-import {Subscription} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  basicHeader = true;
-  headerSubscription: Subscription;
+export class HeaderComponent implements OnInit {
 
-  constructor(private headerService: HeaderService) {
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    this.headerSubscription = this.headerService.getHeaderEvent().subscribe((status: boolean) => {
-      this.basicHeader = status;
-    });
   }
 
-  onActivateSidebar(): void {
-    this.headerService.changeSidebarValue();
-  }
-
-  ngOnDestroy(): void {
-    this.headerSubscription.unsubscribe();
-  }
 }
