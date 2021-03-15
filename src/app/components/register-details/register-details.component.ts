@@ -3,7 +3,6 @@ import {Router} from '@angular/router';
 import {RegisterBasicModel} from '../../model/register-basic.model';
 import {NgForm} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
-import {GenericResponseModel} from '../../model/generic-response.model';
 import {Observable} from 'rxjs';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {NotificationService} from '../../services/notification.service';
@@ -32,7 +31,7 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
   onSubmitUser(): void {
     const completeUser = ModelUtil.buildUserFromFormValues(this.completeRegisterForm, this.basicDetails);
     this.isLoading = true;
-    this.authenticationService.registerCompleteUser(completeUser).subscribe((status: GenericResponseModel) => {
+    this.authenticationService.registerCompleteUser(completeUser).subscribe(() => {
       this.router.navigate(['/login']);
       this.notificationService.notify(NotificationType.SUCCESS, 'Your account was created with success!');
       this.isLoading = false;

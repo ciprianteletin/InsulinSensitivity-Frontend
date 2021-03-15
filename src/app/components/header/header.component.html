@@ -14,7 +14,7 @@
           <i class="fas fa-stethoscope"></i>
           Use the app</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="!isLoggedUser" class="nav-item">
         <a class="nav-link text-success"
            [routerLink]="['/login']"
            routerLinkActive="active"
@@ -22,13 +22,27 @@
           <i class="fas fa-sign-in-alt"></i>
           Login</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="!isLoggedUser" class="nav-item">
         <a class="nav-link text-success"
            [routerLink]="['/register']"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{exact: true}">
           <i class="fas fa-user-plus"></i>
           Register</a>
+      </li>
+      <li *ngIf="isLoggedUser" class="nav-item">
+        <a class="nav-link text-success"
+           (click)="onLogout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout</a>
+      </li>
+      <li *ngIf="isLoggedUser" class="nav-item">
+        <a class="nav-link text-success"
+           [routerLink]="['/settings']"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-user"></i>
+          {{this.username}}</a>
       </li>
     </ul>
   </div>

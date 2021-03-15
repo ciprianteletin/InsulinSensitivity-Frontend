@@ -19,20 +19,35 @@
             <i class="fas fa-prescription-bottle-alt"></i>Calculate
             indices</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link text-info"
+        <li *ngIf="!isLoggedUser" class="nav-item">
+          <a class="nav-link text-success"
              [routerLink]="['/login']"
              routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: true}">
-            <i class="fas fa-sign-in-alt"></i>Login</a>
+            <i class="fas fa-sign-in-alt"></i>
+            Login</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link text-info"
+        <li *ngIf="!isLoggedUser" class="nav-item">
+          <a class="nav-link text-success"
              [routerLink]="['/register']"
              routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}"
-          ><i class="fas fa-user-plus"></i>
+             [routerLinkActiveOptions]="{exact: true}">
+            <i class="fas fa-user-plus"></i>
             Register</a>
+        </li>
+        <li *ngIf="isLoggedUser" class="nav-item">
+          <a class="nav-link text-success"
+             (click)="onLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout</a>
+        </li>
+        <li *ngIf="isLoggedUser" class="nav-item">
+          <a class="nav-link text-success"
+             [routerLink]="['/settings']"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">
+            <i class="fas fa-user"></i>
+            {{this.username}}</a>
         </li>
       </ul>
     </div>
