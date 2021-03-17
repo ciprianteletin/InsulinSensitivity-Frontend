@@ -13,7 +13,10 @@ import {HttpErrorResponse} from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css', '../../../assets/styles/login-register.css']
+  styleUrls: [
+    './login.component.css',
+    '../../../assets/styles/login-register.css',
+    '../../../assets/styles/utils.css']
 })
 export class LoginComponent implements OnInit, OnDestroy, CanLeave {
   @ViewChild('f') loginForm: NgForm;

@@ -23,9 +23,6 @@
 
 .full-bg {
   background: url('../images/login-register.png') no-repeat center center/cover;
-  height: 100%;
-  width: 100%;
-  background-size: 100% 100%;
 }
 
 .container-login-register {

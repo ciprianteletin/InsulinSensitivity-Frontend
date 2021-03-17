@@ -1,9 +1,18 @@
 @import "~angular-notifier/styles";
 
-html, body {
-  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  cursor: pointer;
 }
 
 @media (max-width: 570px) {

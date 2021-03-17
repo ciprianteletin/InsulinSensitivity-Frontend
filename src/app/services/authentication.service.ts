@@ -6,7 +6,7 @@ import {environment} from '../constants/environment';
 import {GenericResponseModel} from '../model/generic-response.model';
 import {UserModel} from '../model/user.model';
 import {Router} from '@angular/router';
-import {takeWhile, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from './notification.service';
 import {NotificationType} from '../constants/notification-type.enum';
@@ -19,7 +19,7 @@ import {NotificationType} from '../constants/notification-type.enum';
  */
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  user = new BehaviorSubject(null);
+  user = new BehaviorSubject<UserModel>(null);
   private captchaEvent = new Subject<boolean>();
 
   private jwtHelper = new JwtHelperService();
@@ -58,10 +58,13 @@ export class AuthenticationService {
    * manual log-out. Also redirect the user to the main page
    */
   logout(): void {
-    this.user.next(null);
-    localStorage.removeItem(environment.tokenHeader);
-    this.router.navigate(['/']);
-    this.clearTimeoutIfNeeded();
+    this.http.get(`${environment.url}/logout/${this.userId}`).subscribe(() => {
+      this.user.next(null);
+      this.userId = null;
+      localStorage.removeItem(environment.bearer);
+      this.router.navigate(['/']);
+      this.clearTimeoutIfNeeded();
+    });
   }
 
   /**

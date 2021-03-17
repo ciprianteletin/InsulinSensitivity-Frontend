@@ -1,15 +1,9 @@
 .wrapper {
   background: url('../../../assets/images/login-register.png') no-repeat center center/cover;
-  display: flex;
-  width: 100%;
-  align-items: stretch;
 }
 
 #content {
-  width: 100%;
   min-height: 100vh;
-  height: auto;
-  transition: all 0.3s;
 }
 
 .container {

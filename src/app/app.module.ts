@@ -14,6 +14,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {AuthenticationModule} from './modules/authentication.module';
 import {SharedModule} from './modules/shared.module';
 import {ErrorModule} from './modules/error.module';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {ErrorModule} from './modules/error.module';
     PrincipalComponent,
     InsulinFormComponent,
     IndexComponent,
-    SidebarComponent
+    SidebarComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

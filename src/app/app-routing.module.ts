@@ -10,6 +10,7 @@ import {NotFoundComponent} from './components/not-found/not-found.component';
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 import {MailComponent} from './components/mail-component/mail-component';
 import {CanDeactivateGuard} from './guards/can-deactivate.guard';
+import {SettingsComponent} from './components/settings/settings.component';
 
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
   },
   {path: 'register', component: RegisterComponent, canDeactivate: [CanDeactivateGuard]},
   {path: 'register/details', component: RegisterDetailsComponent, canDeactivate: [CanDeactivateGuard]},
+  {path: 'settings', component: SettingsComponent},
   {path: 'insulin', component: PrincipalComponent},
   // TODO add canDeactivate to insulin calc.
   {path: 'insulin/calculator', component: InsulinFormComponent},

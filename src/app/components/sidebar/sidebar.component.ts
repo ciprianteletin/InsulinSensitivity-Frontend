@@ -5,7 +5,7 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.css', '../../../assets/styles/utils.css']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   active = false;

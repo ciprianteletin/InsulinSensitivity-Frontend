@@ -1,4 +1,4 @@
-.btn{
+.btn {
   cursor: pointer;
   display: inline-block;
   padding: 10px 20px;
@@ -8,27 +8,24 @@
   border-radius: 5px;
 }
 
-.wider{
+.wider {
   width: 100%;
 }
 
-.btn-success{
+.btn-success {
   background: darkred;
 }
 
-.btn:hover{
+.btn:hover {
   opacity: 0.9;
   background: #28a33f;
 }
 
-.full-background {
+.full-bg {
   background: url('../../../assets/images/background.jpg') no-repeat fixed center center;
-  width: 100%;
-  height: 100%;
-  background-size: 100% 100%;
 }
 
-.wrapper{
+.wrapper {
   height: 94.2vh;
 }
 
@@ -72,7 +69,7 @@
   }
 }
 
-@media(max-width:570px){
+@media (max-width: 300px) {
   .about-box p {
     display: none;
   }
