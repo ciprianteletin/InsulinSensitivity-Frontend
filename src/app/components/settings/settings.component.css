@@ -1,6 +1,6 @@
-.full-bg{
-  background: #16222A;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+.full-bg {
+  background: #16222A; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #3A6073, #16222A); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
@@ -12,7 +12,20 @@ h4 {
   margin-top: 50px;
   min-height: 85vh;
   height: auto;
-  max-width: 80%;
+  max-width: 70%;
+}
+
+.design-border {
+  border-right: 6px solid #3A6073;
+}
+
+h6 {
+  border-bottom: 2px solid #33cccc;
+}
+
+.form-group {
+  margin: 0 auto;
+  width: 90%;
 }
 
 .ui-w-80 {
@@ -21,8 +34,8 @@ h4 {
 }
 
 .btn-default {
-  border-color: rgba(24,28,33,0.1);
-  background: rgba(0,0,0,0);
+  border-color: rgba(24, 28, 33, 0.1);
+  background: rgba(0, 0, 0, 0);
   color: #4E5155;
 }
 
@@ -45,20 +58,20 @@ label.btn {
 }
 
 .btn-facebook {
-  border-color: rgba(0,0,0,0);
+  border-color: rgba(0, 0, 0, 0);
   background: #3B5998;
   color: #fff;
 }
 
 .btn-instagram {
-  border-color: rgba(0,0,0,0);
+  border-color: rgba(0, 0, 0, 0);
   background: #000;
   color: #fff;
 }
 
 .card {
   background-clip: padding-box;
-  box-shadow: 0 1px 4px rgba(24,28,33,0.012);
+  box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
 }
 
 .row-bordered {
@@ -118,13 +131,32 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 
 .light-style .account-settings-links .list-group-item {
   padding: 0.85rem 1.5rem;
-  border-color: rgba(24,28,33,0.03) !important;
+  border-color: rgba(24, 28, 33, 0.03) !important;
 }
 
-@media(max-width: 750px) {
+.down {
+  position: absolute;
+  top: 90%;
+  width: 100%;
+}
+
+@media (max-width: 750px) {
   .container {
     margin-top: initial;
-    min-height: 120vh;
+    min-height: 130vh;
     height: auto;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .design-border {
+    border-right: none;
+  }
+
+  .down {
+    position: initial;
+    top: initial;
   }
 }

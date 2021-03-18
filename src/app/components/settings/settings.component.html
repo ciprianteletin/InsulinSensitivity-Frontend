@@ -6,13 +6,15 @@
     </h4>
     <div class="card">
       <div class="row no-gutters row-bordered row-border-light">
-        <div class="col-md-3 pt-0">
+        <div class="col-md-3 pt-0 design-border">
           <div class="list-group list-group-flush account-settings-links">
             <a class="list-group-item list-group-item-action active" data-toggle="list"
                href="#account-general">General</a>
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change
               password</a>
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
+            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-history">Clear history</a>
+            <button class="btn btn-danger down">Logout</button>
           </div>
         </div>
         <div class="col-md-9">
@@ -35,11 +37,15 @@
               <div class="card-body">
                 <div class="form-group">
                   <label class="form-label">Username</label>
-                  <input type="text" class="form-control mb-1" value="nmaxwell">
+                  <input type="text" class="form-control mb-3" value="nmaxwell">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Name</label>
-                  <input type="text" class="form-control" value="Nelle Maxwell">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-control mb-3" value="Nelle Maxwell">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-control mb-3" value="Company Ltd.">
                 </div>
                 <div class="form-group">
                   <label class="form-label">E-mail</label>
@@ -48,64 +54,54 @@
                     Your new email must be valid and different from the old one!
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">Company</label>
-                  <input type="text" class="form-control" value="Company Ltd.">
-                </div>
               </div>
-
             </div>
+
             <div class="tab-pane fade" id="account-change-password">
               <div class="card-body pb-2">
-
                 <div class="form-group">
                   <label class="form-label">Current password</label>
-                  <input type="password" class="form-control">
+                  <input type="password" class="form-control mb-3">
                 </div>
-
                 <div class="form-group">
                   <label class="form-label">New password</label>
-                  <input type="password" class="form-control">
+                  <input type="password" class="form-control mb-3">
                 </div>
-
                 <div class="form-group">
                   <label class="form-label">Repeat new password</label>
-                  <input type="password" class="form-control">
+                  <input type="password" class="form-control mb-3">
+                </div>
+                <div class="alert alert-warning mt-3">
+                  The new password must be at least eight characters long! We also recommend (but not oblige) to use in your new password a combination between
+                  lowercase, uppercase, digits and special characters to ensure that your password is really secure.
                 </div>
               </div>
             </div>
             <div class="tab-pane fade" id="account-info">
               <div class="card-body pb-2">
-
                 <div class="form-group">
-                  <label class="form-label">Bio</label>
-                  <textarea class="form-control" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
+                  <label class="form-label">Age</label>
+                  <input type="text" class="form-control mb-3" value="34">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Birthday</label>
-                  <input type="text" class="form-control" value="May 3, 1995">
+                  <label class="form-label">Phone Number</label>
+                  <input type="text" class="form-control mb-3" value="+4077055330">
                 </div>
                 <div class="form-group">
                   <label class="form-label">Country</label>
-                  <select class="custom-select">
-                    <option>USA</option>
-                    <option selected="">Canada</option>
-                    <option>UK</option>
-                    <option>Germany</option>
-                    <option>France</option>
-                  </select>
+                  <input type="text" class="form-control" value="Romania">
                 </div>
               </div>
               <hr class="border-light m-0">
               <div class="card-body pb-2">
-                <h6 class="mb-4">Contacts</h6>
+                <h6 class="mb-3">Account info</h6>
                 <div class="form-group">
-                  <label class="form-label">Phone</label>
-                  <input type="text" class="form-control" value="+0 (123) 456 7891">
+                  <label class="form-label">Role</label>
+                  <input type="text" class="form-control mb-2" value="+0 (123) 456 7891">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Website</label>
-                  <input type="text" class="form-control" value="">
+                  <label class="form-label">Join Date</label>
+                  <input type="text" class="form-control mb-2" value="">
                 </div>
               </div>
             </div>

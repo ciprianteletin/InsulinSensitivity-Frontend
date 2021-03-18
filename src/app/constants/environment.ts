@@ -5,6 +5,7 @@ import {HttpHeaders} from '@angular/common/http';
  */
 export const environment = {
   url: 'http://localhost:8080/insulin',
+  countryAPI: 'http://ip-api.com/json/',
   tokenHeader: 'Jwt-Token',
   captchaHeader: 'Activate-Captcha',
   captchaValue: 'activate',
