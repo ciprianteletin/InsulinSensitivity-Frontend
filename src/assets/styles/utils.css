@@ -37,3 +37,7 @@ p {
   width: 100%;
   align-items: stretch;
 }
+
+.big-margin-bottom {
+  margin-bottom: 350px;
+}

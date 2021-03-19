@@ -28,4 +28,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
+  onLogout(): void {
+    this.authService.logout();
+  }
+
 }

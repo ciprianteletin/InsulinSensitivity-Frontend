@@ -6,6 +6,8 @@ import {FooterComponent} from '../components/footer/footer.component';
 import {ComplexHeaderComponent} from '../components/complex-header/complex-header.component';
 import {AppRoutingModule} from '../app-routing.module';
 import {HeaderComponent} from '../components/header/header.component';
+import {DatePickerComponent} from '../components/utils/date-picker/date-picker.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -13,9 +15,10 @@ import {HeaderComponent} from '../components/header/header.component';
     ModalDirective,
     FooterComponent,
     ComplexHeaderComponent,
-    HeaderComponent
+    HeaderComponent,
+    DatePickerComponent
   ],
-  imports: [CommonModule, AppRoutingModule],
+  imports: [CommonModule, AppRoutingModule, NgbModule],
   exports: [
     LoadingSpinnerComponent,
     ModalDirective,
@@ -23,6 +26,7 @@ import {HeaderComponent} from '../components/header/header.component';
     FooterComponent,
     ComplexHeaderComponent,
     HeaderComponent,
+    DatePickerComponent,
     AppRoutingModule
   ]
 })
