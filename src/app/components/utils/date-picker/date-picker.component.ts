@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {NgbCalendar, NgbDate, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
+import {UtilsService} from '../../../services/utils.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-date-picker',
@@ -8,16 +10,24 @@ import {NgbCalendar, NgbDate, NgbDateParserFormatter} from '@ng-bootstrap/ng-boo
 })
 export class DatePickerComponent implements OnInit {
   hoveredDate: NgbDate | null = null;
-
+  resetDateSubscription: Subscription;
   fromDate: NgbDate | null;
   toDate: NgbDate | null;
 
-  constructor(private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
+  constructor(private calendar: NgbCalendar,
+              public formatter: NgbDateParserFormatter,
+              private utilService: UtilsService) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
   }
 
   ngOnInit(): void {
+    this.resetDateSubscription = this.utilService.resetDate //
+      .subscribe(() => {
+        const today = this.calendar.getToday();
+        this.fromDate = today;
+        this.toDate = this.calendar.getNext(today, 'd', 10);
+      });
   }
 
   onDateSelection(date: NgbDate): void {

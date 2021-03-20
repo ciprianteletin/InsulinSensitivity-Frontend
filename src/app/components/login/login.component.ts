@@ -45,12 +45,17 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
 
     this.authService.getCaptchaEvent()
       .pipe(take(1))
-      .subscribe(activateCaptcha => this.displayCaptcha = activateCaptcha);
+      .subscribe(activateCaptcha => {
+        this.displayCaptcha = activateCaptcha;
+      });
   }
 
   login(): void {
     this.authService.login(this.loginForm.value)
       .pipe(catchError((genericError: HttpErrorResponse) => {
+        if (this.displayCaptcha) {
+          this.captchaElem.resetCaptcha();
+        }
         this.authService.checkIfCaptcha(genericError);
         return throwError(genericError);
       }))

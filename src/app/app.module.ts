@@ -14,7 +14,9 @@ import {CookieService} from 'ngx-cookie-service';
 import {AuthenticationModule} from './modules/authentication.module';
 import {SharedModule} from './modules/shared.module';
 import {ErrorModule} from './modules/error.module';
-import { SettingsComponent } from './components/settings/settings.component';
+import {SettingsComponent} from './components/settings/settings.component';
+import {FormsModule} from '@angular/forms';
+import {CredentialsInterceptor} from './interceptors/credentials.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,11 +33,13 @@ import { SettingsComponent } from './components/settings/settings.component';
     AuthenticationModule,
     ErrorModule,
     SharedModule,
+    FormsModule,
     NotificationsModule
   ],
   providers: [
     CookieService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

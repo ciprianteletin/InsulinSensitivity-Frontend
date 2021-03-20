@@ -137,7 +137,8 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .down {
   position: absolute;
   top: 90%;
-  width: 100%;
+  left: 8%;
+  width: 85%;
 }
 
 @media (max-width: 750px) {
