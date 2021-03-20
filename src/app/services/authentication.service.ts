@@ -60,10 +60,10 @@ export class AuthenticationService {
   logout(): void {
     this.http.get(`${environment.url}/logout/${this.userId}`)
       .subscribe(() => {
+        this.router.navigate(['/']);
         this.user.next(null);
         this.userId = null;
         localStorage.removeItem(environment.bearer);
-        this.router.navigate(['/']);
         this.clearTimeoutIfNeeded();
       });
   }

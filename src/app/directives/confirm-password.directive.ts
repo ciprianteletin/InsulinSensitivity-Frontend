@@ -11,7 +11,6 @@ export class ConfirmPasswordValidator implements Validator {
   constructor(@Attribute('appPasswordValidator') private passwordControl: string) {
   }
 
-
   validate(control: FormControl): ValidationErrors | null {
     const password = control.root.get(this.passwordControl);
     const confirmPass = control.value;
@@ -26,5 +25,4 @@ export class ConfirmPasswordValidator implements Validator {
     }
     return password && password.value !== confirmPass ? {passwordMatchError: true} : null;
   }
-
 }

@@ -11,14 +11,13 @@ export class SettingsService {
               private http: HttpClient) {
   }
 
-  public getUserCountryOrNothing(): Observable<{ country: string }> {
+  public getUserCountryOrNothing(id: number): Observable<{ country: string }> {
     const params = {fields: 'country'};
-    return this.authService.user
-      .pipe(mergeMap(user => {
-        const userId = user.id;
-        return this.http.get<string>(`${environment.url}/user/ip/${userId}`);
-      }), mergeMap(ip => {
-        return this.http.get<{ country: string }>(`${environment.countryAPI}/${ip}`, {params});
-      }));
+    return this.http.get(`${environment.url}/user/ip/${id}`, {responseType: 'text'})
+      .pipe(
+        mergeMap(ip => {
+          const userIp = ip === '127.0.0.1' ? '79.118.48.107' : ip;
+          return this.http.get<{ country: string }>(`${environment.countryAPI}/${userIp}`, {params, withCredentials: false});
+        }));
   }
 }

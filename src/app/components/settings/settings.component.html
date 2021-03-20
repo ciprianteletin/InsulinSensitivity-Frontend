@@ -9,18 +9,18 @@
         <div class="col-md-3 pt-0 design-border">
           <div class="list-group list-group-flush account-settings-links">
             <a class="list-group-item list-group-item-action active" data-toggle="list"
-               href="#account-general">General</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change
+               href="#accountGeneral">General</a>
+            <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountPassword">Change
               password</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-history">Clear
+            <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountInfo">Info</a>
+            <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountHistory">Clear
               history</a>
             <button class="btn btn-danger down" (click)="onLogout()">Logout</button>
           </div>
         </div>
         <div class="col-md-9">
           <div class="tab-content">
-            <div class="tab-pane fade active show" id="account-general" #accountGeneral>
+            <div class="tab-pane fade active show" id="accountGeneral" #accountGeneral>
               <div class="card-body media align-items-center">
                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
                 <div class="media-body ml-4">
@@ -42,8 +42,10 @@
                            id="username"
                            class="form-control mb-3"
                            name="username"
-                           ngModel
-                           value="nmaxwell">
+                           [ngModel]="detailedUser.username"
+                           required
+                           minlength="6"
+                           maxlength="50">
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="firstName">First Name</label>
@@ -51,8 +53,10 @@
                            id="firstName"
                            class="form-control mb-3"
                            name="firstName"
-                           ngModel
-                           value="Nelle Maxwell">
+                           [ngModel]="detailedUser.details.firstName"
+                           required
+                           minlength="3"
+                           maxlength="50">
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="lastName">Last Name</label>
@@ -60,8 +64,10 @@
                            id="lastName"
                            class="form-control mb-3"
                            name="lastName"
-                           ngModel
-                           value="Company Ltd.">
+                           [ngModel]="detailedUser.details.lastName"
+                           required
+                           minlength="3"
+                           maxlength="50">
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="email">E-mail</label>
@@ -69,8 +75,9 @@
                            id="email"
                            class="form-control mb-1"
                            name="email"
-                           ngModel
-                           value="nmaxwell@mail.com">
+                           [ngModel]="detailedUser.details.email"
+                           required
+                           email>
                     <div class="alert alert-warning mt-3">
                       Your new email must be valid and different from the old one!
                     </div>
@@ -79,45 +86,58 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" id="account-change-password" #accountPassword>
+            <div class="tab-pane fade" id="accountPassword" #accountPassword>
               <div class="card-body pb-2">
                 <form #passwords="ngForm">
-                  <div class="form-group">
-                    <label class="form-label" for="password">Current password</label>
+                  <div class="form-group mb-5">
+                    <label class="form-label" for="currentPassword">Current password</label>
                     <input
                       type="password"
-                      id="password"
+                      id="currentPassword"
                       class="form-control mb-3"
                       ngModel
-                      name="currentPassword">
+                      name="currentPassword"
+                      required
+                      minlength="8"
+                      maxlength="100">
                   </div>
-                  <div class="form-group">
-                    <label class="form-label" for="newPassword">New password</label>
+                  <div class="form-group mb-5">
+                    <label class="form-label" for="password">New password</label>
                     <input type="password"
-                           id="newPassword"
+                           id="password"
                            class="form-control mb-3"
                            ngModel
-                           name="newPassword">
+                           #password="ngModel"
+                           name="password"
+                           required
+                           minlength="8"
+                           maxlength="100">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group mb-5">
                     <label class="form-label" for="confirmNew">Repeat new password</label>
                     <input type="password"
                            id="confirmNew"
                            ngModel
                            name="confirmNewPass"
-                           class="form-control mb-3">
+                           class="form-control mb-3"
+                           appPasswordValidator="password"
+                           required
+                           #confirm="ngModel"
+                           minlength="8"
+                           maxlength="100">
                   </div>
-                  <div class="alert alert-warning mt-3">
+                  <div class="alert alert-warning mt-3 mb-2">
                     The new password must be at least eight characters long! We also recommend (but not oblige) to use
                     in
                     your new password a combination between
                     lowercase, uppercase, digits and special characters to ensure that your password is really secure.
                   </div>
+                  <div>&nbsp;</div>
                 </form>
               </div>
             </div>
 
-            <div class="tab-pane fade" id="account-info" #accountInfo>
+            <div class="tab-pane fade" id="accountInfo" #accountInfo>
               <div class="card-body pb-2">
                 <form #info='ngForm'>
                   <div class="form-group">
@@ -125,27 +145,24 @@
                     <input type="text"
                            id="age"
                            class="form-control mb-3"
-                           ngModel
-                           name="age"
-                           value="34">
+                           [ngModel]="detailedUser.details.age"
+                           name="age">
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="phone">Phone Number</label>
                     <input type="text"
                            id="phone"
                            class="form-control mb-3"
-                           ngModel
-                           name="phone"
-                           value="+4077055330">
+                           [ngModel]="detailedUser.details.phoneNr"
+                           name="phone">
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="country">Country</label>
                     <input type="text"
                            id="country"
                            class="form-control"
-                           ngModel
-                           name="country"
-                           value="Romania">
+                           [ngModel]="country"
+                           name="country">
                   </div>
                 </form>
               </div>
@@ -157,9 +174,8 @@
                   <input type="text"
                          id="role"
                          class="form-control mb-2"
-                         ngModel
-                         name="role"
-                         value="Patient">
+                         [ngModel]="detailedUser.role"
+                         name="role">
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="joinDate">Join Date</label>
@@ -167,21 +183,19 @@
                          id="joinDate"
                          class="form-control mb-2"
                          name="joinDate"
-                         ngModel
-                         value="12-12-2020">
+                         [ngModel]="detailedUser.details.joinDate">
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="currentSession">Current Session</label>
                   <input type="text"
                          id="currentSession"
                          class="form-control mb-2"
-                         ngModel
-                         name="currentSession"
-                         value="10:45">
+                         [ngModel]="detailedUser.details.lastLoginDate"
+                         name="currentSession">
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="account-history" #activeHistory>
+            <div class="tab-pane fade" id="accountHistory" #activeHistory>
               <div class="card-body pb-2">
                 <br>
                 <app-date-picker></app-date-picker>

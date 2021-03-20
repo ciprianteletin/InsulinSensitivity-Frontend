@@ -25,7 +25,7 @@ import {CredentialsInterceptor} from './interceptors/credentials.interceptor';
     InsulinFormComponent,
     IndexComponent,
     SidebarComponent,
-    SettingsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
