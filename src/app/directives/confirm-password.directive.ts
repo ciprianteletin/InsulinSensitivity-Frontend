@@ -18,10 +18,11 @@ export class ConfirmPasswordValidator implements Validator {
       return null;
     }
     if (password) {
-      const subscription = password.valueChanges.subscribe(() => {
-        control.updateValueAndValidity();
-        subscription.unsubscribe();
-      });
+      const subscription = password.valueChanges
+        .subscribe(() => {
+          control.updateValueAndValidity();
+          subscription.unsubscribe();
+        });
     }
     return password && password.value !== confirmPass ? {passwordMatchError: true} : null;
   }

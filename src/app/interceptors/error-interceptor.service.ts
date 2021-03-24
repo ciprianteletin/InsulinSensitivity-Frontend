@@ -20,7 +20,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError((genericError: HttpErrorResponse) => {
       const error = genericError.error;
-      if (error.httpStatusCode < environment.internal_error_code) {
+      if (error.httpStatusCode >= environment.internal_error_code) {
         this.errorService.emitValue(error);
       } else {
         this.notificationService.notify(NotificationType.ERROR, error.message);

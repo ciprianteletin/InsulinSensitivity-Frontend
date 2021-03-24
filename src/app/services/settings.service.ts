@@ -10,7 +10,7 @@ export class SettingsService {
   constructor(private authService: AuthenticationService,
               private http: HttpClient) {
   }
-
+  // TODO ADD CACHE FOR IP;
   public getUserCountryOrNothing(id: number): Observable<{ country: string }> {
     const params = {fields: 'country'};
     return this.http.get(`${environment.url}/user/ip/${id}`, {responseType: 'text'})

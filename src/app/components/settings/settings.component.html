@@ -146,7 +146,11 @@
                            id="age"
                            class="form-control mb-3"
                            [ngModel]="detailedUser.details.age"
-                           name="age">
+                           name="age"
+                           required
+                           appOnlyNumbers
+                           minlength="2"
+                           maxlength="2">
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="phone">Phone Number</label>
@@ -154,7 +158,11 @@
                            id="phone"
                            class="form-control mb-3"
                            [ngModel]="detailedUser.details.phoneNr"
-                           name="phone">
+                           name="phone"
+                           minlength="10"
+                           maxlength="10"
+                           pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-()\s\./0-9]*$"
+                           required>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="country">Country</label>
@@ -174,7 +182,7 @@
                   <input type="text"
                          id="role"
                          class="form-control mb-2"
-                         [ngModel]="detailedUser.role"
+                         [ngModel]="detailedUser.role | titlecase"
                          name="role">
                 </div>
                 <div class="form-group">

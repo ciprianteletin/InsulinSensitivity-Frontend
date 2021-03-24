@@ -31,7 +31,8 @@ import {NgxCaptchaModule} from 'ngx-captcha';
     RegisterDetailsComponent,
     ResetPasswordComponent,
     MailComponent,
-    ConfirmPasswordValidator
+    ConfirmPasswordValidator,
+    OnlyNumbersDirective
   ]
 })
 export class AuthenticationModule {
