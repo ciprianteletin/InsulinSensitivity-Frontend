@@ -3,6 +3,9 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {DetailedUserModel} from '../model/detailed-user.model';
 import {Observable} from 'rxjs';
 import {UtilsService} from '../services/utils.service';
+import {AES} from 'crypto-js';
+import {environment} from '../constants/environment';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({providedIn: 'root'})
 export class DetailedUserResolver implements Resolve<DetailedUserModel> {
@@ -11,7 +14,8 @@ export class DetailedUserResolver implements Resolve<DetailedUserModel> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<DetailedUserModel> | Promise<DetailedUserModel> | DetailedUserModel {
-    const id = +route.paramMap.get('userId');
-    return this.utilService.getDetailedUser(id);
+    const username = route.paramMap.get('username');
+    const decryptedUsername = AES.decrypt(username, environment.secretKey).toString(CryptoJS.enc.Utf8);
+    return this.utilService.getDetailedUser(decryptedUsername);
   }
 }

@@ -10,6 +10,7 @@ import {tap} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from './notification.service';
 import {NotificationType} from '../constants/notification-type.enum';
+import {CacheService} from './cache.service';
 
 /**
  * Service that tackles every request/operation related to the authentication process. It returns an Observable, letting
@@ -28,7 +29,8 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient,
               private router: Router,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private cacheService: CacheService) {
   }
 
   /**
@@ -63,6 +65,7 @@ export class AuthenticationService {
         this.router.navigate(['/']);
         this.user.next(null);
         this.userId = null;
+        this.cacheService.clearCache();
         localStorage.removeItem(environment.bearer);
         this.clearTimeoutIfNeeded();
       });

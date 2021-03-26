@@ -11,8 +11,8 @@ export class CountryResolver implements Resolve<{ country: string }> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<{ country: string }> | Promise<{ country: string }> | { country: string } {
-    const userId = +route.paramMap.get('userId');
-    return this.settingService.getUserCountryOrNothing(userId);
+    const username = route.paramMap.get('username');
+    return this.settingService.getUserCountryOrNothing(username);
   }
 
 }

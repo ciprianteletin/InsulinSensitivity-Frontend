@@ -10,6 +10,7 @@ export const environment = {
   tokenHeader: 'Jwt-Token',
   captchaHeader: 'Activate-Captcha',
   captchaValue: 'activate',
+  secretKey: 'InsulinSensitivity',
   bearer: 'Bearer',
   authorization: 'Authorization',
   oneMinuteInMs: 60000,

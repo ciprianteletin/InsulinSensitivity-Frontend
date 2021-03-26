@@ -3,6 +3,8 @@ import {HeaderService} from '../../services/header.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {AES} from 'crypto-js';
+import {environment} from '../../constants/environment';
 
 @Component({
   selector: 'app-complex-header',
@@ -35,7 +37,7 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateSettings(): void {
-    this.router.navigate(['/settings', {userId: this.userId}]);
+    this.router.navigate(['/settings', {username: AES.encrypt(this.username, environment.secretKey).toString()}]);
   }
 
   onActivateSidebar(): void {

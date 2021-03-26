@@ -27,7 +27,7 @@ export class UtilsService {
     this.resetDate.next();
   }
 
-  getDetailedUser(id: number): Observable<DetailedUserModel> {
-    return this.http.get<DetailedUserModel>(`${environment.url}/user/${id}`);
+  getDetailedUser(username: string): Observable<DetailedUserModel> {
+    return this.http.get<DetailedUserModel>(`${environment.url}/user/username/${username}`);
   }
 }

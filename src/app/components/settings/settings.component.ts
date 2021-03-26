@@ -9,6 +9,9 @@ import {CustomFormMap} from '../../model/custom-form-map.model';
 import {SettingUtils} from '../../utils/setting.utils';
 import {DetailedUserModel} from '../../model/detailed-user.model';
 import {ActivatedRoute} from '@angular/router';
+import {CacheService} from '../../services/cache.service';
+import {AES} from 'crypto-js';
+import {environment} from '../../constants/environment';
 
 @Component({
   selector: 'app-settings',
@@ -40,14 +43,16 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
               private settingsService: SettingsService,
               private utilsService: UtilsService,
               private settingUtils: SettingUtils,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private cacheService: CacheService) {
   }
 
   ngOnInit(): void {
     this.route.data.subscribe((data: { detailedUser: DetailedUserModel, country: { country: string } }) => {
       this.detailedUser = data.detailedUser;
       this.country = data.country.country;
-      console.log(data.country.country);
+      const encryptedUsername = AES.encrypt(this.detailedUser.username, environment.secretKey).toString();
+      this.cacheService.saveItem(encryptedUsername, this.country);
     });
     this.userSubscription = this.authService.user
       .subscribe(user => this.user = user);
