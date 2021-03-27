@@ -6,6 +6,6 @@ export interface CompleteUserModel {
   firstName: string;
   lastName: string;
   phoneNr: string;
-  age: number;
+  birthDay: string;
   gender: string;
 }

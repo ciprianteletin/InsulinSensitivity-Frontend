@@ -30,4 +30,12 @@ export class UtilsService {
   getDetailedUser(username: string): Observable<DetailedUserModel> {
     return this.http.get<DetailedUserModel>(`${environment.url}/user/username/${username}`);
   }
+
+  convertBirthDayToAge(birthDay: string): number {
+    const dateArray = birthDay.split('/');
+    const dateBuilder = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`;
+    const birthDate = new Date(dateBuilder);
+    const timeDiff = Math.abs(Date.now() - birthDate.getTime());
+    return Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+  }
 }

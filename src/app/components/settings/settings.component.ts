@@ -36,6 +36,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   private userSubscription: Subscription;
   // Data Model
   country: string;
+  userAge: number;
   user: UserModel;
   detailedUser: DetailedUserModel;
 
@@ -51,6 +52,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.data.subscribe((data: { detailedUser: DetailedUserModel, country: { country: string } }) => {
       this.detailedUser = data.detailedUser;
       this.country = data.country.country;
+      this.userAge = this.utilsService.convertBirthDayToAge(data.detailedUser.details.birthDay);
       const encryptedUsername = AES.encrypt(this.detailedUser.username, environment.secretKey).toString();
       this.cacheService.saveItem(encryptedUsername, this.country);
     });

@@ -12,6 +12,10 @@
   width: 100%;
 }
 
+.adaptive-width {
+  width: 20%;
+}
+
 .btn-success {
   background: darkred;
 }
@@ -50,5 +54,15 @@ input.ng-invalid.ng-touched {
 @media (max-width: 570px) {
   .btn {
     padding: 10px 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container-login-register {
+    min-width: 100%;
+  }
+
+  .adaptive-width {
+    width: 65%;
   }
 }

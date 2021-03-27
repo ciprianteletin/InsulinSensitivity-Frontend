@@ -9,6 +9,8 @@ import {ConfirmPasswordValidator} from '../directives/confirm-password.directive
 import {SharedModule} from './shared.module';
 import {FormsModule} from '@angular/forms';
 import {NgxCaptchaModule} from 'ngx-captcha';
+import {NgbDateParserFormatter, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateCustomParserFormatter} from '../utils/date-formatter.utils';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import {NgxCaptchaModule} from 'ngx-captcha';
   imports: [
     SharedModule,
     FormsModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    NgbDatepickerModule
   ],
   exports: [
     LoginComponent,
@@ -33,6 +36,9 @@ import {NgxCaptchaModule} from 'ngx-captcha';
     MailComponent,
     ConfirmPasswordValidator,
     OnlyNumbersDirective
+  ],
+  providers: [
+    {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter}
   ]
 })
 export class AuthenticationModule {

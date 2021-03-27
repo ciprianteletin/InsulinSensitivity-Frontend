@@ -6,7 +6,7 @@ export class DetailedUserModel {
     firstName: string;
     lastName: string;
     phoneNr: string;
-    age: number;
+    birthDay: string;
     joinDate: string;
     lastLoginDate: string;
     profileImageUrl?: string;

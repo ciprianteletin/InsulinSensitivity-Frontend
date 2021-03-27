@@ -19,6 +19,10 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
   basicDetails: RegisterBasicModel;
   isLoading = false;
 
+  startDate = {year: 1980, month: 1, day: 1};
+  dateMin = {year: 1950, month: 1, day: 1};
+  dateMax = {year: 2021, month: 1, day: 1};
+
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService) {
@@ -41,7 +45,7 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
   private isFormEmpty(): boolean {
     const values = this.completeRegisterForm.value;
     return values.firstName === '' && values.lastName === '' &&
-      values.phone === '' && values.age === '';
+      values.phone === '';
   }
 
   /**
