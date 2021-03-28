@@ -51,7 +51,7 @@ export class AuthenticationService {
       .pipe(
         tap(response => {
           this.handleAuth(response);
-          this.emitNewUser(response);
+          this.emitLoggedUser(response);
         }));
   }
 
@@ -82,11 +82,15 @@ export class AuthenticationService {
         // if the status is 204, it means that "NO_CONTENT" was sent
         if (res.status !== 204) {
           this.handleAuth(res);
-          this.emitNewUser(res);
+          this.emitLoggedUser(res);
           this.router.navigate(['/insulin']);
           this.notificationService.notify(NotificationType.DEFAULT, 'Welcome back!');
         }
       });
+  }
+
+  emitNewUser(user: UserModel): void {
+    this.user.next(user);
   }
 
   getCaptchaEvent(): Subject<boolean> {
@@ -121,7 +125,7 @@ export class AuthenticationService {
   /**
    * Handles and emit a new user, the logged one, operation available only on login.
    */
-  private emitNewUser(response: HttpResponse<any>): void {
+  private emitLoggedUser(response: HttpResponse<any>): void {
     const loggedUser: UserModel = {
       id: response.body.id,
       username: response.body.username,

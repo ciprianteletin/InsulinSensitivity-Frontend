@@ -27,10 +27,17 @@ export class UtilsService {
     this.resetDate.next();
   }
 
+  /**
+   * Used the get request to get the actual user by the username.
+   */
   getDetailedUser(username: string): Observable<DetailedUserModel> {
     return this.http.get<DetailedUserModel>(`${environment.url}/user/username/${username}`);
   }
 
+  /**
+   * Utility method to convert the birthDate used on register to
+   * a numeric value which represents the age of the user.
+   */
   convertBirthDayToAge(birthDay: string): number {
     const dateArray = birthDay.split('/');
     const dateBuilder = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`;

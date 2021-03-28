@@ -38,9 +38,7 @@
       </li>
       <li *ngIf="isLoggedUser" class="nav-item">
         <a class="nav-link text-success"
-           [routerLink]="['/settings']"
-           routerLinkActive="active"
-           [routerLinkActiveOptions]="{exact: true}">
+           (click)="navigateSettings()">
           <i class="fas fa-user"></i>
           {{this.username}}</a>
       </li>

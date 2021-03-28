@@ -1,4 +1,5 @@
 export class DetailedUserModel {
+  id: number;
   username: string;
   role: string;
   details: {

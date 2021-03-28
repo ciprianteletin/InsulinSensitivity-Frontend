@@ -19,4 +19,11 @@ export class SettingUtils {
     }
     this.utilService.onResetDate();
   }
+
+  public checkValidForm(property: string, formMap: CustomFormMap): boolean {
+    if (formMap.hasOwnProperty(property)) {
+      return formMap[property].valid;
+    }
+    return true;
+  }
 }

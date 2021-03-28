@@ -10,8 +10,8 @@ import {SettingUtils} from '../../utils/setting.utils';
 import {DetailedUserModel} from '../../model/detailed-user.model';
 import {ActivatedRoute} from '@angular/router';
 import {CacheService} from '../../services/cache.service';
-import {AES} from 'crypto-js';
-import {environment} from '../../constants/environment';
+import {SHA3} from 'crypto-js';
+
 
 @Component({
   selector: 'app-settings',
@@ -71,6 +71,15 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
+  onSaveChanges(): void {
+    const activePanel = this.utilsService.getActiveElementId(this.divSections);
+    const flag = this.settingUtils.checkValidForm(activePanel, this.formMap);
+    if (flag) {
+      this.settingsService.submitActiveForm(activePanel, this.formMap, this.mainDetailedUser);
+      this.alignMainAndDisplayedUser();
+    }
+  }
+
   onLogout(): void {
     this.authService.logout();
   }
@@ -97,8 +106,13 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userAge = this.utilsService.convertBirthDayToAge(data.detailedUser.details.birthDay);
   }
 
+  private alignMainAndDisplayedUser(): void {
+    this.mainDetailedUser = Object.assign({}, this.detailedUser);
+    this.mainDetailedUser.details = Object.assign({}, this.detailedUser.details);
+  }
+
   private storeInCache(): void {
-    const encryptedUsername = AES.encrypt(this.detailedUser.username, environment.secretKey).toString();
+    const encryptedUsername = SHA3(this.detailedUser.username).toString();
     this.cacheService.saveItem(encryptedUsername, this.country);
   }
 

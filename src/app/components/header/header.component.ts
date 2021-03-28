@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
+import {AES} from 'crypto-js';
+import {environment} from '../../constants/environment';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +15,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   username = 'Profile';
   isLoggedSubscription: Subscription;
 
-  constructor(private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -26,6 +30,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout(): void {
     this.authService.logout();
+  }
+
+  navigateSettings(): void {
+    this.router.navigate(['/settings',
+      {username: AES.encrypt(this.username, environment.secretKey).toString()}]);
   }
 
   ngOnDestroy(): void {

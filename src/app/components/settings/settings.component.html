@@ -53,6 +53,7 @@
                            id="firstName"
                            class="form-control mb-3"
                            name="firstName"
+                           [readOnly]="true"
                            [(ngModel)]="detailedUser.details.firstName"
                            required
                            minlength="3"
@@ -64,6 +65,7 @@
                            id="lastName"
                            class="form-control mb-3"
                            name="lastName"
+                           [readOnly]="true"
                            [(ngModel)]="detailedUser.details.lastName"
                            required
                            minlength="3"
@@ -222,7 +224,7 @@
       </div>
     </div>
     <div class="text-right mt-3">
-      <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
+      <button type="button" class="btn btn-primary" (click)="onSaveChanges()">Save changes</button>&nbsp;
       <button type="button" class="btn btn-danger" (click)="clearCurrentForm()">Cancel</button>
     </div>
   </div>
