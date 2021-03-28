@@ -39,7 +39,7 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
       this.router.navigate(['/login']);
       this.notificationService.notify(NotificationType.SUCCESS, 'Your account was created with success!');
       this.isLoading = false;
-    }, error => this.isLoading = false);
+    }, () => this.isLoading = false);
   }
 
   private isFormEmpty(): boolean {

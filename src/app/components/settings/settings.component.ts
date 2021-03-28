@@ -38,6 +38,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   country: string;
   userAge: number;
   user: UserModel;
+  mainDetailedUser: DetailedUserModel;
   detailedUser: DetailedUserModel;
 
   constructor(private authService: AuthenticationService,
@@ -50,11 +51,8 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((data: { detailedUser: DetailedUserModel, country: { country: string } }) => {
-      this.detailedUser = data.detailedUser;
-      this.country = data.country.country;
-      this.userAge = this.utilsService.convertBirthDayToAge(data.detailedUser.details.birthDay);
-      const encryptedUsername = AES.encrypt(this.detailedUser.username, environment.secretKey).toString();
-      this.cacheService.saveItem(encryptedUsername, this.country);
+      this.setData(data);
+      this.storeInCache();
     });
     this.userSubscription = this.authService.user
       .subscribe(user => this.user = user);
@@ -79,7 +77,29 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   clearCurrentForm(): void {
     const activePanel = this.utilsService.getActiveElementId(this.divSections);
-    this.settingUtils.resetFormOrElse(activePanel, this.formMap);
+    switch (activePanel) {
+      case 'accountGeneral':
+      case 'accountInfo':
+        this.detailedUser = Object.assign({}, this.mainDetailedUser);
+        this.detailedUser.details = Object.assign({}, this.mainDetailedUser.details);
+        break;
+      case 'activeHistory':
+        this.utilsService.onResetDate();
+        break;
+    }
+  }
+
+  private setData(data: { detailedUser: DetailedUserModel, country: { country: string } }): void {
+    this.mainDetailedUser = data.detailedUser;
+    this.detailedUser = Object.assign({}, data.detailedUser);
+    this.detailedUser.details = Object.assign({}, data.detailedUser.details);
+    this.country = data.country.country;
+    this.userAge = this.utilsService.convertBirthDayToAge(data.detailedUser.details.birthDay);
+  }
+
+  private storeInCache(): void {
+    const encryptedUsername = AES.encrypt(this.detailedUser.username, environment.secretKey).toString();
+    this.cacheService.saveItem(encryptedUsername, this.country);
   }
 
   ngOnDestroy(): void {

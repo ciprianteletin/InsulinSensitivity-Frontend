@@ -42,7 +42,7 @@
                            id="username"
                            class="form-control mb-3"
                            name="username"
-                           [ngModel]="detailedUser.username"
+                           [(ngModel)]="detailedUser.username"
                            required
                            minlength="6"
                            maxlength="50">
@@ -53,7 +53,7 @@
                            id="firstName"
                            class="form-control mb-3"
                            name="firstName"
-                           [ngModel]="detailedUser.details.firstName"
+                           [(ngModel)]="detailedUser.details.firstName"
                            required
                            minlength="3"
                            maxlength="50">
@@ -64,7 +64,7 @@
                            id="lastName"
                            class="form-control mb-3"
                            name="lastName"
-                           [ngModel]="detailedUser.details.lastName"
+                           [(ngModel)]="detailedUser.details.lastName"
                            required
                            minlength="3"
                            maxlength="50">
@@ -75,7 +75,7 @@
                            id="email"
                            class="form-control mb-1"
                            name="email"
-                           [ngModel]="detailedUser.details.email"
+                           [(ngModel)]="detailedUser.details.email"
                            required
                            email>
                     <div class="alert alert-warning mt-3">
@@ -145,7 +145,7 @@
                     <input type="text"
                            id="phone"
                            class="form-control mb-3"
-                           [ngModel]="detailedUser.details.phoneNr"
+                           [(ngModel)]="detailedUser.details.phoneNr"
                            name="phone"
                            minlength="10"
                            maxlength="10"
@@ -153,25 +153,25 @@
                            pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-()\s\./0-9]*$"
                            required>
                   </div>
-                  <div class="form-group">
-                    <label class="form-label" for="age">Age</label>
-                    <input type="text"
-                           id="age"
-                           class="form-control mb-3"
-                           [ngModel]="userAge"
-                           name="age"
-                           [readOnly]="true">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="country">Country</label>
-                    <input type="text"
-                           id="country"
-                           class="form-control"
-                           [ngModel]="country"
-                           [readOnly]="true"
-                           name="country">
-                  </div>
                 </form>
+                <div class="form-group">
+                  <label class="form-label" for="age">Age</label>
+                  <input type="text"
+                         id="age"
+                         class="form-control mb-3"
+                         [ngModel]="userAge"
+                         name="age"
+                         [readOnly]="true">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="country">Country</label>
+                  <input type="text"
+                         id="country"
+                         class="form-control"
+                         [ngModel]="country"
+                         [readOnly]="true"
+                         name="country">
+                </div>
               </div>
               <hr class="border-light m-0">
               <div class="card-body pb-2">
