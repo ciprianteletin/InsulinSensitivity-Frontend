@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ManagePasswordService} from '../../services/manage-password.service';
 import {NgForm} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,7 +13,8 @@ export class ResetPasswordComponent implements OnInit {
   private code: string;
 
   constructor(private passwordManager: ManagePasswordService,
-              private activeRoute: ActivatedRoute) {
+              private activeRoute: ActivatedRoute,
+              private router: Router) {
     activeRoute.params.subscribe(params => {
       this.code = params.code;
     });
@@ -23,6 +24,9 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword(): void {
-    this.passwordManager.resetPassword(this.resetForm.value.password, this.code).subscribe();
+    this.passwordManager.resetPassword(this.resetForm.value.password, this.code)
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+      });
   }
 }

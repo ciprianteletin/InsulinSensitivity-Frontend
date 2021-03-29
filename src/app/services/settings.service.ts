@@ -12,6 +12,9 @@ import {Router} from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
+  private readonly accountGeneral = 'accountGeneral';
+  private readonly accountInfo = 'accountInfo';
+
   constructor(private authService: AuthenticationService,
               private http: HttpClient,
               private cacheService: CacheService,
@@ -34,19 +37,23 @@ export class SettingsService {
 
   public submitActiveForm(property: string, formMap: CustomFormMap, detailedUser: DetailedUserModel): void {
     if (formMap.hasOwnProperty(property)) {
-      const formValues = formMap[property].value;
       switch (property) {
-        case 'accountGeneral':
-        case 'accountInfo':
+        case this.accountGeneral:
+        case this.accountInfo:
+          const formGeneral = formMap[this.accountGeneral].value;
+          const formInfo = formMap[this.accountInfo].value;
           const updateInfo = {
-            username: formValues.username,
-            email: formValues.email,
-            phoneNr: formValues.phoneNr
+            username: formGeneral.username,
+            email: formGeneral.email,
+            phoneNr: formInfo.phone
           };
           this.http.put(`${environment.url}/user/updateInformation/${detailedUser.id}`, updateInfo)
             .subscribe(() => {
-              this.emitUserIfDifferent(detailedUser.id, detailedUser.username, formValues.username);
-              this.changeQueryParams(detailedUser.username, formValues.username);
+              if (detailedUser.username !== formGeneral.username) {
+                this.emitUserIfDifferent(detailedUser, formGeneral.username);
+                this.updateCacheIfAvailable(detailedUser.username, formGeneral.username);
+                this.changeQueryParams(formGeneral.username);
+              }
             });
           break;
         case 'accountPassword':
@@ -57,20 +64,21 @@ export class SettingsService {
     }
   }
 
-  private emitUserIfDifferent(id: number, username: string, updatedUsername: string): void {
-    if (username === updatedUsername) {
-      return;
-    }
+  private emitUserIfDifferent(detailedUser: DetailedUserModel, updatedUsername: string): void {
     this.authService.emitNewUser({
-      id,
+      id: detailedUser.id,
       username: updatedUsername,
     });
+    this.authService.getNewToken();
   }
 
-  private changeQueryParams(username: string, updatedUsername: string): void {
-    if (username === updatedUsername) {
-      return;
-    }
+  private updateCacheIfAvailable(username: string, updatedUsername: string): void {
+    const country = this.cacheService.getItem(username);
+    this.cacheService.removeItem(username);
+    this.cacheService.saveItem(updatedUsername, country);
+  }
+
+  private changeQueryParams(updatedUsername: string): void {
     const encryptedUsername = AES.encrypt(updatedUsername, environment.secretKey).toString();
     this.router.navigate(['/settings', {username: encryptedUsername}]);
   }

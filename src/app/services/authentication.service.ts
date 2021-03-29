@@ -80,10 +80,9 @@ export class AuthenticationService {
     this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
       .subscribe(res => {
         // if the status is 204, it means that "NO_CONTENT" was sent
-        if (res.status !== 204) {
+        if (res.status !== environment.no_content) {
           this.handleAuth(res);
           this.emitLoggedUser(res);
-          this.router.navigate(['/insulin']);
           this.notificationService.notify(NotificationType.DEFAULT, 'Welcome back!');
         }
       });
@@ -138,9 +137,12 @@ export class AuthenticationService {
    * Every 14-15 minutes a new token is received from backend. This methods prevents any theft who might stole
    * the token to use the application, because in 15 minutes the token will be invalid and a new one will be emitted.
    */
-  private getNewToken(): void {
+  getNewToken(): void {
     this.http.get<GenericResponseModel>(`${environment.url}/refresh/${this.userId}`, environment.httpOptions)
-      .subscribe(response => this.handleAuth(response));
+      .subscribe(response => this.handleAuth(response), () => {
+        localStorage.removeItem(environment.bearer);
+        this.user.next(null);
+      });
   }
 
   /**

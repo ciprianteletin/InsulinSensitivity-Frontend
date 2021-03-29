@@ -20,4 +20,5 @@ export const environment = {
     observe: 'response' as 'response'
   },
   internal_error_code: 500,
+  no_content: 204,
 };
