@@ -8,7 +8,7 @@ import {CacheService} from './cache.service';
 import {CustomFormMap} from '../model/custom-form-map.model';
 import {DetailedUserModel} from '../model/detailed-user.model';
 import {AES, SHA3} from 'crypto-js';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
@@ -18,7 +18,8 @@ export class SettingsService {
   constructor(private authService: AuthenticationService,
               private http: HttpClient,
               private cacheService: CacheService,
-              private router: Router) {
+              private router: Router,
+              private activeRoute: ActivatedRoute) {
   }
 
   public getUserCountryOrNothing(username: string): Observable<{ country: string }> {
@@ -50,9 +51,9 @@ export class SettingsService {
           this.http.put(`${environment.url}/user/updateInformation/${detailedUser.id}`, updateInfo)
             .subscribe(() => {
               if (detailedUser.username !== formGeneral.username) {
+                this.changeQueryParams(formGeneral.username);
                 this.emitUserIfDifferent(detailedUser, formGeneral.username);
                 this.updateCacheIfAvailable(detailedUser.username, formGeneral.username);
-                this.changeQueryParams(formGeneral.username);
               }
             });
           break;
@@ -69,17 +70,23 @@ export class SettingsService {
       id: detailedUser.id,
       username: updatedUsername,
     });
-    this.authService.getNewToken();
   }
 
   private updateCacheIfAvailable(username: string, updatedUsername: string): void {
-    const country = this.cacheService.getItem(username);
-    this.cacheService.removeItem(username);
-    this.cacheService.saveItem(updatedUsername, country);
+    const encryptedUsername = AES.encrypt(username, environment.secretKey).toString();
+    const country = this.cacheService.getItem(encryptedUsername);
+    this.cacheService.removeItem(encryptedUsername);
+    const encryptedUpdate = AES.encrypt(updatedUsername, environment.secretKey).toString();
+    this.cacheService.saveItem(encryptedUpdate, country);
   }
 
   private changeQueryParams(updatedUsername: string): void {
     const encryptedUsername = AES.encrypt(updatedUsername, environment.secretKey).toString();
-    this.router.navigate(['/settings', {username: encryptedUsername}]);
+    const queryParams: Params = {username: encryptedUsername};
+    this.router.navigate([], {
+      queryParams,
+      relativeTo: this.activeRoute,
+      replaceUrl: true
+    });
   }
 }

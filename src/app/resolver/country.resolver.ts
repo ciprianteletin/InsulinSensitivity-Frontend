@@ -13,7 +13,7 @@ export class CountryResolver implements Resolve<{ country: string }> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<{ country: string }> | Promise<{ country: string }> | { country: string } {
-    const username = route.paramMap.get('username');
+    const username = route.queryParams.username;
     const decryptedUsername = AES.decrypt(username, environment.secretKey).toString(CryptoJS.enc.Utf8);
     return this.settingService.getUserCountryOrNothing(decryptedUsername);
   }

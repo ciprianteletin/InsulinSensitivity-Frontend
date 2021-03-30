@@ -76,16 +76,16 @@ export class AuthenticationService {
    * like the refreshToken and the MetaInformation, the server will decide if the user was logged in
    * in the last seven days on the current device and login him if he meets all criteria.
    */
-  autoLogin(): void {
-    this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
-      .subscribe(res => {
+  autoLogin(): Promise<any> {
+    return this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
+      .pipe(tap((res => {
         // if the status is 204, it means that "NO_CONTENT" was sent
         if (res.status !== environment.no_content) {
           this.handleAuth(res);
           this.emitLoggedUser(res);
           this.notificationService.notify(NotificationType.DEFAULT, 'Welcome back!');
         }
-      });
+      }))).toPromise();
   }
 
   emitNewUser(user: UserModel): void {

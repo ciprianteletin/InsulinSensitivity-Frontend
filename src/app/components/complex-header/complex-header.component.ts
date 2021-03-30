@@ -37,8 +37,9 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateSettings(): void {
-    this.router.navigate(['/settings',
-      {username: AES.encrypt(this.username, environment.secretKey).toString()}]);
+    this.router.navigate(['/settings'], {
+      queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
+    });
   }
 
   onActivateSidebar(): void {

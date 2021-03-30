@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {PrincipalComponent} from './components/principal/principal.component';
@@ -17,6 +17,11 @@ import {ErrorModule} from './modules/error.module';
 import {SettingsComponent} from './components/settings/settings.component';
 import {FormsModule} from '@angular/forms';
 import {CredentialsInterceptor} from './interceptors/credentials.interceptor';
+import {AppInitService} from './configs/app-init.service';
+
+export function initApp(appInitService: AppInitService): () => Promise<any> {
+  return () => appInitService.init();
+}
 
 @NgModule({
   declarations: [
@@ -37,6 +42,8 @@ import {CredentialsInterceptor} from './interceptors/credentials.interceptor';
     NotificationsModule
   ],
   providers: [
+    AppInitService,
+    {provide: APP_INITIALIZER, useFactory: initApp, deps: [AppInitService], multi: true},
     CookieService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true},

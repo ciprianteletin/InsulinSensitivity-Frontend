@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthenticationService} from './services/authentication.service';
 import {environment} from './constants/environment';
 
 @Component({
@@ -8,11 +7,10 @@ import {environment} from './constants/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(private authService: AuthenticationService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.authService.autoLogin();
   }
 
   ngOnDestroy(): void {
