@@ -63,8 +63,8 @@ export class AuthenticationService {
     this.http.get(`${environment.url}/logout/${this.userId}`)
       .subscribe(() => {
         this.router.navigate(['/']);
-        this.user.next(null);
-        this.userId = null;
+        this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!');
+        this.resetUserState();
         this.cacheService.clearCache();
         localStorage.removeItem(environment.bearer);
         this.clearTimeoutIfNeeded();
@@ -85,7 +85,6 @@ export class AuthenticationService {
         // if the status is 204, it means that "NO_CONTENT" was sent
         if (res.status !== environment.no_content) {
           this.handleAuth(res);
-          this.notificationService.notify(NotificationType.DEFAULT, 'Welcome back!');
         }
       }))).toPromise();
   }
@@ -119,6 +118,11 @@ export class AuthenticationService {
   private handleAuth(response: HttpResponse<any>): void {
     this.handleAuthToken(response);
     this.emitLoggedUser(response);
+  }
+
+  private resetUserState(): void {
+    this.user.next(null);
+    this.userId = null;
   }
 
   /**

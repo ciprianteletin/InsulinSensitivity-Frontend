@@ -9,11 +9,13 @@ import {CustomFormMap} from '../model/custom-form-map.model';
 import {DetailedUserModel} from '../model/detailed-user.model';
 import {AES, SHA3} from 'crypto-js';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {UserPasswordModel} from '../model/user-password.model';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
   private readonly accountGeneral = 'accountGeneral';
   private readonly accountInfo = 'accountInfo';
+  private readonly accountPassword = 'accountPassword';
 
   constructor(private authService: AuthenticationService,
               private http: HttpClient,
@@ -41,28 +43,46 @@ export class SettingsService {
       switch (property) {
         case this.accountGeneral:
         case this.accountInfo:
-          const formGeneral = formMap[this.accountGeneral].value;
-          const formInfo = formMap[this.accountInfo].value;
-          const updateInfo = {
-            username: formGeneral.username,
-            email: formGeneral.email,
-            phoneNr: formInfo.phone
-          };
-          this.http.put(`${environment.url}/user/updateInformation/${detailedUser.id}`, updateInfo)
-            .subscribe(() => {
-              if (detailedUser.username !== formGeneral.username) {
-                this.changeQueryParams(formGeneral.username);
-                this.emitUserIfDifferent(detailedUser, formGeneral.username);
-                this.updateCacheIfAvailable(detailedUser.username, formGeneral.username);
-              }
-            });
+          this.updateUserInformation(formMap, detailedUser);
           break;
-        case 'accountPassword':
-
+        case this.accountPassword:
+          this.updatePassword(formMap, detailedUser);
           break;
       }
       return;
     }
+  }
+
+  private updateUserInformation(formMap: CustomFormMap, detailedUser: DetailedUserModel): void {
+    const updateInfo = this.buildUserInformation(formMap);
+    this.http.put(`${environment.url}/user/updateInformation/${detailedUser.id}`, updateInfo)
+      .subscribe(() => {
+        if (detailedUser.username !== updateInfo.username) {
+          this.changeQueryParams(updateInfo.username);
+          this.emitUserIfDifferent(detailedUser, updateInfo.username);
+          this.updateCacheIfAvailable(detailedUser.username, updateInfo.username);
+        }
+      });
+  }
+
+  private updatePassword(formMap: CustomFormMap, detailedUser: DetailedUserModel): void {
+    const formPassword = formMap[this.accountPassword].value;
+    const userPassword: UserPasswordModel = {
+      username: detailedUser.username,
+      password: formPassword.currentPassword,
+      newPassword: formPassword.password
+    };
+    this.updatePasswordRequest(userPassword);
+  }
+
+  private buildUserInformation(formMap: CustomFormMap): { username: string, email: string, phoneNr: string } {
+    const formGeneral = formMap[this.accountGeneral].value;
+    const formInfo = formMap[this.accountInfo].value;
+    return {
+      username: formGeneral.username,
+      email: formGeneral.email,
+      phoneNr: formInfo.phone
+    };
   }
 
   private emitUserIfDifferent(detailedUser: DetailedUserModel, updatedUsername: string): void {
@@ -89,5 +109,12 @@ export class SettingsService {
       relativeTo: this.activeRoute,
       replaceUrl: true
     });
+  }
+
+  private updatePasswordRequest(userPassword: UserPasswordModel): void {
+    this.http.put(`${environment.url}/user/updatePassword`, userPassword)
+      .subscribe(() => {
+        this.authService.logout();
+      });
   }
 }
