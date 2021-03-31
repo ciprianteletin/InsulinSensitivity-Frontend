@@ -11,6 +11,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from './notification.service';
 import {NotificationType} from '../constants/notification-type.enum';
 import {CacheService} from './cache.service';
+import {errors} from '../constants/error.constants';
 
 /**
  * Service that tackles every request/operation related to the authentication process. It returns an Observable, letting
@@ -51,7 +52,6 @@ export class AuthenticationService {
       .pipe(
         tap(response => {
           this.handleAuth(response);
-          this.emitLoggedUser(response);
         }));
   }
 
@@ -75,6 +75,9 @@ export class AuthenticationService {
    * Method invoked at the start of the application. It calls a special endpoint and based on multiple details,
    * like the refreshToken and the MetaInformation, the server will decide if the user was logged in
    * in the last seven days on the current device and login him if he meets all criteria.
+   *
+   * Also, this method is used in case of page refresh, the Angular engine restarting the app in
+   * case of page/browser refresh.
    */
   autoLogin(): Promise<any> {
     return this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
@@ -82,10 +85,27 @@ export class AuthenticationService {
         // if the status is 204, it means that "NO_CONTENT" was sent
         if (res.status !== environment.no_content) {
           this.handleAuth(res);
-          this.emitLoggedUser(res);
           this.notificationService.notify(NotificationType.DEFAULT, 'Welcome back!');
         }
       }))).toPromise();
+  }
+
+  /**
+   * Calls the update token request when the user change his username used for login and other
+   * operations. This is necessary because the Jwt-Token contains information related to
+   * the previous information, so that there would be no sync between the actual user and
+   * what resides in token.
+   *
+   * In case of any error, the user will be logged out due to security reasons.
+   */
+  updateTokenNewDetails(username: string): void {
+    this.http.get(`${environment.url}/updateToken/${username}`, environment.httpOptions)
+      .subscribe((response: HttpResponse<any>) => {
+        this.handleAuthToken(response);
+      }, () => {
+        this.logout();
+        this.notificationService.notify(NotificationType.ERROR, errors.ERROR_LOGOUT);
+      });
   }
 
   emitNewUser(user: UserModel): void {
@@ -96,13 +116,18 @@ export class AuthenticationService {
     return this.captchaEvent;
   }
 
+  private handleAuth(response: HttpResponse<any>): void {
+    this.handleAuthToken(response);
+    this.emitLoggedUser(response);
+  }
+
   /**
    * Handle the auth response received from the server by emitting a user and storing the token
    * inside the localStorage. Also it launch a timeout of 14 minutes in order to refresh the token.
    * The duration of the token is 15 minutes but we take in consideration that some operations
    * might take some time.
    */
-  private handleAuth(response: HttpResponse<any>): void {
+  private handleAuthToken(response: HttpResponse<any>): void {
     const token = response.headers.get(environment.tokenHeader);
     const refreshTime = this.jwtHelper.getTokenExpirationDate(token).getTime()
       - new Date().getTime() - environment.oneMinuteInMs;
@@ -139,7 +164,7 @@ export class AuthenticationService {
    */
   getNewToken(): void {
     this.http.get<GenericResponseModel>(`${environment.url}/refresh/${this.userId}`, environment.httpOptions)
-      .subscribe(response => this.handleAuth(response), () => {
+      .subscribe(response => this.handleAuthToken(response), () => {
         localStorage.removeItem(environment.bearer);
         this.user.next(null);
       });

@@ -70,6 +70,7 @@ export class SettingsService {
       id: detailedUser.id,
       username: updatedUsername,
     });
+    this.authService.updateTokenNewDetails(updatedUsername);
   }
 
   private updateCacheIfAvailable(username: string, updatedUsername: string): void {
