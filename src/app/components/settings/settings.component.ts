@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../services/authentication.service';
 import {SettingsService} from '../../services/settings.service';
@@ -40,6 +40,8 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   user: UserModel;
   mainDetailedUser: DetailedUserModel;
   detailedUser: DetailedUserModel;
+  // Browser size
+  innerWidth: number;
 
   constructor(private authService: AuthenticationService,
               private settingsService: SettingsService,
@@ -49,7 +51,13 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
               private cacheService: CacheService) {
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.innerWidth = window.innerWidth;
+  }
+
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
     this.route.data.subscribe((data: { detailedUser: DetailedUserModel, country: { country: string } }) => {
       this.setData(data);
       this.storeInCache();

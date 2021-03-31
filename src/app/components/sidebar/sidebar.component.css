@@ -7,7 +7,7 @@ a:focus {
 }
 
 #sidebar {
-  min-height: 100vh;
+  min-height: 100%;
   height: auto;
   width: 250px;
   background: #333;

@@ -1,6 +1,7 @@
 #main-footer {
   width: 100%;
-  position: fixed;
+  overflow: hidden;
+  position: sticky;
   bottom: 0;
   text-align: center;
   background: #333;

@@ -1,7 +1,10 @@
 .full-bg {
-  background: #16222A; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #3A6073, #16222A); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #16222A;
+  background: -webkit-linear-gradient(to right, #3A6073, #16222A);
+  background: linear-gradient(to right, #3A6073, #16222A);
+  min-height: 94vh !important;
+  height: auto !important;
+  overflow: auto !important;
 }
 
 h4 {
@@ -9,8 +12,8 @@ h4 {
 }
 
 .container {
-  margin-top: 50px;
-  min-height: 85vh;
+  margin-top: 20px;
+  min-height: 100%;
   height: auto;
   max-width: 70%;
 }
@@ -141,10 +144,27 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
   width: 85%;
 }
 
-@media (max-width: 750px) {
+.drop-settings {
+  display: none;
+}
+
+@media(max-width: 900px) {
+  .down {
+    width: 100%;
+    position: initial;
+    top: initial;
+  }
+
+  .design-border {
+    border-right: none;
+  }
+}
+
+@media (max-width: 850px) {
   .container {
     margin-top: initial;
     min-height: 130vh;
+    min-width: 90%;
     height: auto;
   }
 
@@ -152,12 +172,17 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     width: 100%;
   }
 
-  .design-border {
-    border-right: none;
+  .hide-small{
+    display: none;
+  }
+}
+
+@media(max-width: 700px) {
+  .container {
+    min-width: 100%;
   }
 
-  .down {
-    position: initial;
-    top: initial;
+  .drop-settings {
+
   }
 }

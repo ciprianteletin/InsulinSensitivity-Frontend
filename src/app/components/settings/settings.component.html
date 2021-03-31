@@ -7,7 +7,8 @@
     <div class="card">
       <div class="row no-gutters row-bordered row-border-light">
         <div class="col-md-3 pt-0 design-border">
-          <div class="list-group list-group-flush account-settings-links">
+
+          <div *ngIf="innerWidth >= 768; else smallList" class="list-group list-group-flush account-settings-links">
             <a class="list-group-item list-group-item-action active" data-toggle="list"
                href="#accountGeneral">General</a>
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountPassword">Change
@@ -15,8 +16,32 @@
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountInfo">Info</a>
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountHistory">Clear
               history</a>
+            <button class="list-group-item list-group-item-action">Delete</button>
             <button class="btn btn-danger down" (click)="onLogout()">Logout</button>
           </div>
+
+          <ng-template #smallList>
+            <button class="btn btn-primary w-100"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapseExample"
+                    aria-expanded="true"
+                    aria-controls="collapseExample">
+              Settings
+              <i class="fas fa-caret-down"></i>
+            </button>
+            <div class="list-group list-group-flush account-settings-links collapse" id="collapseExample">
+              <a class="list-group-item list-group-item-action active" data-toggle="list"
+                 href="#accountGeneral">General</a>
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountPassword">Change
+                password</a>
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountInfo">Info</a>
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountHistory">Clear
+                history</a>
+              <button class="list-group-item list-group-item-action">Delete</button>
+              <button class="btn btn-danger down" (click)="onLogout()">Logout</button>
+            </div>
+          </ng-template>
         </div>
         <div class="col-md-9">
           <div class="tab-content">
@@ -228,5 +253,5 @@
       <button type="button" class="btn btn-danger" (click)="clearCurrentForm()">Cancel</button>
     </div>
   </div>
-  <app-footer></app-footer>
 </div>
+<app-footer class="hide-small"></app-footer>
