@@ -9,6 +9,8 @@ import {NotificationType} from '../../constants/notification-type.enum';
 import {catchError, take} from 'rxjs/operators';
 import {ReCaptcha2Component} from 'ngx-captcha';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ModalManagerService} from '../../services/modal-manager.service';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
   constructor(private authService: AuthenticationService,
               private router: Router,
               private activeRoute: ActivatedRoute,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private modalManager: ModalManagerService) {
     this.siteKey = '6LdlhXkaAAAAAF1yMLOiVExYDrkkaO_rtsJFDrQB';
   }
 
@@ -90,7 +93,8 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
       return true;
     }
     if (!this.isFormEmpty() && !this.loginForm.submitted) {
-      return confirm('Do you want to discard the changes?');
+      this.modalManager.openConfirmModal(ConfirmModalComponent);
+      return this.modalManager.getConfirmResult();
     }
     return true;
   }

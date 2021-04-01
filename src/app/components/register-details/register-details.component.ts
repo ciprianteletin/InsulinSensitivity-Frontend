@@ -8,6 +8,8 @@ import {CanLeave} from '../../guards/utils/can.leave';
 import {NotificationService} from '../../services/notification.service';
 import {ModelUtil} from '../../model/util/model.util';
 import {NotificationType} from '../../constants/notification-type.enum';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {ModalManagerService} from '../../services/modal-manager.service';
 
 @Component({
   selector: 'app-register-details',
@@ -25,7 +27,8 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
 
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private modalManager: ModalManagerService) {
     this.basicDetails = this.router.getCurrentNavigation().extras.state.registerBasic;
   }
 
@@ -54,7 +57,8 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
    */
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isFormEmpty() && !this.completeRegisterForm.submitted) {
-      return confirm('Do you want to discard the changes?');
+      this.modalManager.openConfirmModal(ConfirmModalComponent);
+      return this.modalManager.getConfirmResult();
     }
     return true;
   }

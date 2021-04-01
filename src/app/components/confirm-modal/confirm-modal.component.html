@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Profile deletion</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modalManager.closeConfirmModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><strong>Are you sure you want to leave the current page?</strong></p>
+  <p>All data will be lost!</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="modalManager.closeConfirmModal()">Cancel</button>
+  <button type="button" class="btn btn-danger" (click)="modalManager.onOkPressedConfirmModal()">Ok</button>
+</div>

@@ -4,6 +4,8 @@ import {Router} from '@angular/router';
 import {RegisterBasicModel} from '../../model/representation/register-basic.model';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {Observable} from 'rxjs';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {ModalManagerService} from '../../services/modal-manager.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +15,8 @@ import {Observable} from 'rxjs';
 export class RegisterComponent implements OnInit, CanLeave {
   @ViewChild('f') registerForm: NgForm;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private modalManager: ModalManagerService) {
   }
 
   ngOnInit(): void {
@@ -40,7 +43,8 @@ export class RegisterComponent implements OnInit, CanLeave {
    */
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isFormEmpty() && !this.registerForm.submitted) {
-      return confirm('Do you want to discard the changes?');
+      this.modalManager.openConfirmModal(ConfirmModalComponent);
+      return this.modalManager.getConfirmResult();
     }
     return true;
   }
