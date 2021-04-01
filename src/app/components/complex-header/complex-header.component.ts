@@ -5,6 +5,8 @@ import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {AES} from 'crypto-js';
 import {environment} from '../../constants/environment';
+import {NotificationService} from '../../services/notification.service';
+import {NotificationType} from '../../constants/notification-type.enum';
 
 @Component({
   selector: 'app-complex-header',
@@ -19,21 +21,17 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
 
   constructor(private headerService: HeaderService,
               private authService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
-    this.isLoggedSubscription = this.authService.user.subscribe(user => {
-      this.isLoggedUser = user !== null;
-      if (user !== null) {
-        this.username = user.username;
-        this.userId = user.id;
-      }
-    });
+    this.createSubscriptions();
   }
 
   onLogout(): void {
-    this.authService.logout();
+    this.authService.logout()
+      .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!'));
   }
 
   navigateSettings(): void {
@@ -44,6 +42,16 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
 
   onActivateSidebar(): void {
     this.headerService.changeSidebarValue();
+  }
+
+  private createSubscriptions(): void {
+    this.isLoggedSubscription = this.authService.user.subscribe(user => {
+      this.isLoggedUser = user !== null;
+      if (user !== null) {
+        this.username = user.username;
+        this.userId = user.id;
+      }
+    });
   }
 
   ngOnDestroy(): void {

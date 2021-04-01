@@ -2,15 +2,19 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, V
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../services/authentication.service';
 import {SettingsService} from '../../services/settings.service';
-import {UserModel} from '../../model/user.model';
+import {UserModel} from '../../model/representation/user.model';
 import {UtilsService} from '../../services/utils.service';
 import {NgForm} from '@angular/forms';
-import {CustomFormMap} from '../../model/custom-form-map.model';
+import {CustomFormMap} from '../../model/representation/custom-form-map.model';
 import {SettingUtils} from '../../utils/setting.utils';
-import {DetailedUserModel} from '../../model/detailed-user.model';
+import {DetailedUserModel} from '../../model/representation/detailed-user.model';
 import {ActivatedRoute} from '@angular/router';
 import {CacheService} from '../../services/cache.service';
 import {SHA3} from 'crypto-js';
+import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
+import {NotificationType} from '../../constants/notification-type.enum';
+import {NotificationService} from '../../services/notification.service';
+import {ModalManagerService} from '../../services/modal-manager.service';
 
 
 @Component({
@@ -34,6 +38,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   private formMap: CustomFormMap;
   // subscriptions
   private userSubscription: Subscription;
+  private deleteModalSubscription: Subscription;
   // Data Model
   country: string;
   userAge: number;
@@ -48,7 +53,9 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
               private utilsService: UtilsService,
               private settingUtils: SettingUtils,
               private route: ActivatedRoute,
-              private cacheService: CacheService) {
+              private cacheService: CacheService,
+              private modalManager: ModalManagerService,
+              private notificationService: NotificationService) {
   }
 
   @HostListener('window:resize', ['$event'])
@@ -58,12 +65,8 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.route.data.subscribe((data: { detailedUser: DetailedUserModel, country: { country: string } }) => {
-      this.setData(data);
-      this.storeInCache();
-    });
-    this.userSubscription = this.authService.user
-      .subscribe(user => this.user = user);
+    this.extractRouteData();
+    this.createSubscriptions();
   }
 
   /**
@@ -88,8 +91,13 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  openDeleteModal(): void {
+    this.modalManager.openDeleteModal(DeleteModalComponent);
+  }
+
   onLogout(): void {
-    this.authService.logout();
+    this.authService.logout()
+      .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!'));
   }
 
   clearCurrentForm(): void {
@@ -124,7 +132,27 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cacheService.saveItem(encryptedUsername, this.country);
   }
 
+  private createSubscriptions(): void {
+    this.userSubscription = this.authService.user
+      .subscribe(user => this.user = user);
+
+    this.deleteModalSubscription = this.modalManager.deleteModalResult
+      .subscribe(result => {
+        if (result) {
+          this.settingsService.deleteUserAccount(this.user.id);
+        }
+      });
+  }
+
+  private extractRouteData(): void {
+    this.route.data.subscribe((data: { detailedUser: DetailedUserModel, country: { country: string } }) => {
+      this.setData(data);
+      this.storeInCache();
+    });
+  }
+
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
+    this.deleteModalSubscription.unsubscribe();
   }
 }

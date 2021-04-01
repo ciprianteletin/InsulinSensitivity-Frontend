@@ -15,7 +15,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sidebarSubscription = this.headerService.getSidebarEvent().subscribe(() => this.active = !this.active);
+    this.sidebarSubscription = this.headerService.getSidebarEvent()
+      .subscribe(() => this.active = !this.active);
   }
 
   ngOnDestroy(): void {

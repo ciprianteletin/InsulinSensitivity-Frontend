@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {GenericResponseModel} from '../../model/generic-response.model';
+import {GenericResponseModel} from '../../model/representation/generic-response.model';
 import {ErrorService} from '../../services/error.service';
 
 @Component({
@@ -17,10 +17,7 @@ export class ErrorModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.errorService.getErrorSubject().subscribe((genericResponse: GenericResponseModel) => {
-      this.errorResponse = genericResponse;
-      this.displayModal();
-    });
+    this.initErrorData();
   }
 
   onCloseModal(): void {
@@ -31,6 +28,13 @@ export class ErrorModalComponent implements OnInit, OnDestroy {
   displayModal(): void {
     this.renderer.removeClass(this.modal.nativeElement, 'hidden');
     this.renderer.removeClass(this.overlay.nativeElement, 'hidden');
+  }
+
+  private initErrorData(): void {
+    this.errorService.getErrorSubject().subscribe((genericResponse: GenericResponseModel) => {
+      this.errorResponse = genericResponse;
+      this.displayModal();
+    });
   }
 
   ngOnDestroy(): void {

@@ -5,11 +5,13 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {mergeMap} from 'rxjs/operators';
 import {CacheService} from './cache.service';
-import {CustomFormMap} from '../model/custom-form-map.model';
-import {DetailedUserModel} from '../model/detailed-user.model';
+import {CustomFormMap} from '../model/representation/custom-form-map.model';
+import {DetailedUserModel} from '../model/representation/detailed-user.model';
 import {AES, SHA3} from 'crypto-js';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {UserPasswordModel} from '../model/user-password.model';
+import {UserPasswordModel} from '../model/representation/user-password.model';
+import {NotificationType} from '../constants/notification-type.enum';
+import {NotificationService} from './notification.service';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
@@ -21,7 +23,8 @@ export class SettingsService {
               private http: HttpClient,
               private cacheService: CacheService,
               private router: Router,
-              private activeRoute: ActivatedRoute) {
+              private activeRoute: ActivatedRoute,
+              private notificationService: NotificationService) {
   }
 
   public getUserCountryOrNothing(username: string): Observable<{ country: string }> {
@@ -29,13 +32,7 @@ export class SettingsService {
     if (this.cacheService.checkIfPresent(username)) {
       return of({country: this.cacheService.getItem(username)});
     }
-    const params = {fields: 'country'};
-    return this.http.get(`${environment.url}/user/ip`, {responseType: 'text'})
-      .pipe(
-        mergeMap(ip => {
-          const userIp = ip === '127.0.0.1' ? '79.118.48.107' : ip;
-          return this.http.get<{ country: string }>(`${environment.countryAPI}/${userIp}`, {params, withCredentials: false});
-        }));
+    return this.obtainCountry();
   }
 
   public submitActiveForm(property: string, formMap: CustomFormMap, detailedUser: DetailedUserModel): void {
@@ -51,6 +48,25 @@ export class SettingsService {
       }
       return;
     }
+  }
+
+  public deleteUserAccount(id: number): void {
+    this.http.delete(`${environment.url}/user/delete/${id}`)
+      .subscribe(() => {
+        this.authService.logout()
+          .subscribe();
+        this.notificationService.notify(NotificationType.INFO, 'Account deleted with success');
+      });
+  }
+
+  private obtainCountry(): Observable<{ country: string }> {
+    const params = {fields: 'country'};
+    return this.http.get(`${environment.url}/user/ip`, {responseType: 'text'})
+      .pipe(
+        mergeMap(ip => {
+          const userIp = ip === '127.0.0.1' ? '79.118.48.107' : ip;
+          return this.http.get<{ country: string }>(`${environment.countryAPI}/${userIp}`, {params, withCredentials: false});
+        }));
   }
 
   private updateUserInformation(formMap: CustomFormMap, detailedUser: DetailedUserModel): void {
@@ -114,7 +130,8 @@ export class SettingsService {
   private updatePasswordRequest(userPassword: UserPasswordModel): void {
     this.http.put(`${environment.url}/user/updatePassword`, userPassword)
       .subscribe(() => {
-        this.authService.logout();
+        this.authService.logout()
+          .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'Password changed with success!'));
       });
   }
 }

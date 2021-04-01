@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {DetailedUserModel} from '../model/detailed-user.model';
+import {DetailedUserModel} from '../model/representation/detailed-user.model';
 import {Observable} from 'rxjs';
 import {UtilsService} from '../services/utils.service';
 import {AES} from 'crypto-js';

@@ -18,6 +18,7 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {FormsModule} from '@angular/forms';
 import {CredentialsInterceptor} from './interceptors/credentials.interceptor';
 import {AppInitService} from './configs/app-init.service';
+import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -30,7 +31,8 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     InsulinFormComponent,
     IndexComponent,
     SidebarComponent,
-    SettingsComponent
+    SettingsComponent,
+    DeleteModalComponent
   ],
   imports: [
     BrowserModule,

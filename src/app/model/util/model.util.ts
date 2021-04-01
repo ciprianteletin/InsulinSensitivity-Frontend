@@ -1,6 +1,6 @@
 import {NgForm} from '@angular/forms';
-import {RegisterBasicModel} from './register-basic.model';
-import {CompleteUserModel} from './complete-user.model';
+import {RegisterBasicModel} from '../representation/register-basic.model';
+import {CompleteUserModel} from '../representation/complete-user.model';
 
 export class ModelUtil {
   static buildUserFromFormValues(form: NgForm, basicUser: RegisterBasicModel): CompleteUserModel {

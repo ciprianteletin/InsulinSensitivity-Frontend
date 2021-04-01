@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {GenericResponseModel} from '../model/generic-response.model';
+import {GenericResponseModel} from '../model/representation/generic-response.model';
 import {environment} from '../constants/environment';
 import {Observable} from 'rxjs';
 

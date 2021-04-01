@@ -54,22 +54,11 @@ label.btn {
 
 .btn {
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .text-light {
   color: #babbbc !important;
-}
-
-.btn-facebook {
-  border-color: rgba(0, 0, 0, 0);
-  background: #3B5998;
-  color: #fff;
-}
-
-.btn-instagram {
-  border-color: rgba(0, 0, 0, 0);
-  background: #000;
-  color: #fff;
 }
 
 .card {
@@ -144,10 +133,6 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
   width: 85%;
 }
 
-.drop-settings {
-  display: none;
-}
-
 @media(max-width: 900px) {
   .down {
     width: 100%;
@@ -162,8 +147,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 
 @media (max-width: 850px) {
   .container {
-    margin-top: initial;
-    min-height: 130vh;
+    min-height: 100vh;
     min-width: 90%;
     height: auto;
   }
@@ -174,15 +158,5 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 
   .hide-small{
     display: none;
-  }
-}
-
-@media(max-width: 700px) {
-  .container {
-    min-width: 100%;
-  }
-
-  .drop-settings {
-
   }
 }

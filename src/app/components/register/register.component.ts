@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
-import {RegisterBasicModel} from '../../model/register-basic.model';
+import {RegisterBasicModel} from '../../model/representation/register-basic.model';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {Observable} from 'rxjs';
 

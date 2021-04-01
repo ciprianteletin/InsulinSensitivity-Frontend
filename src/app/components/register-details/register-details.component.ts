@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {RegisterBasicModel} from '../../model/register-basic.model';
+import {RegisterBasicModel} from '../../model/representation/register-basic.model';
 import {NgForm} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Observable} from 'rxjs';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {NotificationService} from '../../services/notification.service';
-import {ModelUtil} from '../../model/model.util';
+import {ModelUtil} from '../../model/util/model.util';
 import {NotificationType} from '../../constants/notification-type.enum';
 
 @Component({

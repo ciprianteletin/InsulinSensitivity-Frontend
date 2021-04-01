@@ -1,6 +1,6 @@
 import {ElementRef, Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {DetailedUserModel} from '../model/detailed-user.model';
+import {DetailedUserModel} from '../model/representation/detailed-user.model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../constants/environment';
 

@@ -38,16 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
    * Subscribes to different events used for multiple purposes.
    */
   ngOnInit(): void {
-    this.routerEvent = this.router.events
-      .subscribe(value => {
-        this.resetPassword = !(this.router.url.toString() === '/login');
-      });
-
-    this.authService.getCaptchaEvent()
-      .pipe(take(1))
-      .subscribe(activateCaptcha => {
-        this.displayCaptcha = activateCaptcha;
-      });
+    this.subscribeToRouterEvents();
+    this.getCaptchaEvents();
   }
 
   login(): void {
@@ -72,6 +64,21 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
 
   private isFormEmpty(): boolean {
     return this.loginForm.value.username === '' && this.loginForm.value.password === '';
+  }
+
+  private subscribeToRouterEvents(): void {
+    this.routerEvent = this.router.events
+      .subscribe(() => {
+        this.resetPassword = !(this.router.url.toString() === '/login');
+      });
+  }
+
+  private getCaptchaEvents(): void {
+    this.authService.getCaptchaEvent()
+      .pipe(take(1))
+      .subscribe(activateCaptcha => {
+        this.displayCaptcha = activateCaptcha;
+      });
   }
 
   /**

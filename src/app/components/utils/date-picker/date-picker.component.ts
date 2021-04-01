@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbCalendar, NgbDate, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import {UtilsService} from '../../../services/utils.service';
 import {Subscription} from 'rxjs';
@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css']
 })
-export class DatePickerComponent implements OnInit {
+export class DatePickerComponent implements OnInit, OnDestroy {
   hoveredDate: NgbDate | null = null;
   resetDateSubscription: Subscription;
   fromDate: NgbDate | null;
@@ -22,12 +22,7 @@ export class DatePickerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.resetDateSubscription = this.utilService.resetDate //
-      .subscribe(() => {
-        const today = this.calendar.getToday();
-        this.fromDate = today;
-        this.toDate = this.calendar.getNext(today, 'd', 10);
-      });
+    this.resetDateEvent();
   }
 
   onDateSelection(date: NgbDate): void {
@@ -56,5 +51,18 @@ export class DatePickerComponent implements OnInit {
   validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
     const parsed = this.formatter.parse(input);
     return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+  }
+
+  private resetDateEvent(): void {
+    this.resetDateSubscription = this.utilService.resetDate //
+      .subscribe(() => {
+        const today = this.calendar.getToday();
+        this.fromDate = today;
+        this.toDate = this.calendar.getNext(today, 'd', 10);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.resetDateSubscription.unsubscribe();
   }
 }

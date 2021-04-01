@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {CompleteUserModel} from '../model/complete-user.model';
+import {CompleteUserModel} from '../model/representation/complete-user.model';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {environment} from '../constants/environment';
-import {GenericResponseModel} from '../model/generic-response.model';
-import {UserModel} from '../model/user.model';
+import {GenericResponseModel} from '../model/representation/generic-response.model';
+import {UserModel} from '../model/representation/user.model';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
@@ -59,16 +59,15 @@ export class AuthenticationService {
    * Clear all trace of the logged user and send a request to the server to delete related metaData in case of
    * manual log-out. Also redirect the user to the main page
    */
-  logout(): void {
-    this.http.get(`${environment.url}/logout/${this.userId}`)
-      .subscribe(() => {
+  logout(): Observable<any> {
+    return this.http.get(`${environment.url}/logout/${this.userId}`)
+      .pipe(tap(() => {
         this.router.navigate(['/']);
-        this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!');
         this.resetUserState();
         this.cacheService.clearCache();
         localStorage.removeItem(environment.bearer);
         this.clearTimeoutIfNeeded();
-      });
+      }));
   }
 
   /**
@@ -102,7 +101,7 @@ export class AuthenticationService {
       .subscribe((response: HttpResponse<any>) => {
         this.handleAuthToken(response);
       }, () => {
-        this.logout();
+        this.logout().subscribe();
         this.notificationService.notify(NotificationType.ERROR, errors.ERROR_LOGOUT);
       });
   }

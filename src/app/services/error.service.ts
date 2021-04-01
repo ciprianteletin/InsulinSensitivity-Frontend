@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {GenericResponseModel} from '../model/generic-response.model';
+import {GenericResponseModel} from '../model/representation/generic-response.model';
 import {Subject} from 'rxjs';
 
 /**

@@ -1,5 +1,5 @@
 import {UtilsService} from '../services/utils.service';
-import {CustomFormMap} from '../model/custom-form-map.model';
+import {CustomFormMap} from '../model/representation/custom-form-map.model';
 import {Injectable} from '@angular/core';
 
 /**
