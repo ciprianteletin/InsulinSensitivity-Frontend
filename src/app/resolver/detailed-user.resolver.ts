@@ -15,6 +15,9 @@ export class DetailedUserResolver implements Resolve<DetailedUserModel> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<DetailedUserModel> | Promise<DetailedUserModel> | DetailedUserModel {
     const username = route.queryParams.username;
+    if (!username) {
+      return null;
+    }
     const decryptedUsername = AES.decrypt(username, environment.secretKey).toString(CryptoJS.enc.Utf8);
     return this.utilService.getDetailedUser(decryptedUsername);
   }

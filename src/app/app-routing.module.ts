@@ -31,7 +31,11 @@ const routes: Routes = [
   },
   {path: 'insulin', component: PrincipalComponent},
   // TODO add canDeactivate to insulin calc.
-  {path: 'insulin/calculator', component: InsulinFormComponent},
+  {
+    path: 'insulin/calculator', component: InsulinFormComponent, resolve: {
+      detailedUser: DetailedUserResolver
+    }
+  },
   {path: 'resetPassword/:code', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}

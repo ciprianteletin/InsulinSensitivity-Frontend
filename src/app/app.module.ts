@@ -15,10 +15,14 @@ import {AuthenticationModule} from './modules/authentication.module';
 import {SharedModule} from './modules/shared.module';
 import {ErrorModule} from './modules/error.module';
 import {SettingsComponent} from './components/settings/settings.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CredentialsInterceptor} from './interceptors/credentials.interceptor';
 import {AppInitService} from './configs/app-init.service';
-import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
+import {DeleteModalComponent} from './components/delete-modal/delete-modal.component';
+import {ConfirmModalComponent} from './components/confirm-modal/confirm-modal.component';
+import {FormlyModule} from '@ngx-formly/core';
+import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
+import {isNumber, numberMessage} from './builders/json-form.builder';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -32,7 +36,8 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     IndexComponent,
     SidebarComponent,
     SettingsComponent,
-    DeleteModalComponent
+    DeleteModalComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,18 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     ErrorModule,
     SharedModule,
     FormsModule,
-    NotificationsModule
+    NotificationsModule,
+    ReactiveFormsModule,
+    FormlyBootstrapModule,
+    FormlyModule.forRoot({
+      extras: {lazyRender: true},
+      validators: [
+        {name: 'onlyNumber', validation: isNumber}
+      ],
+      validationMessages: [
+        {name: 'onlyNumber', message: numberMessage},
+      ]
+    })
   ],
   providers: [
     AppInitService,

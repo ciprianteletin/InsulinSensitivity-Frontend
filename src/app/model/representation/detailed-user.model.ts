@@ -9,6 +9,7 @@ export class DetailedUserModel {
     phoneNr: string;
     birthDay: string;
     joinDate: string;
+    gender: string;
     lastLoginDate: string;
     profileImageUrl?: string;
   };

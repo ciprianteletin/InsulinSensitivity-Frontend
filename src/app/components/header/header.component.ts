@@ -14,7 +14,7 @@ import {NotificationType} from '../../constants/notification-type.enum';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedUser = false;
-  username = 'Profile';
+  username: string;
   isLoggedSubscription: Subscription;
 
   constructor(private authService: AuthenticationService,

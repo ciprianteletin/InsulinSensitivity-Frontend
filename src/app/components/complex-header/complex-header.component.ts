@@ -15,7 +15,7 @@ import {NotificationType} from '../../constants/notification-type.enum';
 })
 export class ComplexHeaderComponent implements OnInit, OnDestroy {
   isLoggedUser = false;
-  username = 'Profile';
+  username: string;
   userId: number;
   isLoggedSubscription: Subscription;
 
@@ -32,6 +32,16 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
   onLogout(): void {
     this.authService.logout()
       .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!'));
+  }
+
+  navigateInsulinForm(): void {
+    if (!this.username) {
+      this.router.navigate(['insulin/calculator']);
+      return;
+    }
+    this.router.navigate(['insulin/calculator'], {
+      queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
+    });
   }
 
   navigateSettings(): void {

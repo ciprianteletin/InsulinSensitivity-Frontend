@@ -13,9 +13,7 @@
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item active">
           <a class="nav-link text-info"
-             [routerLink]="['/insulin/calculator']"
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">
+             (click)="navigateInsulinForm()">
             <i class="fas fa-prescription-bottle-alt"></i>Calculate
             indices</a>
         </li>
