@@ -1,11 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
-import {AES} from 'crypto-js';
-import {environment} from '../../constants/environment';
-import {Router} from '@angular/router';
-import {NotificationService} from '../../services/notification.service';
-import {NotificationType} from '../../constants/notification-type.enum';
+import {HeaderService} from '../../services/header.service';
 
 @Component({
   selector: 'app-header',
@@ -17,9 +13,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   username: string;
   isLoggedSubscription: Subscription;
 
-  constructor(private authService: AuthenticationService,
-              private router: Router,
-              private notificationService: NotificationService) {
+  constructor(private headerService: HeaderService,
+              private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
@@ -27,14 +22,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    this.authService.logout()
-      .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!'));
+    this.headerService.logout();
   }
 
   navigateSettings(): void {
-    this.router.navigate(['/settings'], {
-      queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
-    });
+    this.headerService.navigateSettings(this.username);
   }
 
   private createSubscriptions(): void {

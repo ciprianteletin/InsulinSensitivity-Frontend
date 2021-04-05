@@ -9,13 +9,24 @@
         <div class="col-md-3 pt-0 design-border">
 
           <div *ngIf="innerWidth >= 768; else smallList" class="list-group list-group-flush account-settings-links">
-            <a class="list-group-item list-group-item-action active" data-toggle="list"
+            <a class="list-group-item list-group-item-action active"
+               [ngClass]="{'active': activeElement === 'accountGeneral'}"
+               data-toggle="list"
                href="#accountGeneral">General</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountPassword">Change
-              password</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountInfo">Info</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountHistory">Clear
-              history</a>
+            <a class="list-group-item list-group-item-action"
+               [ngClass]="{'active': activeElement === 'accountPassword'}"
+               data-toggle="list"
+               href="#accountPassword">
+               Change password</a>
+            <a class="list-group-item list-group-item-action"
+               [ngClass]="{'active': activeElement === 'accountInfo'}"
+               data-toggle="list"
+               href="#accountInfo">Info</a>
+            <a class="list-group-item list-group-item-action"
+               [ngClass]="{'active': activeElement === 'accountHistory'}"
+               data-toggle="list"
+               href="#accountHistory">
+               Clear history</a>
             <button class="list-group-item list-group-item-action" (click)="openDeleteModal()">Delete</button>
             <button class="btn btn-danger down" (click)="onLogout()">Logout</button>
           </div>
@@ -31,13 +42,22 @@
               <i class="fas fa-caret-down"></i>
             </button>
             <div class="list-group list-group-flush account-settings-links collapse" id="collapseExample">
-              <a class="list-group-item list-group-item-action active" data-toggle="list"
+              <a class="list-group-item list-group-item-action active"
+                 [ngClass]="{'active': activeElement === 'accountGeneral'}"
+                 data-toggle="list"
                  href="#accountGeneral">General</a>
-              <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountPassword">Change
-                password</a>
-              <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountInfo">Info</a>
-              <a class="list-group-item list-group-item-action" data-toggle="list" href="#accountHistory">Clear
-                history</a>
+              <a class="list-group-item list-group-item-action"
+                 [ngClass]="{'active': activeElement === 'accountPassword'}"
+                 data-toggle="list"
+                 href="#accountPassword">Change password</a>
+              <a class="list-group-item list-group-item-action"
+                 [ngClass]="{'active': activeElement === 'accountInfo'}"
+                 data-toggle="list"
+                 href="#accountInfo">Info</a>
+              <a class="list-group-item list-group-item-action"
+                 [ngClass]="{'active': activeElement === 'accountHistory'}"
+                 data-toggle="list"
+                 href="#accountHistory">Clear history</a>
               <button class="list-group-item list-group-item-action">Delete</button>
               <button class="btn btn-danger down" (click)="onLogout()">Logout</button>
             </div>
@@ -45,7 +65,10 @@
         </div>
         <div class="col-md-9">
           <div class="tab-content">
-            <div class="tab-pane fade active show" id="accountGeneral" #accountGeneral>
+            <div class="tab-pane fade active show"
+                 id="accountGeneral"
+                 [ngClass]="{'active': activeElement === 'accountGeneral', 'show': activeElement === 'accountGeneral'}"
+                 #accountGeneral>
               <div class="card-body media align-items-center">
                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
                 <div class="media-body ml-4">
@@ -113,7 +136,10 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" id="accountPassword" #accountPassword>
+            <div class="tab-pane fade"
+                 [ngClass]="{'active': activeElement === 'accountPassword', 'show': activeElement === 'accountPassword'}"
+                 id="accountPassword"
+                 #accountPassword>
               <div class="card-body pb-2">
                 <form #passwords="ngForm">
                   <div class="form-group mb-5">
@@ -164,7 +190,10 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" id="accountInfo" #accountInfo>
+            <div class="tab-pane fade"
+                 [ngClass]="{'active': activeElement === 'accountInfo', 'show': activeElement === 'accountInfo'}"
+                 id="accountInfo"
+                 #accountInfo>
               <div class="card-body pb-2">
                 <form #info='ngForm'>
                   <div class="form-group">
@@ -232,7 +261,10 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="accountHistory" #activeHistory>
+            <div class="tab-pane fade"
+                 [ngClass]="{'active': activeElement === 'accountHistory', 'show': activeElement === 'accountHistory'}"
+                 id="accountHistory"
+                 #activeHistory>
               <div class="card-body pb-2">
                 <br>
                 <app-date-picker></app-date-picker>

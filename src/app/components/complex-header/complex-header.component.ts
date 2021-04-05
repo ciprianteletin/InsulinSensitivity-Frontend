@@ -5,8 +5,7 @@ import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {AES} from 'crypto-js';
 import {environment} from '../../constants/environment';
-import {NotificationService} from '../../services/notification.service';
-import {NotificationType} from '../../constants/notification-type.enum';
+import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 
 @Component({
   selector: 'app-complex-header',
@@ -22,7 +21,7 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
   constructor(private headerService: HeaderService,
               private authService: AuthenticationService,
               private router: Router,
-              private notificationService: NotificationService) {
+              private insulinService: InsulinIndexesService) {
   }
 
   ngOnInit(): void {
@@ -30,11 +29,11 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    this.authService.logout()
-      .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!'));
+    this.headerService.logout();
   }
 
   navigateInsulinForm(): void {
+    this.insulinService.populateWithCompleteIndexes();
     if (!this.username) {
       this.router.navigate(['insulin/calculator']);
       return;
@@ -45,9 +44,7 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateSettings(): void {
-    this.router.navigate(['/settings'], {
-      queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
-    });
+    this.headerService.navigateSettings(this.username);
   }
 
   onActivateSidebar(): void {

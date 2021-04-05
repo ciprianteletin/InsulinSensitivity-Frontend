@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AuthenticationService} from './authentication.service';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {mergeMap} from 'rxjs/operators';
@@ -15,6 +15,7 @@ import {NotificationService} from './notification.service';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
+  private activeElementSubject = new BehaviorSubject<string>('accountGeneral');
   private readonly accountGeneral = 'accountGeneral';
   private readonly accountInfo = 'accountInfo';
   private readonly accountPassword = 'accountPassword';
@@ -25,6 +26,14 @@ export class SettingsService {
               private router: Router,
               private activeRoute: ActivatedRoute,
               private notificationService: NotificationService) {
+  }
+
+  public emitActiveElement(active: string): void {
+    this.activeElementSubject.next(active);
+  }
+
+  public getActiveElementSubject(): BehaviorSubject<string> {
+    return this.activeElementSubject;
   }
 
   public getUserCountryOrNothing(username: string): Observable<{ country: string }> {

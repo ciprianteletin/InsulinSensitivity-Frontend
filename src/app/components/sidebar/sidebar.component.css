@@ -40,11 +40,6 @@ a:focus {
   display: block;
 }
 
-#sidebar ul li a:hover {
-  color: #333;
-  background: cadetblue;
-}
-
 #sidebar ul li.active > a[aria-expanded="true"],
 a[aria-expanded="true"] {
   color: #333;
@@ -68,6 +63,17 @@ ul ul a {
   padding-left: 30px !important;
   background: #333;
   color: #28a33f;
+}
+
+.active-link {
+  color: #ffffff !important;
+  background: #333 !important;
+}
+
+#sidebar ul li a:hover,
+.active-link a {
+  color: #333 !important;
+  background: cadetblue !important;
 }
 
 ul.CTAs {

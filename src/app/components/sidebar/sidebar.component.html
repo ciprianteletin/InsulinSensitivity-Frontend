@@ -8,39 +8,42 @@
     <li class="active">
       <a href="#calculateSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Choose
         indexs</a>
-      <ul class="collapse list-unstyled" id="calculateSubmenu">
+      <ul class="collapse list-unstyled" #indexList id="calculateSubmenu">
         <li>
-          <a href="javascript:void(0);" id="cederholm">Cederholm index</a>
+          <a (click)="onClickIndex('cederholm')" id="cederholm">Cederholm index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="gutt">Gutt index</a>
+          <a (click)="onClickIndex('gutt')" id="gutt">Gutt index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="avingon">Avingon index</a>
+          <a (click)="onClickIndex('avingon')" id="avingon">Avingon index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="matsuda">Matsuda index</a>
+          <a (click)="onClickIndex('matsuda')" id="matsuda">Matsuda index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="belfiore">Belfiore index</a>
+          <a (click)="onClickIndex('ogis')" id="ogis">Ogis index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="stumvoll">Stumvoll index</a>
+          <a (click)="onClickIndex('belfiore')" id="belfiore">Belfiore index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="homa">HOMA index</a>
+          <a (click)="onClickIndex('stumvoll')" id="stumvoll">Stumvoll index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="quicki">Quicki index</a>
+          <a (click)="onClickIndex('homa')" id="homa">HOMA index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="revised">Revised Quicki</a>
+          <a (click)="onClickIndex('quicki')" id="quicki">Quicki index</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="mcauley">McAuley index</a>
+          <a (click)="onClickIndex('revised')" id="revised">Revised Quicki</a>
         </li>
         <li>
-          <a href="javascript:void(0);" id="spise">SPISE index</a>
+          <a (click)="onClickIndex('mcauley')" id="mcauley">McAuley index</a>
+        </li>
+        <li>
+          <a (click)="onClickIndex('spise')" id="spise">SPISE index</a>
         </li>
       </ul>
     </li>
@@ -51,13 +54,13 @@
       <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
       <ul class="collapse list-unstyled" id="settingsSubmenu">
         <li>
-          <a href="#">Change password</a> <!--If not connected with gmail-->
+          <a (click)="onClickSettingsEvent('accountPassword')">Change password</a> <!--If not connected with gmail-->
         </li>
         <li>
-          <a href="#">Add information to account</a>
+          <a (click)="onClickSettingsEvent('accountInfo')">Add information to account</a>
         </li>
         <li>
-          <a href="#">Reset History</a>
+          <a (click)="onClickSettingsEvent('accountHistory')">Reset History</a>
         </li>
       </ul>
     </li>
@@ -71,7 +74,7 @@
 
   <ul class="list-unstyled CTAs">
     <li>
-      <button class="btn-op bg-success text-warning" disabled="true">Calculate selected index</button>
+      <button class="btn-op bg-success text-warning" disabled>Calculate selected index</button>
     </li>
   </ul>
 </nav>

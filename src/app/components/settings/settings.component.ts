@@ -39,6 +39,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   // subscriptions
   private userSubscription: Subscription;
   private deleteModalSubscription: Subscription;
+  activeElementSubscription: Subscription;
   // Data Model
   country: string;
   userAge: number;
@@ -47,6 +48,8 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   detailedUser: DetailedUserModel;
   // Browser size
   innerWidth: number;
+  // Active element
+  activeElement: string;
 
   constructor(private authService: AuthenticationService,
               private settingsService: SettingsService,
@@ -142,6 +145,9 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
           this.settingsService.deleteUserAccount(this.user.id);
         }
       });
+
+    this.activeElementSubscription = this.settingsService.getActiveElementSubject()
+      .subscribe(active => this.activeElement = active);
   }
 
   private extractRouteData(): void {
@@ -154,5 +160,6 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
     this.deleteModalSubscription.unsubscribe();
+    this.activeElementSubscription.unsubscribe();
   }
 }
