@@ -34,13 +34,7 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
 
   navigateInsulinForm(): void {
     this.insulinService.populateWithCompleteIndexes();
-    if (!this.username) {
-      this.router.navigate(['insulin/calculator']);
-      return;
-    }
-    this.router.navigate(['insulin/calculator'], {
-      queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
-    });
+    this.headerService.navigateInsulinCalculator(this.username);
   }
 
   navigateSettings(): void {

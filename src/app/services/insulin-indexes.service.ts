@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 /**
  * State manager for insulin indexes, keeping a list of used indexes.
@@ -7,6 +8,9 @@ import {Injectable} from '@angular/core';
  */
 @Injectable({providedIn: 'root'})
 export class InsulinIndexesService {
+  private addSubject = new Subject<string>();
+  private removeSubject = new Subject<string>();
+
   private indexList: string[];
   private completeIndexesList = [
     'cederholm', 'gutt', 'avingon', 'matsuda',
@@ -24,12 +28,14 @@ export class InsulinIndexesService {
 
   addIndex(index: string): void {
     this.indexList.push(index);
+    this.addSubject.next(index);
   }
 
   removeIndex(index: string): void {
     const position = this.indexList
       .findIndex(value => value === index);
     this.indexList.splice(position, 1);
+    this.removeSubject.next(index);
   }
 
   containsIndex(index: string): boolean {
@@ -42,5 +48,13 @@ export class InsulinIndexesService {
 
   clearList(): void {
     this.indexList = [];
+  }
+
+  getAddEvent(): Subject<string> {
+    return this.addSubject;
+  }
+
+  getRemoveEvent(): Subject<string> {
+    return this.removeSubject;
   }
 }

@@ -54,7 +54,10 @@ label.btn {
 
 .btn {
   cursor: pointer;
-  margin-bottom: 20px;
+}
+
+.logout {
+  margin-bottom: 30px;
 }
 
 .text-light {

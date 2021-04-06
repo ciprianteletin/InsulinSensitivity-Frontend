@@ -10,7 +10,7 @@ export function isNumber(control: FormControl): ValidationErrors {
 }
 
 export function numberMessage(err, field: FormlyFieldConfig): string {
-  return field.formControl.value === '' ? 'empty field not allowed!' :
+  return !field.formControl.value ? 'empty field not allowed!' :
     `${field.formControl.value} is not a number!`;
 }
 
@@ -27,9 +27,9 @@ export class JsonFormBuilder {
   indexMap = {
     cederholm: ['weight'],
     gutt: ['weight'],
-    revisedQuicki: ['nefa'],
+    revised: ['nefa'],
     spise: ['thyroglobulin', 'hdl'],
-    mcAuley: ['triglyceride'],
+    mcauley: ['triglyceride'],
     ogis: ['weight', 'height']
   };
   functionMap: any;
@@ -48,18 +48,19 @@ export class JsonFormBuilder {
 
   private buildFunctionMap(): void {
     this.functionMap = {
-      weight: this.formModule.addMass,
-      height: this.formModule.addHeight,
-      nefa: this.formModule.addNefa,
-      thyroglobulin: this.formModule.addThyroglobulin,
-      hdl: this.formModule.addHdl,
-      triglyceride: this.formModule.addTriglyceride
+      weight: this.formModule.addMass.bind(this.formModule),
+      height: this.formModule.addHeight.bind(this.formModule),
+      nefa: this.formModule.addNefa.bind(this.formModule),
+      thyroglobulin: this.formModule.addThyroglobulin.bind(this.formModule),
+      hdl: this.formModule.addHdl.bind(this.formModule),
+      triglyceride: this.formModule.addTriglyceride.bind(this.formModule)
     };
   }
 
   private buildOptionalFields(indexes: string[]): void {
     indexes.map(index => this.indexMap[index])
       .flat()
+      .filter(index => index !== undefined)
       .forEach(field => {
         if (!this.existentFields.has(field)) {
           this.existentFields.add(field);

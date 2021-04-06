@@ -29,7 +29,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.extractRouteData();
-    this.fields = this.formBuilder.getFields(this.userModel, []);
+    this.fields = this.formBuilder.getFields(this.userModel, this.insulinService.getIndexList());
   }
 
   private extractRouteData(): void {

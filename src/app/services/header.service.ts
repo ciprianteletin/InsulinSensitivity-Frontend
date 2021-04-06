@@ -30,6 +30,16 @@ export class HeaderService {
     });
   }
 
+  navigateInsulinCalculator(username: string): void {
+    if (!username) {
+      this.router.navigate(['insulin/calculator']);
+      return;
+    }
+    this.router.navigate(['insulin/calculator'], {
+      queryParams: {username: AES.encrypt(username, environment.secretKey).toString()}
+    });
+  }
+
   changeSidebarValue(): void {
     this.activateSidebar.next();
   }

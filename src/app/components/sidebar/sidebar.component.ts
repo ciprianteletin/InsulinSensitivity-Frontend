@@ -59,6 +59,10 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.addOrRemoveIndex(clickedIndex, id);
   }
 
+  calculateIndexes(): void {
+    this.headerService.navigateInsulinCalculator(this.username);
+  }
+
   private getIndexFromList(id: string): HTMLElement {
     return this.indexList.find(item => {
       const index = item.children[0];
@@ -78,7 +82,6 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private activateClickedIndexes(): void {
     const activeList = this.insulinService.getIndexList();
-    console.log(activeList);
     activeList.forEach(index => {
       const item = this.getIndexFromList(index).children[0];
       this.renderer.addClass(item, 'active-link');
