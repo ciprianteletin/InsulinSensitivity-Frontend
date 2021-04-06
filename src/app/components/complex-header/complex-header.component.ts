@@ -3,8 +3,6 @@ import {HeaderService} from '../../services/header.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
-import {AES} from 'crypto-js';
-import {environment} from '../../constants/environment';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 
 @Component({

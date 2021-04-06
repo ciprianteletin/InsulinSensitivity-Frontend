@@ -4,6 +4,7 @@ import {FormControl, ValidationErrors} from '@angular/forms';
 import {UtilsService} from '../services/utils.service';
 import {FormModel} from '../model/form/form.model';
 import {DetailedUserModel} from '../model/representation/detailed-user.model';
+import {Subject} from 'rxjs';
 
 export function isNumber(control: FormControl): ValidationErrors {
   return control.value && /^\d+$/.test(control.value) ? null : {onlyNumber: true};
@@ -20,6 +21,7 @@ export function numberMessage(err, field: FormlyFieldConfig): string {
  */
 @Injectable({providedIn: 'root'})
 export class JsonFormBuilder {
+  private refreshFormEvent = new Subject<FormlyFieldConfig[]>();
   fields: FormlyFieldConfig[] = [];
   currentIndexes: string[];
   formModule: FormModel;
@@ -39,11 +41,60 @@ export class JsonFormBuilder {
     this.buildFunctionMap();
   }
 
+  /**
+   * Deep copy of the object so that the original form does not crash when
+   * trying to modify the object dynamically.
+   */
   getFields(userDetails: DetailedUserModel, indexes: string[]): FormlyFieldConfig[] {
     this.fields = this.formModule.getMandatoryFields(userDetails);
+    this.currentIndexes = indexes;
     this.buildOptionalFields(indexes);
     this.fields.push(this.formModule.getOptionalFields());
-    return this.fields;
+    return JSON.parse(JSON.stringify(this.fields));
+  }
+
+  getRefreshObject(): Subject<FormlyFieldConfig[]> {
+    return this.refreshFormEvent;
+  }
+
+  /**
+   * Clear all optional information when leaving the component, so that it can be build dynamically next time
+   * when we visit the page.
+   */
+  clearData(): void {
+    this.existentFields.clear();
+    this.currentIndexes = [];
+    const optionals = this.formModule.getOptionalFields();
+    const index = this.fields.findIndex(fieldConfig => fieldConfig === optionals);
+    this.fields.splice(index, 1);
+    this.formModule.resetOptions();
+  }
+
+  addIndexIfNotExistent(index: string): void {
+    this.currentIndexes.push(index);
+    const fields = this.indexMap[index];
+    if (fields) {
+      fields.forEach(field => this.checkField(field));
+      this.refreshFormEvent.next(JSON.parse(JSON.stringify(this.fields)));
+    }
+  }
+
+  removeFieldsIfNeeded(index: string): void {
+    const poz = this.currentIndexes.findIndex(item => item === index);
+    this.currentIndexes.splice(poz, 1);
+    if (!this.indexMap[index]) {
+      return;
+    }
+    const flattenedFields = this.currentIndexes
+      .map(ind => this.indexMap[ind])
+      .flat();
+    for (const ind of this.indexMap[index]) {
+      if (!flattenedFields.includes(ind)) {
+        this.formModule.removeOptionalField(ind);
+        this.existentFields.delete(ind);
+      }
+    }
+    this.refreshFormEvent.next(JSON.parse(JSON.stringify(this.fields)));
   }
 
   private buildFunctionMap(): void {
@@ -61,11 +112,13 @@ export class JsonFormBuilder {
     indexes.map(index => this.indexMap[index])
       .flat()
       .filter(index => index !== undefined)
-      .forEach(field => {
-        if (!this.existentFields.has(field)) {
-          this.existentFields.add(field);
-          this.functionMap[field]();
-        }
-      });
+      .forEach(field => this.checkField(field));
+  }
+
+  private checkField(field: string): void {
+    if (!this.existentFields.has(field)) {
+      this.existentFields.add(field);
+      this.functionMap[field]();
+    }
   }
 }

@@ -12,7 +12,7 @@ export class FormModel {
   constructor(private utilsService: UtilsService) {
     this.buildGlucose();
     this.buildInsulin();
-    this.buildOptional();
+    this.resetOptions();
   }
 
   getMandatoryFields(userDetails: DetailedUserModel): FormlyFieldConfig[] {
@@ -112,6 +112,13 @@ export class FormModel {
     const index = this.optionalInformation.fieldGroup
       .findIndex(field => field.key === key);
     this.optionalInformation.fieldGroup.splice(index, 1);
+  }
+
+  resetOptions(): void {
+    this.optionalInformation = {
+      fieldGroupClassName: 'row',
+      fieldGroup: []
+    };
   }
 
   private buildUserInformation(userModel: DetailedUserModel): void {
@@ -280,12 +287,5 @@ export class FormModel {
           }
         ]
       };
-  }
-
-  private buildOptional(): void {
-    this.optionalInformation = {
-      fieldGroupClassName: 'row',
-      fieldGroup: []
-    };
   }
 }
