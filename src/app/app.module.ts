@@ -22,7 +22,7 @@ import {DeleteModalComponent} from './components/delete-modal/delete-modal.compo
 import {ConfirmModalComponent} from './components/confirm-modal/confirm-modal.component';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
-import {isNumber, numberMessage} from './builders/json-form.builder';
+import {isNumber, isPositive, numberMessage} from './validations/form.validation';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -52,10 +52,13 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     FormlyModule.forRoot({
       extras: {lazyRender: true},
       validators: [
-        {name: 'onlyNumber', validation: isNumber}
+        {name: 'onlyNumber', validation: isNumber},
+        {name: 'isPositive', validation: isPositive}
       ],
       validationMessages: [
         {name: 'onlyNumber', message: numberMessage},
+        {name: 'required', message: 'This field is required'},
+        {name: 'isPositive', message: 'The number must be positive!'}
       ]
     })
   ],

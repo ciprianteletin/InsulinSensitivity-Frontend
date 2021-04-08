@@ -7,7 +7,9 @@ export class FormModel {
   glucoseInformation: FormlyFieldConfig;
   insulinInformation: FormlyFieldConfig;
   optionalInformation: FormlyFieldConfig;
-  placeholderGlucose = 'mg/dl';
+  private placeholderGlucose = 'mg/dL';
+  private placeholderInsulin = 'μIU/mL';
+  private placeholderThyroglobulin = 'ng/mL or μg/L';
 
   constructor(private utilsService: UtilsService) {
     this.buildGlucose();
@@ -32,8 +34,12 @@ export class FormModel {
         key: 'weight',
         templateOptions: {
           label: 'Weight',
-          placeholder: 'kg'
+          placeholder: 'kg',
+          required: true
         },
+        validators: {
+          validation: ['onlyNumber', 'isPositive']
+        }
       };
     this.optionalInformation.fieldGroup.push(mass);
   }
@@ -46,8 +52,12 @@ export class FormModel {
         key: 'height',
         templateOptions: {
           label: 'Height',
-          placeholder: 'cm'
+          placeholder: 'cm',
+          required: true
         },
+        validators: {
+          validation: ['onlyNumber', 'isPositive']
+        }
       };
     this.optionalInformation.fieldGroup.push(height);
   }
@@ -60,8 +70,12 @@ export class FormModel {
         key: 'nefa',
         templateOptions: {
           label: 'NEFA',
+          required: true,
           placeholder: this.placeholderGlucose
         },
+        validators: {
+          validation: ['onlyNumber', 'isPositive']
+        }
       };
     this.optionalInformation.fieldGroup.push(nefa);
   }
@@ -74,8 +88,12 @@ export class FormModel {
         key: 'thyroglobulin',
         templateOptions: {
           label: 'Thyroglobulin',
-          placeholder: this.placeholderGlucose
+          required: true,
+          placeholder: this.placeholderThyroglobulin
         },
+        validators: {
+          validation: ['onlyNumber', 'isPositive']
+        }
       };
     this.optionalInformation.fieldGroup.push(thyroglobulin);
   }
@@ -88,8 +106,12 @@ export class FormModel {
         key: 'hdl',
         templateOptions: {
           label: 'HDL',
+          required: true,
           placeholder: this.placeholderGlucose
         },
+        validators: {
+          validation: ['onlyNumber', 'isPositive']
+        }
       };
     this.optionalInformation.fieldGroup.push(hdl);
   }
@@ -102,8 +124,12 @@ export class FormModel {
         key: 'triglyceride',
         templateOptions: {
           label: 'Triglyceride',
+          required: true,
           placeholder: this.placeholderGlucose
         },
+        validators: {
+          validation: ['onlyNumber', 'isPositive']
+        }
       };
     this.optionalInformation.fieldGroup.push(triglyceride);
   }
@@ -142,7 +168,8 @@ export class FormModel {
           defaultValue: fullName,
           templateOptions: {
             label: 'Full Name',
-            placeholder: 'John Doe'
+            placeholder: 'John Doe',
+            required: true
           },
         },
         {
@@ -152,10 +179,11 @@ export class FormModel {
           defaultValue: age,
           templateOptions: {
             label: 'Age',
-            placeholder: '23'
+            placeholder: '23',
+            required: true
           },
           validators: {
-            validation: ['onlyNumber']
+            validation: ['onlyNumber', 'isPositive']
           }
         },
         {
@@ -165,6 +193,7 @@ export class FormModel {
           defaultValue: sex,
           templateOptions: {
             label: 'Gender',
+            required: true,
             options: [
               {label: 'Male', value: 'M'},
               {label: 'Female', value: 'F'}
@@ -186,10 +215,11 @@ export class FormModel {
             key: 'fastingGlucose',
             templateOptions: {
               label: 'Fasting Glucose',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderGlucose,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           },
           {
@@ -198,10 +228,11 @@ export class FormModel {
             key: 'glucoseThree',
             templateOptions: {
               label: '30 min glucose',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderGlucose,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           },
           {
@@ -210,10 +241,11 @@ export class FormModel {
             key: 'glucoseSix',
             templateOptions: {
               label: '60 min glucose',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderGlucose,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           },
           {
@@ -222,10 +254,11 @@ export class FormModel {
             key: 'glucoseOneTwenty',
             templateOptions: {
               label: '120 min glucose',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderGlucose,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           }
         ]
@@ -243,10 +276,11 @@ export class FormModel {
             key: 'fastingInsulin',
             templateOptions: {
               label: 'Fasting Insulin',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderInsulin,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           },
           {
@@ -255,10 +289,11 @@ export class FormModel {
             key: 'insulinThree',
             templateOptions: {
               label: '30 min insulin',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderInsulin,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           },
           {
@@ -267,10 +302,11 @@ export class FormModel {
             key: 'insulinSix',
             templateOptions: {
               label: '60 min insulin',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderInsulin,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           },
           {
@@ -279,10 +315,11 @@ export class FormModel {
             key: 'insulinOneTwenty',
             templateOptions: {
               label: '120 min insulin',
-              placeholder: this.placeholderGlucose
+              placeholder: this.placeholderInsulin,
+              required: true
             },
             validators: {
-              validation: ['onlyNumber']
+              validation: ['onlyNumber', 'isPositive']
             }
           }
         ]

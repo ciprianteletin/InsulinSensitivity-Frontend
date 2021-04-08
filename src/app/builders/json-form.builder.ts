@@ -1,19 +1,9 @@
 import {Injectable} from '@angular/core';
 import {FormlyFieldConfig} from '@ngx-formly/core';
-import {FormControl, ValidationErrors} from '@angular/forms';
 import {UtilsService} from '../services/utils.service';
 import {FormModel} from '../model/form/form.model';
 import {DetailedUserModel} from '../model/representation/detailed-user.model';
 import {Subject} from 'rxjs';
-
-export function isNumber(control: FormControl): ValidationErrors {
-  return control.value && /^\d+$/.test(control.value) ? null : {onlyNumber: true};
-}
-
-export function numberMessage(err, field: FormlyFieldConfig): string {
-  return !field.formControl.value ? 'empty field not allowed!' :
-    `${field.formControl.value} is not a number!`;
-}
 
 /**
  * Service to build the form based on what indices the user picks. Append only the needed input,

@@ -9,8 +9,11 @@
       <form id="reduce-width" [formGroup]="form">
         <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
         <div class="form-row">
-          <button type="submit" class="btn btn-danger rounded ml-1 mr-3 mb-2">Compute a result</button>
-          <button type="button" class="btn btn-danger rounded mb-2" #convert>Convert to mmol/l-pmol/l</button>
+          <button type="submit" class="btn btn-danger rounded ml-1 mr-2 mb-2">Compute</button>
+          <button type="button" class="btn btn-danger rounded mb-2 mr-2">
+            mg/dl<i class="fas fa-exchange-alt"></i>mmol/l</button>
+          <button type="button" class="btn btn-danger rounded mb-2">
+            μIU/mL<i class="fas fa-exchange-alt"></i>pmol/l</button>
         </div>
       </form>
     </div>
