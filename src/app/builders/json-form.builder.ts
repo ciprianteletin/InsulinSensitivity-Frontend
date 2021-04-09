@@ -87,6 +87,14 @@ export class JsonFormBuilder {
     this.refreshFormEvent.next(JSON.parse(JSON.stringify(this.fields)));
   }
 
+  updateGlucosePlaceholder(): void {
+    this.formModule.updateGlucosePlaceholder();
+  }
+
+  updateInsulinPlaceholder(): void {
+    this.formModule.updateInsulinPlaceholder();
+  }
+
   private buildFunctionMap(): void {
     this.functionMap = {
       weight: this.formModule.addMass.bind(this.formModule),

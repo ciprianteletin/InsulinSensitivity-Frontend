@@ -10,10 +10,10 @@
         <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
         <div class="form-row">
           <button type="submit" class="btn btn-danger rounded ml-1 mr-2 mb-2">Compute</button>
-          <button type="button" class="btn btn-danger rounded mb-2 mr-2">
-            mg/dl<i class="fas fa-exchange-alt"></i>mmol/l</button>
-          <button type="button" class="btn btn-danger rounded mb-2">
-            μIU/mL<i class="fas fa-exchange-alt"></i>pmol/l</button>
+          <button type="button" class="btn btn-danger rounded mb-2 mr-2" (click)="onConvertMgMmol()">
+            {{this.placeholderGlucose}}<i class="fas fa-exchange-alt"></i>{{this.alternatePlaceholderGlucose}}</button>
+          <button type="button" class="btn btn-danger rounded mb-2" (click)="onConvertPmouUI()">
+            {{this.placeholderInsulin}}<i class="fas fa-exchange-alt"></i>{{this.alternatePlaceholderInsulin}}</button>
         </div>
       </form>
     </div>

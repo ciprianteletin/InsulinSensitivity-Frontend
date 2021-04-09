@@ -1,4 +1,4 @@
-import {FormlyFieldConfig} from '@ngx-formly/core';
+import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
 import {DetailedUserModel} from '../representation/detailed-user.model';
 import {UtilsService} from '../../services/utils.service';
 
@@ -7,14 +7,22 @@ export class FormModel {
   glucoseInformation: FormlyFieldConfig;
   insulinInformation: FormlyFieldConfig;
   optionalInformation: FormlyFieldConfig;
-  private placeholderGlucose = 'mg/dL';
-  private placeholderInsulin = 'μIU/mL';
+  private placeholderGlucose = 'mg/dL'; // alternative mmol/L
+  private placeholderInsulin = 'μIU/mL'; // alternative pmol/L
   private placeholderThyroglobulin = 'ng/mL or μg/L';
 
   constructor(private utilsService: UtilsService) {
     this.buildGlucose();
     this.buildInsulin();
     this.resetOptions();
+  }
+
+  updateGlucosePlaceholder(): void {
+    this.placeholderGlucose = this.placeholderGlucose === 'mg/dL' ? 'mmol/L' : 'mg/dL';
+  }
+
+  updateInsulinPlaceholder(): void {
+    this.placeholderInsulin = this.placeholderInsulin === 'μIU/mL' ? 'pmol/L' : 'μIU/mL';
   }
 
   getMandatoryFields(userDetails: DetailedUserModel): FormlyFieldConfig[] {

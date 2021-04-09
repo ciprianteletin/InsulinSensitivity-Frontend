@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {JsonFormBuilder} from '../../builders/json-form.builder';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 import {Subscription} from 'rxjs';
+import {InsulinConverter} from '../../converters/insulin.converter';
 
 @Component({
   selector: 'app-insulin-form',
@@ -24,12 +25,20 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
   private addSubscription: Subscription;
   private removeSubscription: Subscription;
   private resetFormSubscription: Subscription;
+  // placeholders
+  placeholderGlucose = 'mg/dL'; // alternative mmol/L
+  placeholderInsulin = 'μIU/mL'; // alternative pmol/L
+  alternatePlaceholderGlucose = 'mmol/L';
+  alternatePlaceholderInsulin = 'pmol/L';
+  // converter
+  private insulinConverter: InsulinConverter;
 
   fields: FormlyFieldConfig[];
 
   constructor(private route: ActivatedRoute,
               private formBuilder: JsonFormBuilder,
               private insulinService: InsulinIndexesService) {
+    this.insulinConverter = new InsulinConverter();
   }
 
   ngOnInit(): void {
@@ -42,6 +51,48 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
     this.route.data.subscribe((data: { detailedUser: DetailedUserModel }) => {
       this.userModel = data.detailedUser;
     });
+  }
+
+  onConvertMgMmol(): void {
+    this.formBuilder.updateGlucosePlaceholder(); // update for new fields
+    this.updateGlucosePlaceholder();
+    this.model = this.insulinConverter.convertMgAndMmol(this.model, this.alternatePlaceholderGlucose);
+  }
+
+  onConvertPmouUI(): void {
+    this.formBuilder.updateInsulinPlaceholder();
+    this.updateInsulinPlaceholder();
+    this.model = this.insulinConverter.convertUiAndPmol(this.model, this.alternatePlaceholderInsulin);
+  }
+
+  private updateGlucosePlaceholder(): void {
+    this.alternatePlaceholderGlucose = this.placeholderGlucose;
+    this.placeholderGlucose = this.placeholderGlucose === 'mg/dL' ? 'mmol/L' : 'mg/dL';
+    for (const fieldConfig of this.fields) {
+      fieldConfig.fieldGroup
+        .filter(field => {
+          const placeholder = field.templateOptions.placeholder;
+          return placeholder === 'mg/dL' || placeholder === 'mmol/L';
+        })
+        .forEach(field => {
+          field.templateOptions.placeholder = this.placeholderGlucose;
+        });
+    }
+  }
+
+  private updateInsulinPlaceholder(): void {
+    this.alternatePlaceholderInsulin = this.placeholderInsulin;
+    this.placeholderInsulin = this.placeholderInsulin === 'μIU/mL' ? 'pmol/L' : 'μIU/mL';
+    for (const fieldConfig of this.fields) {
+      fieldConfig.fieldGroup
+        .filter(field => {
+          const placeholder = field.templateOptions.placeholder;
+          return placeholder === 'μIU/mL' || placeholder === 'pmol/L';
+        })
+        .forEach(field => {
+          field.templateOptions.placeholder = this.placeholderInsulin;
+        });
+    }
   }
 
   private createSubscriptions(): void {
