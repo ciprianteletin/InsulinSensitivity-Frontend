@@ -45,9 +45,9 @@ export class InsulinConverter {
     }
     let val = +value;
     if (currentPlaceholder === 'pmol/L') {
-      val = val * 6;
-    } else {
       val = val / 6;
+    } else {
+      val = val * 6;
     }
     return val.toString();
   }

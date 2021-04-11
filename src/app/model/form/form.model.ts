@@ -1,4 +1,4 @@
-import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
+import {FormlyFieldConfig} from '@ngx-formly/core';
 import {DetailedUserModel} from '../representation/detailed-user.model';
 import {UtilsService} from '../../services/utils.service';
 
@@ -158,12 +158,12 @@ export class FormModel {
   private buildUserInformation(userModel: DetailedUserModel): void {
     let fullName = '';
     let age: number;
-    let sex = 'M';
+    let gender = 'M';
 
     if (userModel) {
       fullName = userModel.details.firstName + ' ' + userModel.details.lastName;
       age = this.utilsService.convertBirthDayToAge(userModel.details.birthDay);
-      sex = userModel.details.gender;
+      gender = userModel.details.gender;
     }
 
     this.userInformation = {
@@ -198,7 +198,7 @@ export class FormModel {
           className: 'col-md-4 text-info',
           type: 'select',
           key: 'gender',
-          defaultValue: sex,
+          defaultValue: gender,
           templateOptions: {
             label: 'Gender',
             required: true,

@@ -7,6 +7,7 @@ import {JsonFormBuilder} from '../../builders/json-form.builder';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 import {Subscription} from 'rxjs';
 import {InsulinConverter} from '../../converters/insulin.converter';
+import {DataIndexModel} from '../../model/form/data-index.model';
 
 @Component({
   selector: 'app-insulin-form',
@@ -19,7 +20,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
   userModel: DetailedUserModel;
   // form related items
   form = new FormGroup({});
-  model: any = {sex: 'Male'};
+  model: any = {gender: 'M'};
   options: FormlyFormOptions = {};
   // subscriptions
   private addSubscription: Subscription;
@@ -59,12 +60,28 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
     this.model = this.insulinConverter.convertMgAndMmol(this.model, this.alternatePlaceholderGlucose);
   }
 
-  onConvertPmouUI(): void {
-    this.formBuilder.updateInsulinPlaceholder();
+  onConvertPmoluUI(): void {
+    this.formBuilder.updateInsulinPlaceholder(); // update for new fields
     this.updateInsulinPlaceholder();
     this.model = this.insulinConverter.convertUiAndPmol(this.model, this.alternatePlaceholderInsulin);
   }
 
+  onSubmitData(): void {
+    if (!this.form.valid) {
+      return;
+    }
+    const username: string = this.userModel !== null ? this.userModel.username : null;
+    const data: DataIndexModel = this.insulinService
+      .buildDataModel(this.model, username, this.placeholderGlucose, this.placeholderInsulin);
+    this.insulinService.sendDataIndexes(data)
+      .subscribe();
+  }
+
+  /**
+   * Method used for updating the glucose placeholder. It's purely searching
+   * for the same placeholder in the input list and converts it to the selected
+   * format.
+   */
   private updateGlucosePlaceholder(): void {
     this.alternatePlaceholderGlucose = this.placeholderGlucose;
     this.placeholderGlucose = this.placeholderGlucose === 'mg/dL' ? 'mmol/L' : 'mg/dL';
@@ -80,6 +97,11 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Method used for updating the insulin placeholder. It's purely searching
+   * for the same placeholder in the input list and converts it to the selected
+   * format.
+   */
   private updateInsulinPlaceholder(): void {
     this.alternatePlaceholderInsulin = this.placeholderInsulin;
     this.placeholderInsulin = this.placeholderInsulin === 'μIU/mL' ? 'pmol/L' : 'μIU/mL';
@@ -95,6 +117,10 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Method where all subscriptions are created, giving an easy way for
+   * maintaining all of them.
+   */
   private createSubscriptions(): void {
     this.addSubscription = this.insulinService.getAddEvent()
       .subscribe(index => this.formBuilder.addIndexIfNotExistent(index));
@@ -115,5 +141,4 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
     this.resetFormSubscription.unsubscribe();
     this.formBuilder.clearData();
   }
-
 }
