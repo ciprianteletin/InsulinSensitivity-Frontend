@@ -71,9 +71,9 @@ export class InsulinConverter {
     }
     let val = +value;
     if (currentPlaceholder === 'mg/dL') {
-      val = val * 0.35;
+      val = val * 0.01129;
     } else {
-      val = val / 0.35;
+      val = val / 0.01129;
     }
     return val.toString();
   }

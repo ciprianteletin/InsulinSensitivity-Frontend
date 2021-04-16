@@ -23,6 +23,7 @@ import {ConfirmModalComponent} from './components/confirm-modal/confirm-modal.co
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {isNumber, isPositive, numberMessage} from './validations/form.validation';
+import {ResultComponent} from './components/result/result.component';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -37,7 +38,8 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     SidebarComponent,
     SettingsComponent,
     DeleteModalComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

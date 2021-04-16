@@ -1,20 +1,25 @@
-import {Component, OnInit, ViewChild, ElementRef, OnDestroy} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
 import {DetailedUserModel} from '../../model/representation/detailed-user.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {JsonFormBuilder} from '../../builders/json-form.builder';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {InsulinConverter} from '../../converters/insulin.converter';
 import {DataIndexModel} from '../../model/form/data-index.model';
+import {CanLeave} from '../../guards/utils/can.leave';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {ModalManagerService} from '../../services/modal-manager.service';
+import {NotificationService} from '../../services/notification.service';
+import {NotificationType} from '../../constants/notification-type.enum';
 
 @Component({
   selector: 'app-insulin-form',
   templateUrl: './insulin-form.component.html',
   styleUrls: ['./insulin-form.component.css', '../../../assets/styles/utils.css']
 })
-export class InsulinFormComponent implements OnInit, OnDestroy {
+export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
   @ViewChild('convert') convertButton: ElementRef;
 
   userModel: DetailedUserModel;
@@ -33,12 +38,17 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
   alternatePlaceholderInsulin = 'pmol/L';
   // converter
   private insulinConverter: InsulinConverter;
+  // submitted
+  private isSubmitted = false;
 
   fields: FormlyFieldConfig[];
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private formBuilder: JsonFormBuilder,
-              private insulinService: InsulinIndexesService) {
+              private insulinService: InsulinIndexesService,
+              private modalManager: ModalManagerService,
+              private notificationService: NotificationService) {
     this.insulinConverter = new InsulinConverter();
   }
 
@@ -68,13 +78,24 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
 
   onSubmitData(): void {
     if (!this.form.valid) {
+      this.notificationService.notify(NotificationType.ERROR, 'Form invalid! Please fill all fields!');
       return;
     }
+    if (this.insulinService.isEmptyList()) {
+      this.notificationService.notify(NotificationType.WARNING, 'Select at least one index!');
+      return;
+    }
+    this.isSubmitted = true;
     const username: string = this.userModel !== null ? this.userModel.username : null;
     const data: DataIndexModel = this.insulinService
-      .buildDataModel(this.model, username, this.placeholderGlucose, this.placeholderInsulin);
-    this.insulinService.sendDataIndexes(data)
-      .subscribe();
+      .buildDataModel(this.model, this.placeholderGlucose, this.placeholderInsulin);
+    console.log(data);
+    this.insulinService.sendDataIndexes(data, username)
+      .subscribe(() => {
+        this.isSubmitted = false;
+        this.router.navigate(['results'], {relativeTo: this.route});
+      });
+    this.insulinService.emitNewData(data);
   }
 
   /**
@@ -130,6 +151,19 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
       .subscribe(fields => this.fields = fields);
   }
 
+  private isFormEmpty(): boolean {
+    if (this.isSubmitted) {
+      return true;
+    }
+    let flag = true;
+    for (const key in this.form.value) {
+      if (key !== 'gender' && this.form.value.hasOwnProperty(key) && this.form.value[key]) {
+        flag = false;
+      }
+    }
+    return flag;
+  }
+
   /**
    * Once the component is destroyed (we go to another page),
    * we clear the list of indices, by resetting it.
@@ -140,5 +174,13 @@ export class InsulinFormComponent implements OnInit, OnDestroy {
     this.removeSubscription.unsubscribe();
     this.resetFormSubscription.unsubscribe();
     this.formBuilder.clearData();
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.isFormEmpty()) {
+      this.modalManager.openConfirmModal(ConfirmModalComponent);
+      return this.modalManager.getConfirmResult();
+    }
+    return true;
   }
 }

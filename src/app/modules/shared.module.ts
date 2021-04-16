@@ -8,6 +8,7 @@ import {AppRoutingModule} from '../app-routing.module';
 import {HeaderComponent} from '../components/header/header.component';
 import {DatePickerComponent} from '../components/utils/date-picker/date-picker.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HeaderComponent,
     DatePickerComponent
   ],
-  imports: [CommonModule, AppRoutingModule, NgbModule],
+  imports: [CommonModule, AppRoutingModule, NgbModule, ChartsModule],
   exports: [
     LoadingSpinnerComponent,
     ModalDirective,
@@ -27,7 +28,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ComplexHeaderComponent,
     HeaderComponent,
     DatePickerComponent,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ]
 })
 export class SharedModule {

@@ -21,6 +21,7 @@ export class JsonFormBuilder {
     gutt: ['weight'],
     revised: ['nefa'],
     spise: ['thyroglobulin', 'hdl'],
+    stumvoll: ['weight', 'height'],
     mcauley: ['triglyceride'],
     ogis: ['weight', 'height']
   };

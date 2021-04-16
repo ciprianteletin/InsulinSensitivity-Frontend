@@ -156,7 +156,7 @@ export class FormModel {
   }
 
   private buildUserInformation(userModel: DetailedUserModel): void {
-    let fullName = '';
+    let fullName: string;
     let age: number;
     let gender = 'M';
 

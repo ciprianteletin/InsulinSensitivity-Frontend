@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "crypto-js"
+              "crypto-js", "chart.js", "lodash"
             ],
             "outputPath": "dist/Insulin-Frontend",
             "index": "src/index.html",

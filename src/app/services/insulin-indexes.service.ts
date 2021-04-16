@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {DataIndexModel} from '../model/form/data-index.model';
 import {environment} from '../constants/environment';
@@ -9,12 +9,14 @@ import {environment} from '../constants/environment';
  * The list is managed only in this service, every other component will
  * get a copy of the array.
  *
- * Also, used for different http request passed to the back-end.
+ * Also, used for different http request passed to the back-end or utility
+ * methods for index calculation.
  */
 @Injectable({providedIn: 'root'})
 export class InsulinIndexesService {
   private addSubject = new Subject<string>();
   private removeSubject = new Subject<string>();
+  public passData = new BehaviorSubject<DataIndexModel>(null);
 
   private indexList: string[];
   private completeIndexesList = [
@@ -25,6 +27,10 @@ export class InsulinIndexesService {
 
   constructor(private http: HttpClient) {
     this.indexList = [];
+  }
+
+  isEmptyList(): boolean {
+    return this.indexList.length === 0;
   }
 
   populateWithCompleteIndexes(): void {
@@ -63,43 +69,48 @@ export class InsulinIndexesService {
     return this.removeSubject;
   }
 
-  buildDataModel(model: any, username: string, glucosePlaceholder: string, insulinPlaceholder: string): DataIndexModel {
+  getDataEvent(): Subject<DataIndexModel> {
+    return this.passData;
+  }
+
+  emitNewData(data: DataIndexModel): void {
+    this.passData.next(data);
+  }
+
+  buildDataModel(model: any, glucosePlaceholder: string, insulinPlaceholder: string): DataIndexModel {
     return {
-      username,
-      age: model.age,
+      age: +model.age,
       fullName: model.fullName,
       gender: model.gender,
       glucoseMandatory:
         {
-          fastingGlucose: model.fastingGlucose,
-          glucoseOneTwenty: model.glucoseOneTwenty,
-          glucoseSix: model.glucoseSix,
-          glucoseThree: model.glucoseThree
+          fastingGlucose: +model.fastingGlucose,
+          glucoseOneTwenty: +model.glucoseOneTwenty,
+          glucoseSix: +model.glucoseSix,
+          glucoseThree: +model.glucoseThree,
+          glucosePlaceholder
         },
       insulinMandatory:
         {
-          fastingInsulin: model.fastingInsulin,
-          insulinOneTwenty: model.insulinOneTwenty,
-          insulinSix: model.insulinSix,
-          insulinThree: model.insulinThree
+          fastingInsulin: +model.fastingInsulin,
+          insulinOneTwenty: +model.insulinOneTwenty,
+          insulinSix: +model.insulinSix,
+          insulinThree: +model.insulinThree,
+          insulinPlaceholder
         },
       optionalInformation: {
-        nefa: model.nefa,
-        hdl: model.hdl,
-        height: model.height,
-        weight: model.weight,
-        triglyceride: model.triglyceride,
-        thyroglobulin: model.thyroglobulin
-      },
-      placeholders: {
-        glucosePlaceholder,
-        insulinPlaceholder
+        nefa: +model.nefa,
+        hdl: +model.hdl,
+        height: +model.height,
+        weight: +model.weight,
+        triglyceride: +model.triglyceride,
+        thyroglobulin: +model.thyroglobulin
       },
       selectedIndexes: this.indexList,
     };
   }
 
-  sendDataIndexes(data: DataIndexModel): Observable<any> {
-    return this.http.post(`${environment.url}/index`, data);
+  sendDataIndexes(data: DataIndexModel, username: string): Observable<any> {
+    return this.http.post(`${environment.url}/index/${username}`, data);
   }
 }

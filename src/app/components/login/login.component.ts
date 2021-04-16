@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
         this.authService.checkIfCaptcha(genericError);
         return throwError(genericError);
       }))
-      .subscribe(user => {
+      .subscribe(() => {
         this.router.navigate(['/insulin']);
         this.notificationService.notify(NotificationType.DEFAULT, 'You are now logged in!');
       });
