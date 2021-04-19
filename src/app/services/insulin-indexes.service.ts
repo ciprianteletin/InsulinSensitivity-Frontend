@@ -16,7 +16,8 @@ import {environment} from '../constants/environment';
 export class InsulinIndexesService {
   private addSubject = new Subject<string>();
   private removeSubject = new Subject<string>();
-  public passData = new BehaviorSubject<DataIndexModel>(null);
+  private passData = new BehaviorSubject<DataIndexModel>(null);
+  private passResponse = new BehaviorSubject<any>(null);
 
   private indexList: string[];
   private completeIndexesList = [
@@ -69,12 +70,20 @@ export class InsulinIndexesService {
     return this.removeSubject;
   }
 
-  getDataEvent(): Subject<DataIndexModel> {
+  getDataEvent(): BehaviorSubject<DataIndexModel> {
     return this.passData;
   }
 
   emitNewData(data: DataIndexModel): void {
     this.passData.next(data);
+  }
+
+  getResponseEvent(): BehaviorSubject<any> {
+    return this.passResponse;
+  }
+
+  emitResponse(response: any): void {
+    this.passResponse.next(response);
   }
 
   buildDataModel(model: any, glucosePlaceholder: string, insulinPlaceholder: string): DataIndexModel {

@@ -89,11 +89,12 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
     const username: string = this.userModel !== null ? this.userModel.username : null;
     const data: DataIndexModel = this.insulinService
       .buildDataModel(this.model, this.placeholderGlucose, this.placeholderInsulin);
-    console.log(data);
     this.insulinService.sendDataIndexes(data, username)
-      .subscribe(() => {
+      .subscribe((response) => {
+        console.log(response);
+        this.insulinService.emitResponse(response);
         this.isSubmitted = false;
-        this.router.navigate(['results'], {relativeTo: this.route});
+        this.router.navigate(['results']);
       });
     this.insulinService.emitNewData(data);
   }

@@ -5,4 +5,4 @@
     Status {{this.errorResponse.httpStatusCode}}: {{this.errorResponse.message}} Occurred at {{this.errorResponse.timeStamp}}
   </p>
 </div>
-<div class="overlay hidden" #overlay appModal></div>
+<div class="overlay hidden" #overlay appModal (click)="onCloseModal()"></div>

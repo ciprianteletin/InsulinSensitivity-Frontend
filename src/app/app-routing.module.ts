@@ -36,11 +36,9 @@ const routes: Routes = [
     path: 'insulin/calculator', component: InsulinFormComponent, canDeactivate: [CanDeactivateGuard],
     resolve: {
       detailedUser: DetailedUserResolver
-    },
-    children: [
-      {path: 'results', component: ResultComponent}
-    ]
+    }
   },
+  {path: 'results', component: ResultComponent},
   {path: 'resetPassword/:code', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}
