@@ -39,15 +39,23 @@ export class InsulinIndexesService {
   }
 
   addIndex(index: string): void {
-    this.indexList.push(index);
+    this.addIndexNoEvent(index);
     this.addSubject.next(index);
   }
 
+  addIndexNoEvent(index: string): void {
+    this.indexList.push(index);
+  }
+
   removeIndex(index: string): void {
+    this.removeIndexNoEvent(index);
+    this.removeSubject.next(index);
+  }
+
+  removeIndexNoEvent(index: string): void {
     const position = this.indexList
       .findIndex(value => value === index);
     this.indexList.splice(position, 1);
-    this.removeSubject.next(index);
   }
 
   containsIndex(index: string): boolean {
@@ -84,6 +92,21 @@ export class InsulinIndexesService {
 
   emitResponse(response: any): void {
     this.passResponse.next(response);
+  }
+
+  checkStumvoll(): void {
+    if (this.indexList.includes('stumvoll')) {
+      this.removeIndexNoEvent('stumvoll');
+      this.addIndexNoEvent('stumvoll1');
+      this.addIndexNoEvent('stumvoll2');
+    }
+  }
+
+  checkHoma(): void {
+    if (this.indexList.includes('homa') && (!this.indexList.includes('homab') || !this.indexList.includes('loghoma'))) {
+      this.addIndexNoEvent('homab');
+      this.addIndexNoEvent('loghoma');
+    }
   }
 
   buildDataModel(model: any, glucosePlaceholder: string, insulinPlaceholder: string): DataIndexModel {

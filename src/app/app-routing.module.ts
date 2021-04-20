@@ -14,6 +14,7 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {DetailedUserResolver} from './resolver/detailed-user.resolver';
 import {CountryResolver} from './resolver/country.resolver';
 import {ResultComponent} from './components/result/result.component';
+import {HistoryComponent} from './components/history/history.component';
 
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
@@ -31,7 +32,6 @@ const routes: Routes = [
     }
   },
   {path: 'insulin', component: PrincipalComponent},
-  // TODO add canDeactivate to insulin calc.
   {
     path: 'insulin/calculator', component: InsulinFormComponent, canDeactivate: [CanDeactivateGuard],
     resolve: {
@@ -39,6 +39,7 @@ const routes: Routes = [
     }
   },
   {path: 'results', component: ResultComponent},
+  {path: 'history', component: HistoryComponent},
   {path: 'resetPassword/:code', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}

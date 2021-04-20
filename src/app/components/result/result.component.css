@@ -51,8 +51,6 @@
 }
 
 .row {
-  display: flex;
-  flex-wrap: wrap;
   margin-right: -10px;
   margin-left: -10px;
 }
@@ -61,51 +59,8 @@
   margin-bottom: 1.875rem;
 }
 
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
-}
-
-.nav-link {
-  display: block;
-  padding: 0.5rem 1rem;
-}
-
-.nav-link:hover, .nav-link:focus {
-  text-decoration: none;
-}
-
-.nav-link.disabled {
-  color: #6c757d;
-  pointer-events: none;
-  cursor: default;
-}
-
-.nav-tabs {
-  border-bottom: 1px solid #ebedf2;
-}
-
 .nav-tabs .nav-item {
   margin-bottom: -1px;
-}
-
-.nav-tabs .nav-link {
-  border: 1px solid transparent;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-}
-
-.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-  border-color: #ebedf2 #ebedf2 #ebedf2;
-}
-
-.nav-tabs .nav-link.disabled {
-  color: #6c757d;
-  background-color: transparent;
-  border-color: transparent;
 }
 
 .nav-tabs .nav-link.active,
@@ -123,27 +78,12 @@
   display: block;
 }
 
-.navbar {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-}
-
 .navbar > .container,
 .navbar > .container-fluid {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-}
-
-.nav-tabs .dropdown-menu {
-  margin-top: -1px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
 
 .stretch-card {
@@ -175,52 +115,6 @@
   border-radius: 0;
 }
 
-.card-body {
-  flex: 1 1 auto;
-  padding: 1.25rem;
-}
-
-.card-title {
-  margin-bottom: 0.75rem;
-}
-
-.table-responsive {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.table-responsive > .table-bordered {
-  border: 0;
-}
-
-table {
-  border-collapse: collapse;
-}
-
-th {
-  text-align: inherit;
-}
-
-legend {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  padding: 0;
-  margin-bottom: .5rem;
-  font-size: 1.5rem;
-  line-height: inherit;
-  color: inherit;
-  white-space: normal;
-}
-
-.table {
-  width: 100%;
-  margin-bottom: 1rem;
-  color: #212529;
-}
-
 .table th,
 .table td {
   padding: 1.25rem 0.9375rem;
@@ -237,8 +131,8 @@ legend {
   border-top: 2px solid #f3f3f3;
 }
 
-.p-0 {
-  padding: 0 !important;
+.table tbody tr:nth-of-type(odd) {
+  background-color: #DCDCDC;
 }
 
 div.table-responsive > div.dataTables_wrapper > div.row {

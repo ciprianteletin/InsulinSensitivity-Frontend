@@ -24,6 +24,7 @@ import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {isNumber, isPositive, numberMessage} from './validations/form.validation';
 import {ResultComponent} from './components/result/result.component';
+import { HistoryComponent } from './components/history/history.component';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -39,7 +40,8 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     SettingsComponent,
     DeleteModalComponent,
     ConfirmModalComponent,
-    ResultComponent
+    ResultComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

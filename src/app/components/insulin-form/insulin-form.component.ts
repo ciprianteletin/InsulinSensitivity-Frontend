@@ -86,14 +86,13 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
       return;
     }
     this.isSubmitted = true;
+    this.checkForAdditionalIndex();
     const username: string = this.userModel !== null ? this.userModel.username : null;
     const data: DataIndexModel = this.insulinService
       .buildDataModel(this.model, this.placeholderGlucose, this.placeholderInsulin);
     this.insulinService.sendDataIndexes(data, username)
       .subscribe((response) => {
-        console.log(response);
         this.insulinService.emitResponse(response);
-        this.isSubmitted = false;
         this.router.navigate(['results']);
       });
     this.insulinService.emitNewData(data);
@@ -152,6 +151,15 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
       .subscribe(fields => this.fields = fields);
   }
 
+  /**
+   * Method to add all variations of HOMA and Stumvoll, as both of them have multiple variation.
+   * If the index was not selected, no variation will be added.
+   */
+  private checkForAdditionalIndex(): void {
+    this.insulinService.checkStumvoll();
+    this.insulinService.checkHoma();
+  }
+
   private isFormEmpty(): boolean {
     if (this.isSubmitted) {
       return true;
@@ -178,7 +186,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.isFormEmpty()) {
+    if (!this.isFormEmpty() && !this.isSubmitted) {
       this.modalManager.openConfirmModal(ConfirmModalComponent);
       return this.modalManager.getConfirmResult();
     }

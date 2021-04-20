@@ -3,8 +3,8 @@
     <h3>InsulinX Sidebar Menu</h3>
   </div>
 
+  <p>Choose action</p>
   <ul class="list-unstyled components">
-    <p>Choose action</p>
     <li class="active">
       <a href="#calculateSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Choose
         indexs</a>
@@ -48,7 +48,10 @@
       </ul>
     </li>
     <li>
-      <a href="#">History</a>
+      <a [routerLink]="['/history']"
+         routerLinkActive='active'
+         [routerLinkActiveOptions]="{exact: true}"
+      >History</a>
     </li>
     <li>
       <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
