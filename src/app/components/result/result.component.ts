@@ -31,6 +31,11 @@ export class ResultComponent implements OnInit, OnDestroy {
   // Loading
   public isLoadingMandatory = true;
   public isLoadingResponse = true;
+  // Sort
+  public order: string;
+  public type: string;
+  private nameOrder = 'Ascending';
+  private resultOrder = 'Ascending';
   // Charts
   public glucoseData: ChartDataSets[];
   public insulinData: ChartDataSets[];
@@ -60,6 +65,21 @@ export class ResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createDataSubscription();
     this.createResponseSubscription();
+  }
+
+  updateNameArgs(): void {
+    this.type = 'Name';
+    this.order = this.nameOrder;
+    this.nameOrder = this.nameOrder === 'Ascending' ? 'Descending' : 'Ascending';
+    console.log(this.type, this.order);
+  }
+
+  updateResultArgs(): void {
+    this.type = 'Result';
+    this.order = this.resultOrder;
+    this.resultOrder = this.resultOrder === 'Ascending' ? 'Descending' : 'Ascending';
+    console.log(this.type, this.order);
+
   }
 
   private convertGlucose(): void {

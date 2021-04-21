@@ -9,6 +9,8 @@ import {HeaderComponent} from '../components/header/header.component';
 import {DatePickerComponent} from '../components/utils/date-picker/date-picker.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ChartsModule} from 'ng2-charts';
+import {ResultSortPipe} from '../pipes/result-sort.pipe';
+import {IndexSortPipe} from '../pipes/index-sort.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import {ChartsModule} from 'ng2-charts';
     FooterComponent,
     ComplexHeaderComponent,
     HeaderComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    ResultSortPipe,
+    IndexSortPipe
   ],
   imports: [CommonModule, AppRoutingModule, NgbModule, ChartsModule],
   exports: [
@@ -29,7 +33,9 @@ import {ChartsModule} from 'ng2-charts';
     HeaderComponent,
     DatePickerComponent,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+    ResultSortPipe,
+    IndexSortPipe
   ]
 })
 export class SharedModule {

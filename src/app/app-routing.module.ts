@@ -15,6 +15,7 @@ import {DetailedUserResolver} from './resolver/detailed-user.resolver';
 import {CountryResolver} from './resolver/country.resolver';
 import {ResultComponent} from './components/result/result.component';
 import {HistoryComponent} from './components/history/history.component';
+import {SummaryResolver} from './resolver/summary.resolver';
 
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
@@ -39,7 +40,11 @@ const routes: Routes = [
     }
   },
   {path: 'results', component: ResultComponent},
-  {path: 'history', component: HistoryComponent},
+  {
+    path: 'history', component: HistoryComponent, resolve: {
+      summary: SummaryResolver
+    }
+  },
   {path: 'resetPassword/:code', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}

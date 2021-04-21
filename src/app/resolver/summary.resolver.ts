@@ -1,24 +1,24 @@
 import {Injectable} from '@angular/core';
+import {IndexSummaryModel} from '../model/representation/summary.model';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {SettingsService} from '../services/settings.service';
+import {HistoryService} from '../services/history.service';
 import {AES} from 'crypto-js';
 import {environment} from '../constants/environment';
 import * as CryptoJS from 'crypto-js';
 
 @Injectable({providedIn: 'root'})
-export class CountryResolver implements Resolve<{ country: string }> {
-  constructor(private settingService: SettingsService) {
+export class SummaryResolver implements Resolve<IndexSummaryModel[]> {
+  constructor(private historyService: HistoryService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<{ country: string }> | Promise<{ country: string }> | { country: string } {
+    Observable<IndexSummaryModel[]> | Promise<IndexSummaryModel[]> | IndexSummaryModel[] {
     const username = route.queryParams.username;
     if (!username) {
-      return {country: 'unknown'};
+      return null;
     }
     const decryptedUsername = AES.decrypt(username, environment.secretKey).toString(CryptoJS.enc.Utf8);
-    return this.settingService.getUserCountryOrNothing(decryptedUsername);
+    return this.historyService.getSummaryList(decryptedUsername);
   }
-
 }

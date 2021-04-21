@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {CompleteUserModel} from '../model/representation/complete-user.model';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {environment} from '../constants/environment';
 import {GenericResponseModel} from '../model/representation/generic-response.model';
 import {UserModel} from '../model/representation/user.model';
 import {Router} from '@angular/router';
-import {tap} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from './notification.service';
 import {NotificationType} from '../constants/notification-type.enum';
@@ -71,6 +71,20 @@ export class AuthenticationService {
   }
 
   /**
+   * The unexpected logout method was created for exceptional cases, when the account of the user was deleted
+   * from the server, not by the user (for example, someone deletes the entire database) and the user is still logged on.
+   * In this case, the logout method will fail, because a request is made for logout.
+   *
+   * Clears every client side information.
+   */
+  private unexpectedLogout(): void {
+    this.resetUserState();
+    this.cacheService.clearCache();
+    localStorage.removeItem(environment.bearer);
+    this.clearTimeoutIfNeeded();
+  }
+
+  /**
    * Method invoked at the start of the application. It calls a special endpoint and based on multiple details,
    * like the refreshToken and the MetaInformation, the server will decide if the user was logged in
    * in the last seven days on the current device and login him if he meets all criteria.
@@ -81,11 +95,16 @@ export class AuthenticationService {
   autoLogin(): Promise<any> {
     return this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
       .pipe(tap((res => {
-        // if the status is 204, it means that "NO_CONTENT" was sent
-        if (res.status !== environment.no_content) {
-          this.handleAuth(res);
-        }
-      }))).toPromise();
+          // if the status is 204, it means that "NO_CONTENT" was sent
+          if (res.status !== environment.no_content) {
+            this.handleAuth(res);
+          }
+        })),
+        catchError((err) => {
+          this.notificationService.notify(NotificationType.ERROR, 'Autologin failed!');
+          this.unexpectedLogout();
+          return of(err);
+        })).toPromise();
   }
 
   /**

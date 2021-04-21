@@ -20,10 +20,11 @@ export class JsonFormBuilder {
     cederholm: ['weight'],
     gutt: ['weight'],
     revised: ['nefa'],
-    spise: ['thyroglobulin', 'hdl'],
+    spise: ['thyroglobulin', 'hdl', 'height', 'weight'],
     stumvoll: ['weight', 'height'],
     mcauley: ['triglyceride'],
-    ogis: ['weight', 'height']
+    ogis: ['weight', 'height'],
+    avingon: ['weight'],
   };
   functionMap: any;
 

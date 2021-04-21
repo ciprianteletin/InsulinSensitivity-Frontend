@@ -9,11 +9,8 @@
 }
 
 .container-fluid {
-  width: 100%;
   padding-right: 10px;
   padding-left: 10px;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 .page-body-wrapper {
@@ -104,13 +101,6 @@
 }
 
 .card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
   border: 1px solid #e7eaed;
   border-radius: 0;
 }
@@ -118,17 +108,6 @@
 .table th,
 .table td {
   padding: 1.25rem 0.9375rem;
-  vertical-align: top;
-  border-top: 1px solid #f3f3f3;
-}
-
-.table thead th {
-  vertical-align: bottom;
-  border-bottom: 2px solid #f3f3f3;
-}
-
-.table tbody + tbody {
-  border-top: 2px solid #f3f3f3;
 }
 
 .table tbody tr:nth-of-type(odd) {
@@ -170,10 +149,6 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
   border-bottom: 1px solid #f3f3f3;
 }
 
-.nav-tabs {
-  border: 1px solid #f3f3f3;
-}
-
 .nav-tabs .nav-link {
   background: #f6f8fa;
   color: #000000;
@@ -191,6 +166,10 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
   border: 0;
   border-bottom: 3px solid #5646ff;
   color: #4d83ff;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 @media (max-width: 767px) {

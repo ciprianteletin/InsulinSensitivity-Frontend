@@ -48,9 +48,7 @@
       </ul>
     </li>
     <li>
-      <a [routerLink]="['/history']"
-         routerLinkActive='active'
-         [routerLinkActiveOptions]="{exact: true}"
+      <a (click)="navigateToHistory()"
       >History</a>
     </li>
     <li>

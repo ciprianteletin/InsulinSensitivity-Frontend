@@ -29,11 +29,6 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
               private insulinService: InsulinIndexesService) {
   }
 
-  onClickSettingsEvent(id: string): void {
-    this.settingsService.emitActiveElement(id);
-    this.navigateToSettings();
-  }
-
   ngOnInit(): void {
     this.userSubscription = this.authService.user
       .subscribe(user => {
@@ -49,6 +44,17 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.indexList = Array.from(this.indexParent.nativeElement.children);
     this.activateClickedIndexes();
+  }
+
+  onClickSettingsEvent(id: string): void {
+    this.settingsService.emitActiveElement(id);
+    this.navigateToSettings();
+  }
+
+  navigateToHistory(): void {
+    this.router.navigate(['/history'], {
+      queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
+    }).then();
   }
 
   onClickIndex(id: string): void {
@@ -91,7 +97,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   private navigateToSettings(): void {
     this.router.navigate(['/settings'], {
       queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
-    });
+    }).then();
   }
 
   ngOnDestroy(): void {

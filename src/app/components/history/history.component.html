@@ -21,19 +21,21 @@
             <div class="col-sm-3">
               <div class="show-entries">
                 <span>Show</span>
-                <select class="form-control">
-                  <option>5</option>
-                  <option>10</option>
-                  <option>15</option>
-                  <option>20</option>
-                </select>
+                <label>
+                  <select class="form-control">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                  </select>
+                </label>
                 <span>entries</span>
               </div>
             </div>
             <div class="col-sm-9">
               <div class="filter-group">
-                <label>Indexes</label>
-                <select class="form-control">
+                <label for="indexes">Indexes</label>
+                <select class="form-control" id="indexes">
                   <option>All</option>
                   <option>Cederholm</option>
                   <option>Gutt</option>
@@ -50,8 +52,8 @@
                 </select>
               </div>
               <div class="filter-group">
-                <label>Date</label>
-                <select class="form-control">
+                <label for="date">Date</label>
+                <select class="form-control" id="date">
                   <option>All</option>
                   <option>Today</option>
                   <option>Last 7 days</option>
@@ -60,8 +62,8 @@
                 </select>
               </div>
               <div class="filter-group">
-                <label>Status</label>
-                <select class="form-control">
+                <label for="status">Status</label>
+                <select class="form-control" id="status">
                   <option>Any</option>
                   <option>Healthy</option>
                   <option>Insulin Resistance</option>
@@ -76,70 +78,27 @@
           <thead>
           <tr>
             <th>#</th>
-            <th>Customer</th>
-            <th>Location</th>
-            <th>Order Date</th>
-            <th>Status</th>
-            <th>Net Amount</th>
-            <th>Action</th>
+            <th>Chart Status</th>
+            <th>Index Status</th>
+            <th>No. Indexes
+              <div class="d-inline" (click)="updateNumberOrder()"><i class="fas fa-sort pointer"></i></div>
+            </th>
+            <th>Date
+              <div class="d-inline" (click)="updateDateOrder()"><i class="fas fa-sort pointer"></i></div>
+            </th>
+            <th>Result</th>
+            <th>Delete</th>
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>1</td>
-            <td><a href="#"><img src="/examples/images/avatar/1.jpg" class="avatar" alt="Avatar"> Michael Holz</a></td>
-            <td>London</td>
-            <td>Jun 15, 2017</td>
-            <td><span class="status text-success">&bull;</span> Delivered</td>
-            <td>$254</td>
-            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i
-              class="material-icons">&#xE5C8;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><a href="#"><img src="/examples/images/avatar/2.jpg" class="avatar" alt="Avatar"> Paula Wilson</a></td>
-            <td>Madrid</td>
-            <td>Jun 21, 2017</td>
-            <td><span class="status text-info">&bull;</span> Shipped</td>
-            <td>$1,260</td>
-            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i
-              class="material-icons">&#xE5C8;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td><a href="#"><img src="/examples/images/avatar/3.jpg" class="avatar" alt="Avatar"> Antonio Moreno</a>
-            </td>
-            <td>Berlin</td>
-            <td>Jul 04, 2017</td>
-            <td><span class="status text-danger">&bull;</span> Cancelled</td>
-            <td>$350</td>
-            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i
-              class="material-icons">&#xE5C8;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td><a href="#"><img src="/examples/images/avatar/4.jpg" class="avatar" alt="Avatar"> Mary Saveley</a></td>
-            <td>New York</td>
-            <td>Jul 16, 2017</td>
-            <td><span class="status text-warning">&bull;</span> Pending</td>
-            <td>$1,572</td>
-            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i
-              class="material-icons">&#xE5C8;</i></a>
-            </td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td><a href="#"><img src="/examples/images/avatar/5.jpg" class="avatar" alt="Avatar"> Martin Sommer</a></td>
-            <td>Paris</td>
-            <td>Aug 04, 2017</td>
-            <td><span class="status text-success">&bull;</span> Delivered</td>
-            <td>$580</td>
-            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i
-              class="material-icons">&#xE5C8;</i></a>
-            </td>
+          <tr *ngFor="let index of indexSummary | sortIndex: type: order; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{index.chartsResult}}</td>
+            <td>{{index.indexResult}}</td>
+            <td>{{index.indexNames.length}}</td>
+            <td>{{index.creationDate}}</td>
+            <td><i class="far fa-paper-plane"></i></td>
+            <td><i class="fas fa-trash-alt"></i></td>
           </tr>
           </tbody>
         </table>
@@ -147,10 +106,10 @@
           <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
           <ul class="pagination">
             <li class="page-item disabled"><a href="#">Previous</a></li>
-            <li class="page-item"><a href="#" class="page-link">1</a></li>
+            <li class="page-item active"><a href="#" class="page-link">1</a></li>
             <li class="page-item"><a href="#" class="page-link">2</a></li>
             <li class="page-item"><a href="#" class="page-link">3</a></li>
-            <li class="page-item active"><a href="#" class="page-link">4</a></li>
+            <li class="page-item"><a href="#" class="page-link">4</a></li>
             <li class="page-item"><a href="#" class="page-link">5</a></li>
             <li class="page-item"><a href="#" class="page-link">6</a></li>
             <li class="page-item"><a href="#" class="page-link">7</a></li>

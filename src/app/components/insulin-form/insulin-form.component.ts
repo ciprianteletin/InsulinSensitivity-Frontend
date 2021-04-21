@@ -166,11 +166,18 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
     }
     let flag = true;
     for (const key in this.form.value) {
-      if (key !== 'gender' && this.form.value.hasOwnProperty(key) && this.form.value[key]) {
+      if (this.form.value.hasOwnProperty(key) && this.checkKey(key) && this.form.value[key]) {
         flag = false;
       }
     }
     return flag;
+  }
+
+  private checkKey(key: string): boolean {
+    if (this.userModel === null) {
+      return key !== 'gender';
+    }
+    return key !== 'gender' && key !== 'fullName' && key !== 'age';
   }
 
   /**

@@ -224,14 +224,18 @@
                     <thead>
                     <tr>
                       <th>Id</th>
-                      <th>Index name</th>
-                      <th>Value</th>
+                      <th>Index name
+                        <div class="d-inline" (click)="updateNameArgs()"><i class="fas fa-sort pointer"></i></div>
+                      </th>
+                      <th>Value
+                        <div class="d-inline" (click)="updateResultArgs()"><i class="fas fa-sort pointer"></i></div>
+                      </th>
                       <th>Normal range</th>
                       <th>Diagnosis</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let index of indexResultList; let i = index">
+                    <tr *ngFor="let index of indexResultList | sortResult: this.type: this.order; let i = index">
                       <td>{{i + 1}}</td>
                       <td>{{index.name}}</td>
                       <td>{{index.index.result}}</td>
