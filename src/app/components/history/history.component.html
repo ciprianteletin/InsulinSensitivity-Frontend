@@ -9,9 +9,13 @@
               <h2>Index <b>History</b></h2>
             </div>
             <div class="col-sm-8">
-              <a href="#" class="btn btn-primary"><span class="icons"><i class="fa fa-filter"></i></span>
+              <a class="btn btn-primary" (click)="onClearFilters()"><span class="icons"><i
+                class="fas fa-times"></i></span>
+                <span>Clear filters</span></a>
+              <a class="btn btn-primary" (click)="onFilterData()"><span class="icons"><i
+                class="fa fa-filter"></i></span>
                 <span>Filter</span></a>
-              <a href="#" class="btn btn-secondary"><span class="icons mr-1"><i class="fas fa-file-excel"></i></span>
+              <a class="btn btn-secondary"><span class="icons mr-1"><i class="fas fa-file-excel"></i></span>
                 <span>Export to Excel</span></a>
             </div>
           </div>
@@ -34,26 +38,17 @@
             </div>
             <div class="col-sm-9">
               <div class="filter-group">
-                <label for="indexes">Indexes</label>
-                <select class="form-control" id="indexes">
-                  <option>All</option>
-                  <option>Cederholm</option>
-                  <option>Gutt</option>
-                  <option>HOMA</option>
-                  <option>Quicki</option>
-                  <option>Revised Quicki</option>
-                  <option>Avingon</option>
-                  <option>Matsuda</option>
-                  <option>Ogis</option>
-                  <option>Belfiore</option>
-                  <option>Stumvoll</option>
-                  <option>McAuley</option>
-                  <option>Spise</option>
-                </select>
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Indexes'"
+                  [settings]="dropdownSettings"
+                  [data]="indexesDropdown"
+                  [(ngModel)]="indexSelected"
+                >
+                </ng-multiselect-dropdown>
               </div>
               <div class="filter-group">
                 <label for="date">Date</label>
-                <select class="form-control" id="date">
+                <select class="form-control w-auto" id="date" [(ngModel)]="selectedValue">
                   <option>All</option>
                   <option>Today</option>
                   <option>Last 7 days</option>
@@ -62,14 +57,14 @@
                 </select>
               </div>
               <div class="filter-group">
-                <label for="status">Status</label>
-                <select class="form-control" id="status">
-                  <option>Any</option>
-                  <option>Healthy</option>
-                  <option>Insulin Resistance</option>
-                  <option>Prediabetes</option>
-                  <option>Diabetes</option>
-                </select>
+                <ng-multiselect-dropdown
+                  id="status"
+                  [placeholder]="'Select Status'"
+                  [settings]="dropdownSettings"
+                  [data]="statusDropdown"
+                  [(ngModel)]="statusSelected"
+                >
+                </ng-multiselect-dropdown>
               </div>
             </div>
           </div>
@@ -91,14 +86,15 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let index of indexSummary | sortIndex: type: order; let i = index">
+          <tr *ngFor="let index of indexSummary | sortIndex: type: order; let i = index"
+              triggers="click" placement="left" [autoClose]="true" ngbTooltip="{{onShowTooltip(index.indexNames)}}">
             <td>{{i + 1}}</td>
             <td>{{index.chartsResult}}</td>
             <td>{{index.indexResult}}</td>
             <td>{{index.indexNames.length}}</td>
             <td>{{index.creationDate}}</td>
-            <td><i class="far fa-paper-plane"></i></td>
-            <td><i class="fas fa-trash-alt"></i></td>
+            <td><i class="far fa-paper-plane pointer"></i></td>
+            <td><i class="fas fa-trash-alt pointer"></i></td>
           </tr>
           </tbody>
         </table>

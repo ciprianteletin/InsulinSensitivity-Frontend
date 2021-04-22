@@ -11,6 +11,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ChartsModule} from 'ng2-charts';
 import {ResultSortPipe} from '../pipes/result-sort.pipe';
 import {IndexSortPipe} from '../pipes/index-sort.pipe';
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import {IndexSortPipe} from '../pipes/index-sort.pipe';
     ResultSortPipe,
     IndexSortPipe
   ],
-  imports: [CommonModule, AppRoutingModule, NgbModule, ChartsModule],
+  imports: [CommonModule, AppRoutingModule, NgbModule, ChartsModule,  NgMultiSelectDropDownModule.forRoot()],
   exports: [
     LoadingSpinnerComponent,
     ModalDirective,
@@ -35,7 +36,8 @@ import {IndexSortPipe} from '../pipes/index-sort.pipe';
     AppRoutingModule,
     ChartsModule,
     ResultSortPipe,
-    IndexSortPipe
+    IndexSortPipe,
+    NgMultiSelectDropDownModule
   ]
 })
 export class SharedModule {

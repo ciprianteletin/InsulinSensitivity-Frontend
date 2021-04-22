@@ -25,6 +25,7 @@ import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {isNumber, isPositive, numberMessage} from './validations/form.validation';
 import {ResultComponent} from './components/result/result.component';
 import { HistoryComponent } from './components/history/history.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -64,7 +65,8 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
         {name: 'required', message: 'This field is required'},
         {name: 'isPositive', message: 'The number must be positive!'}
       ]
-    })
+    }),
+    NgbModule
   ],
   providers: [
     AppInitService,
