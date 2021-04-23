@@ -28,6 +28,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
   model: any = {gender: 'M'};
   options: FormlyFormOptions = {};
   // subscriptions
+  private mainSubscription = new Subscription();
   private addSubscription: Subscription;
   private removeSubscription: Subscription;
   private resetFormSubscription: Subscription;
@@ -149,6 +150,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
       .subscribe(index => this.formBuilder.removeFieldsIfNeeded(index));
     this.resetFormSubscription = this.formBuilder.getRefreshObject()
       .subscribe(fields => this.fields = fields);
+    this.addSubscriptions();
   }
 
   /**
@@ -158,6 +160,12 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
   private checkForAdditionalIndex(): void {
     this.insulinService.checkStumvoll();
     this.insulinService.checkHoma();
+  }
+
+  private addSubscriptions(): void {
+    this.mainSubscription.add(this.addSubscription);
+    this.mainSubscription.add(this.removeSubscription);
+    this.mainSubscription.add(this.resetFormSubscription);
   }
 
   private isFormEmpty(): boolean {
@@ -186,9 +194,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
    */
   ngOnDestroy(): void {
     this.insulinService.clearList();
-    this.addSubscription.unsubscribe();
-    this.removeSubscription.unsubscribe();
-    this.resetFormSubscription.unsubscribe();
+    this.mainSubscription.unsubscribe();
     this.formBuilder.clearData();
   }
 

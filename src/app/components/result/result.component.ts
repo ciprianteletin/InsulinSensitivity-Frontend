@@ -23,6 +23,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   public mandatoryResponse: string;
   public indexResponse: string;
   // subscriptions
+  private mainSubscription = new Subscription();
   private passDataSubscription: Subscription;
   private passResponseSubscription: Subscription;
   // placeholders
@@ -65,6 +66,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createDataSubscription();
     this.createResponseSubscription();
+    this.addSubscriptions();
   }
 
   updateNameArgs(): void {
@@ -172,9 +174,13 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
   }
 
+  private addSubscriptions(): void {
+    this.mainSubscription.add(this.passDataSubscription);
+    this.mainSubscription.add(this.passResponseSubscription);
+  }
+
   ngOnDestroy(): void {
-    this.passDataSubscription.unsubscribe();
-    this.passResponseSubscription.unsubscribe();
+    this.mainSubscription.unsubscribe();
   }
 
 }

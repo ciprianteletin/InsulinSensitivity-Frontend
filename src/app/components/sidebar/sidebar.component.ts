@@ -18,8 +18,10 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   indexList: any[] = [];
   active = false;
   username: string;
-  sidebarSubscription: Subscription;
-  userSubscription: Subscription;
+
+  private mainSubscription: Subscription;
+  private sidebarSubscription: Subscription;
+  private userSubscription: Subscription;
 
   constructor(private headerService: HeaderService,
               private authService: AuthenticationService,
@@ -30,15 +32,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.user
-      .subscribe(user => {
-        if (user !== null) {
-          this.username = user.username;
-        }
-      });
-
-    this.sidebarSubscription = this.headerService.getSidebarEvent()
-      .subscribe(() => this.active = !this.active);
+    this.createSubscriptions();
+    this.addSubscriptions();
   }
 
   ngAfterViewInit(): void {
@@ -100,8 +95,24 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     }).then();
   }
 
+  private createSubscriptions(): void {
+    this.userSubscription = this.authService.user
+      .subscribe(user => {
+        if (user !== null) {
+          this.username = user.username;
+        }
+      });
+
+    this.sidebarSubscription = this.headerService.getSidebarEvent()
+      .subscribe(() => this.active = !this.active);
+  }
+
+  private addSubscriptions(): void {
+    this.mainSubscription.add(this.userSubscription);
+    this.mainSubscription.add(this.sidebarSubscription);
+  }
+
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
-    this.sidebarSubscription.unsubscribe();
+    this.mainSubscription.unsubscribe();
   }
 }

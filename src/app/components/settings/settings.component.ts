@@ -37,9 +37,10 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   private divSections: ElementRef[];
   private formMap: CustomFormMap;
   // subscriptions
+  private mainSubscription = new Subscription();
   private userSubscription: Subscription;
   private deleteModalSubscription: Subscription;
-  activeElementSubscription: Subscription;
+  private activeElementSubscription: Subscription;
   // Data Model
   country: string;
   userAge: number;
@@ -139,7 +140,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSubscription = this.authService.user
       .subscribe(user => this.user = user);
 
-    this.deleteModalSubscription = this.modalManager.deleteModalResult
+    this.deleteModalSubscription = this.modalManager.deleteAccModalResult
       .subscribe(result => {
         if (result) {
           this.settingsService.deleteUserAccount(this.user.id);
@@ -148,6 +149,18 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.activeElementSubscription = this.settingsService.getActiveElementSubject()
       .subscribe(active => this.activeElement = active);
+
+    this.addSubscriptions();
+  }
+
+  /**
+   * By adding all subscriptions to the main one, in ngOnDestroy method, when calling unsubscribe on the main one,
+   * all of the child subscriptions will unsubscribe as well.
+   */
+  private addSubscriptions(): void {
+    this.mainSubscription.add(this.userSubscription);
+    this.mainSubscription.add(this.deleteModalSubscription);
+    this.mainSubscription.add(this.activeElementSubscription);
   }
 
   private extractRouteData(): void {
@@ -158,8 +171,6 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
-    this.deleteModalSubscription.unsubscribe();
-    this.activeElementSubscription.unsubscribe();
+    this.mainSubscription.unsubscribe();
   }
 }

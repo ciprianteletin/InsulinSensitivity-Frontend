@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">History deletion</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modalManager.closeDeleteIndexModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><strong>Are you sure you want to delete the selected history item?</strong></p>
+  <p>All information associated to this user profile will be permanently deleted.
+    <span class="text-danger">This operation cannot be undone.</span>
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="modalManager.closeDeleteIndexModal()">Cancel</button>
+  <button type="button" class="btn btn-danger" (click)="modalManager.onOkDeleteIndexModal()">Ok</button>
+</div>

@@ -1,17 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IndexSummaryModel} from '../../model/representation/summary.model';
 import {IDropdownSettings} from 'ng-multiselect-dropdown';
 import {SorterUtil} from '../../utils/sorter.util';
 import {HistoryService} from '../../services/history.service';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
+import {Subscription} from 'rxjs';
+import {ModalManagerService} from '../../services/modal-manager.service';
+import {DeleteIndexModalComponent} from '../delete-index-modal/delete-index-modal.component';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.css']
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent implements OnInit, OnDestroy {
   // Displayed information
   private originalSummary: IndexSummaryModel[];
   public indexSummary: IndexSummaryModel[];
@@ -66,11 +69,14 @@ export class HistoryComponent implements OnInit {
   // Select Date data
   public selectedValue = 'All';
   public isLoading = false;
+  // Subscriptions
+  private deleteIndexSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
               private historyService: HistoryService,
               private insulinService: InsulinIndexesService,
-              private router: Router) {
+              private router: Router,
+              private modalManager: ModalManagerService) {
   }
 
   ngOnInit(): void {
@@ -91,8 +97,14 @@ export class HistoryComponent implements OnInit {
   }
 
   onDeleteIndexHistory(historyId: number): void {
-    this.historyService.deleteById(historyId);
-    this.removeFromList(historyId);
+    this.modalManager.openDeleteIndexModal(DeleteIndexModalComponent);
+    this.deleteIndexSubscription = this.modalManager.deleteIndexModalResult
+      .subscribe(result => {
+        if (result) {
+          this.historyService.deleteById(historyId);
+          this.removeFromList(historyId);
+        }
+      });
   }
 
   updateNumberOrder(): void {
@@ -139,5 +151,11 @@ export class HistoryComponent implements OnInit {
       this.indexSummary = data.summary;
       this.originalSummary = [...data.summary];
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.deleteIndexSubscription !== null) {
+      this.deleteIndexSubscription.unsubscribe();
+    }
   }
 }
