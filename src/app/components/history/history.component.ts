@@ -90,6 +90,11 @@ export class HistoryComponent implements OnInit {
       });
   }
 
+  onDeleteIndexHistory(historyId: number): void {
+    this.historyService.deleteById(historyId);
+    this.removeFromList(historyId);
+  }
+
   updateNumberOrder(): void {
     this.type = 'Number';
     this.order = this.numberOrder;
@@ -106,6 +111,7 @@ export class HistoryComponent implements OnInit {
     this.statusSelected = [];
     this.indexSelected = [];
     this.indexSummary = [...this.originalSummary];
+    this.selectedValue = 'All';
   }
 
   onFilterData(): void {
@@ -119,6 +125,13 @@ export class HistoryComponent implements OnInit {
     let indexString = '';
     indexNames.forEach(index => indexString = indexString + index + ' ');
     return indexString;
+  }
+
+  private removeFromList(historyId: number): void {
+    const summaryPoz = this.indexSummary.findIndex(item => item.id === historyId);
+    this.indexSummary.splice(summaryPoz, 1);
+    const originalPoz = this.originalSummary.findIndex(item => item.id === historyId);
+    this.originalSummary.splice(originalPoz, 1);
   }
 
   private getRouteData(): void {

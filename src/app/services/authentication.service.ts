@@ -145,14 +145,14 @@ export class AuthenticationService {
 
   /**
    * Handle the auth response received from the server by emitting a user and storing the token
-   * inside the localStorage. Also it launch a timeout of 14 minutes in order to refresh the token.
+   * inside the localStorage. Also it launch a timeout of 10 minutes in order to refresh the token.
    * The duration of the token is 15 minutes but we take in consideration that some operations
    * might take some time.
    */
   private handleAuthToken(response: HttpResponse<any>): void {
     const token = response.headers.get(environment.tokenHeader);
     const refreshTime = this.jwtHelper.getTokenExpirationDate(token).getTime()
-      - new Date().getTime() - environment.oneMinuteInMs;
+      - new Date().getTime() - environment.fiveMinutesInMs;
     this.clearTimeoutIfNeeded();
     this.timerRefreshToken = setTimeout(() => this.getNewToken(), refreshTime);
     localStorage.setItem(environment.bearer, token);
@@ -181,7 +181,7 @@ export class AuthenticationService {
   }
 
   /**
-   * Every 14-15 minutes a new token is received from backend. This methods prevents any theft who might stole
+   * Every 10 minutes a new token is received from backend. This methods prevents any theft who might stole
    * the token to use the application, because in 15 minutes the token will be invalid and a new one will be emitted.
    */
   getNewToken(): void {

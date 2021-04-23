@@ -4,131 +4,134 @@
     <app-spinner></app-spinner>
   </div>
   <div *ngIf="isLoading" class="overlay"></div>
-<div class="full-bg">
-  <div class="container-xl">
-    <div class="table-responsive">
-      <div class="table-wrapper">
-        <div class="table-title">
-          <div class="row">
-            <div class="col-sm-4">
-              <h2>Index <b>History</b></h2>
-            </div>
-            <div class="col-sm-8">
-              <a class="btn btn-primary" (click)="onClearFilters()"><span class="icons"><i
-                class="fas fa-times"></i></span>
-                <span>Clear filters</span></a>
-              <a class="btn btn-primary" (click)="onFilterData()"><span class="icons"><i
-                class="fa fa-filter"></i></span>
-                <span>Filter</span></a>
-              <a class="btn btn-secondary"><span class="icons mr-1"><i class="fas fa-file-excel"></i></span>
-                <span>Export to Excel</span></a>
+  <div class="full-bg">
+    <div class="container-xl">
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <div class="table-title">
+            <div class="row">
+              <div class="col-sm-4">
+                <h2>Index <b>History</b></h2>
+              </div>
+              <div class="col-sm-8">
+                <a class="btn btn-primary" (click)="onClearFilters()"><span class="icons"><i
+                  class="fas fa-times"></i></span>
+                  <span>Clear filters</span></a>
+                <a class="btn btn-primary" (click)="onFilterData()"><span class="icons"><i
+                  class="fa fa-filter"></i></span>
+                  <span>Filter</span></a>
+                <a class="btn btn-secondary"><span class="icons mr-1"><i class="fas fa-file-excel"></i></span>
+                  <span>Export to Excel</span></a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="table-filter">
-          <div class="row">
-            <div class="col-sm-3">
-              <div class="show-entries">
-                <span>Show</span>
-                <label>
-                  <select class="form-control">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>15</option>
-                    <option>20</option>
+          <div class="table-filter">
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="show-entries">
+                  <span>Show</span>
+                  <label>
+                    <select class="form-control">
+                      <option>5</option>
+                      <option>10</option>
+                      <option>15</option>
+                      <option>20</option>
+                    </select>
+                  </label>
+                  <span>entries</span>
+                </div>
+              </div>
+              <div class="col-sm-9">
+                <div class="filter-group">
+                  <ng-multiselect-dropdown
+                    [placeholder]="'Select Indexes'"
+                    [settings]="dropdownSettings"
+                    [data]="indexesDropdown"
+                    [(ngModel)]="indexSelected"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="filter-group">
+                  <label for="date">Date</label>
+                  <select class="form-control w-auto" id="date" [(ngModel)]="selectedValue">
+                    <option>All</option>
+                    <option>Today</option>
+                    <option>Last 7 days</option>
+                    <option>Last Month</option>
+                    <option>Last Year</option>
                   </select>
-                </label>
-                <span>entries</span>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div class="filter-group">
-                <ng-multiselect-dropdown
-                  [placeholder]="'Select Indexes'"
-                  [settings]="dropdownSettings"
-                  [data]="indexesDropdown"
-                  [(ngModel)]="indexSelected"
-                >
-                </ng-multiselect-dropdown>
-              </div>
-              <div class="filter-group">
-                <label for="date">Date</label>
-                <select class="form-control w-auto" id="date" [(ngModel)]="selectedValue">
-                  <option>All</option>
-                  <option>Today</option>
-                  <option>Last 7 days</option>
-                  <option>Last Month</option>
-                  <option>Last Year</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <ng-multiselect-dropdown
-                  id="status"
-                  [placeholder]="'Select Status'"
-                  [settings]="dropdownSettings"
-                  [data]="statusDropdown"
-                  [(ngModel)]="statusSelected"
-                >
-                </ng-multiselect-dropdown>
+                </div>
+                <div class="filter-group">
+                  <ng-multiselect-dropdown
+                    id="status"
+                    [placeholder]="'Select Status'"
+                    [settings]="dropdownSettings"
+                    [data]="statusDropdown"
+                    [(ngModel)]="statusSelected"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <table class="table table-striped table-hover">
-          <thead>
-          <tr>
-            <th>#</th>
-            <th>Chart Status</th>
-            <th>Index Status</th>
-            <th>No. Indexes
-              <div class="d-inline" (click)="updateNumberOrder()"><i class="fas fa-sort pointer"></i></div>
-            </th>
-            <th>Date
-              <div class="d-inline" (click)="updateDateOrder()"><i class="fas fa-sort pointer"></i></div>
-            </th>
-            <th>Result</th>
-            <th>Delete</th>
-          </tr>
-          </thead>
-          <tbody *ngIf="indexSummary.length !== 0; else helpertext">
-          <tr *ngFor="let index of indexSummary | sortIndex: type: order; let i = index"
-              triggers="click" placement="left" [autoClose]="true" ngbTooltip="{{onShowTooltip(index.indexNames)}}">
-            <td>{{i + 1}}</td>
-            <td>{{index.chartsResult}}</td>
-            <td>{{index.indexResult}}</td>
-            <td>{{index.indexNames.length}}</td>
-            <td>{{index.creationDate}}</td>
-            <td (click)="onGoToReports(index.id)"><i class="far fa-paper-plane pointer"></i></td>
-            <td><i class="fas fa-trash-alt pointer"></i></td>
-          </tr>
-          </tbody>
-          <ng-template #helpertext>
-            <tbody>
-            <tr class="centering">
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td><div class="helper">No history available!</div></td>
-              <td>&nbsp; ----------------</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Chart Status</th>
+              <th>Index Status</th>
+              <th>No. Indexes
+                <div class="d-inline" (click)="updateNumberOrder()"><i class="fas fa-sort pointer"></i></div>
+              </th>
+              <th>Date
+                <div class="d-inline" (click)="updateDateOrder()"><i class="fas fa-sort pointer"></i></div>
+              </th>
+              <th>Result</th>
+              <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="indexSummary.length !== 0; else helpertext">
+            <tr *ngFor="let index of indexSummary | sortIndex: type: order; let i = index"
+                triggers="click" placement="left" [autoClose]="true" ngbTooltip="{{onShowTooltip(index.indexNames)}}">
+              <td>{{i + 1}}</td>
+              <td>{{index.chartsResult}}</td>
+              <td>{{index.indexResult}}</td>
+              <td>{{index.indexNames.length}}</td>
+              <td>{{index.creationDate}}</td>
+              <td (click)="onGoToReports(index.id)"><i class="far fa-paper-plane pointer"></i></td>
+              <td (click)="onDeleteIndexHistory(index.id)"><i class="fas fa-trash-alt pointer"></i></td>
             </tr>
             </tbody>
-          </ng-template>
-        </table>
-        <div class="clearfix">
-          <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-          <ul class="pagination">
-            <li class="page-item disabled"><a href="#">Previous</a></li>
-            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item"><a href="#" class="page-link">3</a></li>
-            <li class="page-item"><a href="#" class="page-link">4</a></li>
-            <li class="page-item"><a href="#" class="page-link">5</a></li>
-            <li class="page-item"><a href="#" class="page-link">6</a></li>
-            <li class="page-item"><a href="#" class="page-link">7</a></li>
-            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-          </ul>
+            <ng-template #helpertext>
+              <tbody>
+              <tr class="centering">
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>
+                  <div class="helper">No history available!</div>
+                </td>
+                <td>&nbsp; ----------------</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              </tbody>
+            </ng-template>
+          </table>
+          <div class="clearfix">
+            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+            <ul class="pagination">
+              <li class="page-item disabled"><a href="#">Previous</a></li>
+              <li class="page-item active"><a href="#" class="page-link">1</a></li>
+              <li class="page-item"><a href="#" class="page-link">2</a></li>
+              <li class="page-item"><a href="#" class="page-link">3</a></li>
+              <li class="page-item"><a href="#" class="page-link">4</a></li>
+              <li class="page-item"><a href="#" class="page-link">5</a></li>
+              <li class="page-item"><a href="#" class="page-link">6</a></li>
+              <li class="page-item"><a href="#" class="page-link">7</a></li>
+              <li class="page-item"><a href="#" class="page-link">Next</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

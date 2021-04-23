@@ -26,7 +26,7 @@ export class SorterUtil {
     return indexSummary.filter(summary => {
       const summaryCreation = summary.creationDate.split('/');
       const summaryDate = new Date(+summaryCreation[2], +summaryCreation[1] - 1, +summaryCreation[0]);
-      return date.getTime() <= summaryDate.getTime();
+      return date.getTime() <= summaryDate.getTime() || SorterUtil.checkToday(date, summaryDate);
     });
   }
 
@@ -51,6 +51,12 @@ export class SorterUtil {
       tempArr.push(...indexSummary.filter(summary => summary.indexNames.includes(st.item_text.toLowerCase())));
     }
     return tempArr;
+  }
+
+  private static checkToday(today: Date, summary: Date): boolean {
+    return today.getDay() === summary.getDay() &&
+      today.getMonth() === summary.getMonth() &&
+      today.getFullYear() === summary.getFullYear();
   }
 
   private static returnActualDate(restriction: string): Date {

@@ -13,7 +13,7 @@ export const environment = {
   secretKey: 'InsulinSensitivity',
   bearer: 'Bearer',
   authorization: 'Authorization',
-  oneMinuteInMs: 60000,
+  fiveMinutesInMs: 300000,
   httpOptions: {
     headers: new HttpHeaders({'Content-Type': 'application/json'}),
     withCredentials: true,
