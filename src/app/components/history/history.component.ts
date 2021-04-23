@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IndexSummaryModel} from '../../model/representation/summary.model';
 import {IDropdownSettings} from 'ng-multiselect-dropdown';
 import {SorterUtil} from '../../utils/sorter.util';
+import {HistoryService} from '../../services/history.service';
+import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 
 @Component({
   selector: 'app-history',
@@ -10,6 +12,7 @@ import {SorterUtil} from '../../utils/sorter.util';
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
+  // Displayed information
   private originalSummary: IndexSummaryModel[];
   public indexSummary: IndexSummaryModel[];
   // Sort
@@ -62,12 +65,29 @@ export class HistoryComponent implements OnInit {
   ];
   // Select Date data
   public selectedValue = 'All';
+  public isLoading = false;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private historyService: HistoryService,
+              private insulinService: InsulinIndexesService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.getRouteData();
+  }
+
+  onGoToReports(historyId: number): void {
+    this.isLoading = true;
+    this.historyService.getMandatoryAndSummaryPair(historyId)
+      .subscribe(pair => {
+        const mandatoryInfo = pair.first;
+        const sender = pair.second;
+        this.insulinService.emitNewData(mandatoryInfo);
+        this.insulinService.emitResponse(sender);
+        this.isLoading = false;
+        this.router.navigate(['results']);
+      });
   }
 
   updateNumberOrder(): void {
@@ -101,11 +121,10 @@ export class HistoryComponent implements OnInit {
     return indexString;
   }
 
-  getRouteData(): void {
+  private getRouteData(): void {
     this.route.data.subscribe((data: { summary: IndexSummaryModel[] }) => {
       this.indexSummary = data.summary;
       this.originalSummary = [...data.summary];
     });
   }
-
 }

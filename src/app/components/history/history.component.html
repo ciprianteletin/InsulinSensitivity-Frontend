@@ -1,4 +1,9 @@
 <app-header></app-header>
+<div class="container-login-register">
+  <div *ngIf="isLoading" style="text-align: center">
+    <app-spinner></app-spinner>
+  </div>
+  <div *ngIf="isLoading" class="overlay"></div>
 <div class="full-bg">
   <div class="container-xl">
     <div class="table-responsive">
@@ -85,7 +90,7 @@
             <th>Delete</th>
           </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="indexSummary.length !== 0; else helpertext">
           <tr *ngFor="let index of indexSummary | sortIndex: type: order; let i = index"
               triggers="click" placement="left" [autoClose]="true" ngbTooltip="{{onShowTooltip(index.indexNames)}}">
             <td>{{i + 1}}</td>
@@ -93,10 +98,23 @@
             <td>{{index.indexResult}}</td>
             <td>{{index.indexNames.length}}</td>
             <td>{{index.creationDate}}</td>
-            <td><i class="far fa-paper-plane pointer"></i></td>
+            <td (click)="onGoToReports(index.id)"><i class="far fa-paper-plane pointer"></i></td>
             <td><i class="fas fa-trash-alt pointer"></i></td>
           </tr>
           </tbody>
+          <ng-template #helpertext>
+            <tbody>
+            <tr class="centering">
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><div class="helper">No history available!</div></td>
+              <td>&nbsp; ----------------</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            </tbody>
+          </ng-template>
         </table>
         <div class="clearfix">
           <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
