@@ -18,14 +18,13 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CredentialsInterceptor} from './interceptors/credentials.interceptor';
 import {AppInitService} from './configs/app-init.service';
-import {DeleteModalComponent} from './components/delete-modal/delete-modal.component';
-import {ConfirmModalComponent} from './components/confirm-modal/confirm-modal.component';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyBootstrapModule} from '@ngx-formly/bootstrap';
 import {isNumber, isPositive, numberMessage} from './validations/form.validation';
 import {ResultComponent} from './components/result/result.component';
-import { HistoryComponent } from './components/history/history.component';
+import {HistoryComponent} from './components/history/history.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ModalModule} from './modules/modal.module';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -39,15 +38,14 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     IndexComponent,
     SidebarComponent,
     SettingsComponent,
-    DeleteModalComponent,
-    ConfirmModalComponent,
     ResultComponent,
-    HistoryComponent
+    HistoryComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AuthenticationModule,
+    ModalModule,
     ErrorModule,
     SharedModule,
     FormsModule,

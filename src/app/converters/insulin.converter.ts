@@ -26,6 +26,10 @@ export class InsulinConverter {
     };
   }
 
+  private roundValue(value: number): number {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
+
   private convertGlucose(value: string, currentPlaceholder: string): string {
     if (value === undefined || isNaN(Number(value))) {
       return undefined;
@@ -36,6 +40,7 @@ export class InsulinConverter {
     } else {
       val = val * 18;
     }
+    val = this.roundValue(val);
     return val.toString();
   }
 
@@ -49,6 +54,7 @@ export class InsulinConverter {
     } else {
       val = val * 6;
     }
+    val = this.roundValue(val);
     return val.toString();
   }
 
@@ -62,6 +68,7 @@ export class InsulinConverter {
     } else {
       val = val / 0.35;
     }
+    val = this.roundValue(val);
     return val.toString();
   }
 
@@ -75,6 +82,7 @@ export class InsulinConverter {
     } else {
       val = val / 0.01129;
     }
+    val = this.roundValue(val);
     return val.toString();
   }
 
@@ -88,6 +96,7 @@ export class InsulinConverter {
     } else {
       val = val * 38.67;
     }
+    val = this.roundValue(val);
     return val.toString();
   }
 }

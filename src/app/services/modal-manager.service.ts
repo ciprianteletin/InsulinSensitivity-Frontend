@@ -7,8 +7,10 @@ import {Subject, from, Observable} from 'rxjs';
 export class ModalManagerService {
   private deleteModalRef: NgbModalRef;
   private confirmModalRef: NgbModalRef;
+  private deleteIndexRef: NgbModalRef;
 
-  deleteModalResult = new Subject();
+  deleteAccModalResult = new Subject<boolean>();
+  deleteIndexModalResult = new Subject<boolean>();
 
   constructor(private modalService: NgbModal) {
   }
@@ -23,7 +25,7 @@ export class ModalManagerService {
 
   onOkPressedDeleteModal(): void {
     this.deleteModalRef.close(true);
-    this.deleteModalResult.next(true);
+    this.deleteAccModalResult.next(true);
   }
 
   openConfirmModal(component: ModalInterface): void {
@@ -36,6 +38,19 @@ export class ModalManagerService {
 
   onOkPressedConfirmModal(): void {
     this.confirmModalRef.close(true);
+  }
+
+  openDeleteIndexModal(component: ModalInterface): void {
+    this.deleteIndexRef = this.modalService.open(component, {centered: true});
+  }
+
+  onOkDeleteIndexModal(): void {
+    this.deleteIndexRef.close(true);
+    this.deleteIndexModalResult.next(true);
+  }
+
+  closeDeleteIndexModal(): void {
+    this.deleteIndexRef.dismiss();
   }
 
   getConfirmResult(): Observable<boolean> {
