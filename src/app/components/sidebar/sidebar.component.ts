@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   active = false;
   username: string;
 
-  private mainSubscription: Subscription;
+  private mainSubscription = new Subscription();
   private sidebarSubscription: Subscription;
   private userSubscription: Subscription;
 

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
 import {DetailedUserModel} from '../../model/representation/detailed-user.model';
@@ -20,8 +20,6 @@ import {NotificationType} from '../../constants/notification-type.enum';
   styleUrls: ['./insulin-form.component.css', '../../../assets/styles/utils.css']
 })
 export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
-  @ViewChild('convert') convertButton: ElementRef;
-
   userModel: DetailedUserModel;
   // form related items
   form = new FormGroup({});

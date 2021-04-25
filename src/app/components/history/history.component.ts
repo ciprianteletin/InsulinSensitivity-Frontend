@@ -154,7 +154,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.deleteIndexSubscription !== null) {
+    if (this.deleteIndexSubscription) {
       this.deleteIndexSubscription.unsubscribe();
     }
   }
