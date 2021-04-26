@@ -3,9 +3,11 @@ import {Subscription} from 'rxjs';
 import {DataIndexModel} from '../../model/form/data-index.model';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 import {Color, Label} from 'ng2-charts';
-import {ChartDataSets} from 'chart.js';
-import {ChartType} from 'chart.js';
+import {ChartDataSets, ChartType} from 'chart.js';
 import {IndexResultModel} from '../../model/representation/index-result.model';
+import {FileExporterService} from '../../services/file-exporter.service';
+import {NotificationService} from '../../services/notification.service';
+import {NotificationType} from '../../constants/notification-type.enum';
 
 @Component({
   selector: 'app-result',
@@ -17,7 +19,10 @@ export class ResultComponent implements OnInit, OnDestroy {
   private insertedGlucose: number[];
   private normalValuesInsulin: number[] = [8, 60, 60, 50, 40, 70];
   private insertedInsulin: number[];
+  // Data for Excel import
   public indexData: DataIndexModel;
+  private originalResponse: any;
+  // Displayed data
   public indexResultList: { name: string, index: IndexResultModel }[] = [];
   public optionalDataList: { name: string, value: string }[] = [];
   public mandatoryResponse: string;
@@ -26,6 +31,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   private mainSubscription = new Subscription();
   private passDataSubscription: Subscription;
   private passResponseSubscription: Subscription;
+  private excelExportSubscription: Subscription;
   // placeholders
   public glucosePlaceholder;
   public insulinPlaceholder;
@@ -60,7 +66,9 @@ export class ResultComponent implements OnInit, OnDestroy {
   public lineChartType: ChartType = 'line';
   public lineChartPlugins = [];
 
-  constructor(private insulinService: InsulinIndexesService) {
+  constructor(private insulinService: InsulinIndexesService,
+              private fileExporter: FileExporterService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -73,15 +81,20 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.type = 'Name';
     this.order = this.nameOrder;
     this.nameOrder = this.nameOrder === 'Ascending' ? 'Descending' : 'Ascending';
-    console.log(this.type, this.order);
   }
 
   updateResultArgs(): void {
     this.type = 'Result';
     this.order = this.resultOrder;
     this.resultOrder = this.resultOrder === 'Ascending' ? 'Descending' : 'Ascending';
-    console.log(this.type, this.order);
+  }
 
+  exportExcel(): void {
+    if (!this.indexData || !this.originalResponse) {
+      this.notificationService.notify(NotificationType.ERROR, 'Data not loaded!');
+    }
+    this.excelExportSubscription = this.fileExporter.exportExcelResult(this.indexData, this.originalResponse)
+      .subscribe();
   }
 
   private convertGlucose(): void {
@@ -145,6 +158,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   private createResponseSubscription(): void {
     this.passResponseSubscription = this.insulinService.getResponseEvent()
       .subscribe(response => {
+        this.originalResponse = response;
         this.getMessageResponse(response.result);
         for (const index in response.results) {
           if (response.results.hasOwnProperty(index)) {
@@ -177,6 +191,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   private addSubscriptions(): void {
     this.mainSubscription.add(this.passDataSubscription);
     this.mainSubscription.add(this.passResponseSubscription);
+    this.mainSubscription.add(this.excelExportSubscription);
   }
 
   ngOnDestroy(): void {

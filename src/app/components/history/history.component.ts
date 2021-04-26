@@ -23,6 +23,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
   public type: string;
   private numberOrder = 'Ascending';
   private dateOrder = 'Ascending';
+  // Pagination
+  public page = 1;
+  public pageSize = 5;
   // Status data
   statusDropdown = [
     {item_id: 1, item_text: 'Healthy'},
@@ -137,6 +140,15 @@ export class HistoryComponent implements OnInit, OnDestroy {
     let indexString = '';
     indexNames.forEach(index => indexString = indexString + index + ' ');
     return indexString;
+  }
+
+  calculateCurrentDisplay(): number {
+    const display = this.indexSummary.length - this.pageSize * this.page;
+    if (display >= 0) {
+      return this.pageSize;
+    } else {
+      return this.pageSize - (this.pageSize * this.page - this.indexSummary.length);
+    }
   }
 
   private removeFromList(historyId: number): void {
