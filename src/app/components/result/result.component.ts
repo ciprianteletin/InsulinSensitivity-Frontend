@@ -8,6 +8,8 @@ import {IndexResultModel} from '../../model/representation/index-result.model';
 import {FileExporterService} from '../../services/file-exporter.service';
 import {NotificationService} from '../../services/notification.service';
 import {NotificationType} from '../../constants/notification-type.enum';
+import {HttpResponse} from '@angular/common/http';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-result',
@@ -94,7 +96,15 @@ export class ResultComponent implements OnInit, OnDestroy {
       this.notificationService.notify(NotificationType.ERROR, 'Data not loaded!');
     }
     this.excelExportSubscription = this.fileExporter.exportExcelResult(this.indexData, this.originalResponse)
-      .subscribe();
+      .subscribe((excel: HttpResponse<Blob>) => {
+        this.downloadFile(excel.body);
+      }, () => this.notificationService.notify(NotificationType.ERROR, 'Excel download failed!'));
+  }
+
+  private downloadFile(data: Blob): void {
+    const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    saveAs(blob, 'insulin.xlsx');
+    this.notificationService.notify(NotificationType.SUCCESS, 'Your file was downloaded with success!');
   }
 
   private convertGlucose(): void {
@@ -197,5 +207,4 @@ export class ResultComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.mainSubscription.unsubscribe();
   }
-
 }

@@ -91,11 +91,13 @@
   margin-left: 15px;
 }
 
-.table-filter input, .table-filter select {
+.table-filter select {
   height: 34px;
   border-radius: 3px;
   border-color: #ddd;
   box-shadow: none;
+  display: inline-block;
+  margin-left: 5px;
 }
 
 .table-filter {
@@ -111,16 +113,6 @@
 .table-filter label {
   font-weight: normal;
   margin-left: 10px;
-}
-
-.table-filter select, .table-filter input {
-  display: inline-block;
-  margin-left: 5px;
-}
-
-.table-filter input {
-  width: 200px;
-  display: inline-block;
 }
 
 .filter-group select.form-control {
@@ -164,45 +156,6 @@ table.table th i {
   font-size: 13px;
   margin: 0 5px;
   cursor: pointer;
-}
-
-table.table td a {
-  font-weight: bold;
-  color: #566787;
-  display: inline-block;
-  text-decoration: none;
-}
-
-table.table td a:hover {
-  color: #2196F3;
-}
-
-table.table td a.view {
-  width: 30px;
-  height: 30px;
-  color: #2196F3;
-  border: 2px solid;
-  border-radius: 30px;
-  text-align: center;
-}
-
-table.table td a.view i {
-  font-size: 22px;
-  margin: 2px 0 0 1px;
-}
-
-table.table .avatar {
-  border-radius: 50%;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
-.status {
-  font-size: 30px;
-  margin: 2px 2px 0 0;
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 10px;
 }
 
 .pagination {

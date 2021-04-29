@@ -100,7 +100,7 @@
                 <tr
                   *ngFor="let index of indexSummary | sortIndex: type: order | slice: (page-1) * pageSize : page * pageSize; let i = index"
                   triggers="click" placement="left" [autoClose]="true" ngbTooltip="{{onShowTooltip(index.indexNames)}}">
-                  <td>{{i + 1}}</td>
+                  <td>{{(i + 1) + (this.pageSize * (this.page - 1))}}</td>
                   <td>{{index.chartsResult}}</td>
                   <td>{{index.indexResult}}</td>
                   <td>{{index.indexNames.length}}</td>

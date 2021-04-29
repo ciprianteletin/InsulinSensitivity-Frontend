@@ -41,7 +41,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
     {item_id: 11, item_text: 'IFG+IGT'},
     {item_id: 12, item_text: 'IR30'},
     {item_id: 13, item_text: 'IR60'},
-    {item_id: 14, item_text: 'IR3060'}
+    {item_id: 14, item_text: 'IR3060'},
+    {item_id: 15, item_text: 'Unknown'}
   ];
   statusSelected = [];
   dropdownSettings: IDropdownSettings = {
@@ -95,7 +96,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.insulinService.emitNewData(mandatoryInfo);
         this.insulinService.emitResponse(sender);
         this.isLoading = false;
-        this.router.navigate(['results']);
+        this.router.navigate(['results'])
+          .then();
       });
   }
 

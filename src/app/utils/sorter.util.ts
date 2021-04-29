@@ -15,7 +15,8 @@ export class SorterUtil {
     'IFG+IGT': 'Impaired Fasting Glucose and Impaired Glucose Tolerance: Prediabetes',
     IR30: 'Insulin Resistance - 30 min glucose',
     IR60: 'Insulin Resistance - 60 min glucose',
-    IR3060: 'Insulin Resistance - 30 and 60 min glucose'
+    IR3060: 'Insulin Resistance - 30 and 60 min glucose',
+    Unknown: '-'
   };
 
   public static sortByDate(indexSummary: IndexSummaryModel[], restriction: string): IndexSummaryModel[] {
@@ -31,7 +32,7 @@ export class SorterUtil {
   }
 
   public static sortByStatus(indexSummary: IndexSummaryModel[], status: { item_id: number, item_text: string }[]): IndexSummaryModel[] {
-    if (status.length === 14 || status.length === 0) {
+    if (status.length === 15 || status.length === 0) {
       return indexSummary;
     }
     const tempArr: IndexSummaryModel[] = [];
@@ -50,7 +51,7 @@ export class SorterUtil {
     for (const st of index) {
       tempArr.push(...indexSummary.filter(summary => summary.indexNames.includes(st.item_text.toLowerCase())));
     }
-    return tempArr;
+    return [...new Set(tempArr)];
   }
 
   private static checkToday(today: Date, summary: Date): boolean {

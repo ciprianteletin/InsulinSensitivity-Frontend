@@ -27,7 +27,7 @@ export class InsulinConverter {
   }
 
   private roundValue(value: number): number {
-    return Math.round((value + Number.EPSILON) * 100) / 100;
+    return Math.round((value + Number.EPSILON) * 1000) / 1000;
   }
 
   private convertGlucose(value: string, currentPlaceholder: string): string {
