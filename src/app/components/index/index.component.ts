@@ -28,5 +28,4 @@ export class IndexComponent implements OnInit {
     this.renderer.removeClass(this.modal.nativeElement, 'hidden');
     this.renderer.removeClass(this.overlay.nativeElement, 'hidden');
   }
-
 }

@@ -9,7 +9,7 @@ import {FileExporterService} from '../../services/file-exporter.service';
 import {NotificationService} from '../../services/notification.service';
 import {NotificationType} from '../../constants/notification-type.enum';
 import {HttpResponse} from '@angular/common/http';
-import {saveAs} from 'file-saver';
+import {InsulinConverter} from '../../converters/insulin.converter';
 
 @Component({
   selector: 'app-result',
@@ -97,24 +97,18 @@ export class ResultComponent implements OnInit, OnDestroy {
     }
     this.excelExportSubscription = this.fileExporter.exportExcelResult(this.indexData, this.originalResponse)
       .subscribe((excel: HttpResponse<Blob>) => {
-        this.downloadFile(excel.body);
+        this.fileExporter.downloadFile(excel.body);
       }, () => this.notificationService.notify(NotificationType.ERROR, 'Excel download failed!'));
-  }
-
-  private downloadFile(data: Blob): void {
-    const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-    saveAs(blob, 'insulin.xlsx');
-    this.notificationService.notify(NotificationType.SUCCESS, 'Your file was downloaded with success!');
   }
 
   private convertGlucose(): void {
     this.normalValuesGlucose = this.normalValuesGlucose
-      .map(v => v * 18);
+      .map(v => InsulinConverter.roundValue(v / 18));
   }
 
   private convertInsulin(): void {
     this.normalValuesInsulin = this.normalValuesInsulin
-      .map(v => v * 6);
+      .map(v => InsulinConverter.roundValue(v * 6));
   }
 
   private prepareDataArrays(): void {

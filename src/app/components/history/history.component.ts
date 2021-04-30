@@ -8,6 +8,10 @@ import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 import {Subscription} from 'rxjs';
 import {ModalManagerService} from '../../services/modal-manager.service';
 import {DeleteIndexModalComponent} from '../delete-index-modal/delete-index-modal.component';
+import {FileExporterService} from '../../services/file-exporter.service';
+import {HttpResponse} from '@angular/common/http';
+import {NotificationType} from '../../constants/notification-type.enum';
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
   selector: 'app-history',
@@ -80,7 +84,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
               private historyService: HistoryService,
               private insulinService: InsulinIndexesService,
               private router: Router,
-              private modalManager: ModalManagerService) {
+              private notificationService: NotificationService,
+              private modalManager: ModalManagerService,
+              private fileExporter: FileExporterService) {
   }
 
   ngOnInit(): void {
@@ -109,6 +115,20 @@ export class HistoryComponent implements OnInit, OnDestroy {
           this.historyService.deleteById(historyId);
           this.removeFromList(historyId);
         }
+      });
+  }
+
+  onExportExcel(): void {
+    this.isLoading = true;
+    const indexId: number[] = [];
+    this.indexSummary.forEach(index => indexId.push(index.id));
+    this.fileExporter.exportExcelHistory(indexId)
+      .subscribe((excel: HttpResponse<Blob>) => {
+        this.fileExporter.downloadFile(excel.body);
+        this.isLoading = false;
+      }, () => {
+        this.notificationService.notify(NotificationType.ERROR, 'Excel download failed!');
+        this.isLoading = false;
       });
   }
 

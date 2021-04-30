@@ -20,7 +20,8 @@
                 <a class="btn btn-primary" (click)="onFilterData()"><span class="icons"><i
                   class="fa fa-filter"></i></span>
                   <span>Filter</span></a>
-                <a class="btn btn-secondary"><span class="icons mr-1"><i class="fas fa-file-excel"></i></span>
+                <a class="btn btn-secondary" (click)="onExportExcel()"><span class="icons mr-1"><i
+                  class="fas fa-file-excel"></i></span>
                   <span>Export to Excel</span></a>
               </div>
             </div>
@@ -99,7 +100,7 @@
                 <tbody *ngIf="indexSummary.length !== 0; else helpertext">
                 <tr
                   *ngFor="let index of indexSummary | sortIndex: type: order | slice: (page-1) * pageSize : page * pageSize; let i = index"
-                  triggers="click" placement="left" [autoClose]="true" ngbTooltip="{{onShowTooltip(index.indexNames)}}">
+                  triggers="click" placement="top-left" [autoClose]="true" ngbTooltip="{{onShowTooltip(index.indexNames)}}">
                   <td>{{(i + 1) + (this.pageSize * (this.page - 1))}}</td>
                   <td>{{index.chartsResult}}</td>
                   <td>{{index.indexResult}}</td>
