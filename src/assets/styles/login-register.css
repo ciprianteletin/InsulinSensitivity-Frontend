@@ -1,11 +1,12 @@
 .btn {
   cursor: pointer;
-  display: inline-block;
   padding: 10px 20px;
-  color: #fff;
-  background-color: #33cccc;
   border: none;
   border-radius: 5px;
+}
+
+.text-darker {
+  color: darkslategray;
 }
 
 .wider {
@@ -16,17 +17,13 @@
   width: 20%;
 }
 
-.btn-success {
-  background: darkred;
-}
-
 .btn:hover {
   opacity: 0.9;
   background: #28a33f;
 }
 
 .full-bg {
-  background: url('../images/login-register.png') no-repeat center center/cover;
+  background: url('../images/login-register.jpg') no-repeat center center/cover;
 }
 
 .container-login-register {
@@ -49,12 +46,6 @@
 
 input.ng-invalid.ng-touched {
   border: 3px solid red;
-}
-
-@media (max-width: 570px) {
-  .btn {
-    padding: 10px 10px;
-  }
 }
 
 @media (max-width: 1024px) {

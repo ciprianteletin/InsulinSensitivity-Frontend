@@ -8,14 +8,6 @@
   border-radius: 5px;
 }
 
-.wider {
-  width: 100%;
-}
-
-.btn-success {
-  background: darkred;
-}
-
 .btn:hover {
   opacity: 0.9;
   background: #28a33f;

@@ -102,7 +102,7 @@ ul.CTAs a {
   border-radius: 5px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   #sidebar {
     margin-left: -250px;
     min-height: 100%;

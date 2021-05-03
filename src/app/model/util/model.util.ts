@@ -4,7 +4,7 @@ import {CompleteUserModel} from '../representation/complete-user.model';
 
 export class ModelUtil {
   static buildUserFromFormValues(form: NgForm, basicUser: RegisterBasicModel): CompleteUserModel {
-    const birthDay = `${form.value.birthDay.day}/${form.value.birthDay.month}/${form.value.birthDay.year}`;
+    const birthDay = this.buildBirthDay(form);
     return {
       username: basicUser.username,
       password: basicUser.password,
@@ -16,5 +16,23 @@ export class ModelUtil {
       gender: form.value.gender,
       birthDay
     };
+  }
+
+  private static buildBirthDay(form: NgForm): string {
+    let birthday: string;
+    if (form.value.birthDay.day <= 9) {
+      birthday = `0${form.value.birthDay.day}/`;
+    } else {
+      birthday = `${form.value.birthDay.day}/`;
+    }
+
+    if (form.value.birthDay.month <= 9) {
+      birthday += `0${form.value.birthDay.month}/`;
+    } else {
+      birthday += `${form.value.birthDay.month}/`;
+    }
+
+    birthday += `${form.value.birthDay.year}`;
+    return birthday;
   }
 }

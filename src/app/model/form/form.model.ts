@@ -37,7 +37,7 @@ export class FormModel {
   addMass(): void {
     const mass: FormlyFieldConfig =
       {
-        className: 'col-md-3 text-info',
+        className: 'col-md-3 text-warning',
         type: 'input',
         key: 'weight',
         templateOptions: {
@@ -55,7 +55,7 @@ export class FormModel {
   addHeight(): void {
     const height: FormlyFieldConfig =
       {
-        className: 'col-md-3 text-info',
+        className: 'col-md-3 text-warning',
         type: 'input',
         key: 'height',
         templateOptions: {
@@ -73,7 +73,7 @@ export class FormModel {
   addNefa(): void {
     const nefa: FormlyFieldConfig =
       {
-        className: 'col-md-3 text-info',
+        className: 'col-md-3 text-warning',
         type: 'input',
         key: 'nefa',
         templateOptions: {
@@ -91,7 +91,7 @@ export class FormModel {
   addThyroglobulin(): void {
     const thyroglobulin: FormlyFieldConfig =
       {
-        className: 'col-md-3 text-info',
+        className: 'col-md-3 text-warning',
         type: 'input',
         key: 'thyroglobulin',
         templateOptions: {
@@ -109,7 +109,7 @@ export class FormModel {
   addHdl(): void {
     const hdl: FormlyFieldConfig =
       {
-        className: 'col-md-3 text-info',
+        className: 'col-md-3 text-warning',
         type: 'input',
         key: 'hdl',
         templateOptions: {
@@ -127,7 +127,7 @@ export class FormModel {
   addTriglyceride(): void {
     const triglyceride: FormlyFieldConfig =
       {
-        className: 'col-md-3 text-info',
+        className: 'col-md-3 text-warning',
         type: 'input',
         key: 'triglyceride',
         templateOptions: {
@@ -170,7 +170,7 @@ export class FormModel {
       fieldGroupClassName: 'row',
       fieldGroup: [
         {
-          className: 'col-md-4 text-info',
+          className: 'col-md-4 text-warning',
           type: 'input',
           key: 'fullName',
           defaultValue: fullName,
@@ -181,7 +181,7 @@ export class FormModel {
           },
         },
         {
-          className: 'col-md-4 text-info',
+          className: 'col-md-4 text-warning',
           type: 'input',
           key: 'age',
           defaultValue: age,
@@ -195,7 +195,7 @@ export class FormModel {
           }
         },
         {
-          className: 'col-md-4 text-info',
+          className: 'col-md-4 text-warning',
           type: 'select',
           key: 'gender',
           defaultValue: gender,
@@ -218,7 +218,7 @@ export class FormModel {
         fieldGroupClassName: 'row',
         fieldGroup: [
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'fastingGlucose',
             templateOptions: {
@@ -231,7 +231,7 @@ export class FormModel {
             }
           },
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'glucoseThree',
             templateOptions: {
@@ -244,7 +244,7 @@ export class FormModel {
             }
           },
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'glucoseSix',
             templateOptions: {
@@ -257,7 +257,7 @@ export class FormModel {
             }
           },
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'glucoseOneTwenty',
             templateOptions: {
@@ -279,7 +279,7 @@ export class FormModel {
         fieldGroupClassName: 'row',
         fieldGroup: [
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'fastingInsulin',
             templateOptions: {
@@ -292,7 +292,7 @@ export class FormModel {
             }
           },
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'insulinThree',
             templateOptions: {
@@ -305,7 +305,7 @@ export class FormModel {
             }
           },
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'insulinSix',
             templateOptions: {
@@ -318,7 +318,7 @@ export class FormModel {
             }
           },
           {
-            className: 'col-md-3 text-info',
+            className: 'col-md-3 text-warning',
             type: 'input',
             key: 'insulinOneTwenty',
             templateOptions: {

@@ -15,7 +15,7 @@
                minlength="6"
                maxlength="50">
       </div>
-      <small id="emailHelp" class="form-text text-warning font-weight-bold">We'll never share your email with anyone
+      <small id="emailHelp" class="form-text text-darker font-weight-bold">We'll never share your email with anyone
         else.</small>
       <div class="form-group mt-3">
         <label for="password" class="font-weight-bold">Password</label>
@@ -48,13 +48,12 @@
         <label class="form-check-label" for="remember-me">Remember me</label>
       </div>
       <button type="submit"
-              class="btn btn-success wider"
+              class="btn btn-dark wider mt-3"
               [disabled]="!f.valid">Login!
       </button>
       <button type="button" (click)="onForgetPassword()" class="btn-link bg-transparent border-0">Forgot your
         password?
       </button>
-      <p class="py-3"><a href="#"><img src="../../../assets/images/search.png" alt=""> - Login with Gmail</a></p>
     </form>
   </div>
   <app-footer></app-footer>
