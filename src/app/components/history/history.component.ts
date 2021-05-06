@@ -124,7 +124,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.indexSummary.forEach(index => indexId.push(index.id));
     this.fileExporter.exportExcelHistory(indexId)
       .subscribe((excel: HttpResponse<Blob>) => {
-        this.fileExporter.downloadFile(excel.body);
+        this.fileExporter.downloadExcel(excel.body);
         this.isLoading = false;
       }, () => {
         this.notificationService.notify(NotificationType.ERROR, 'Excel download failed!');

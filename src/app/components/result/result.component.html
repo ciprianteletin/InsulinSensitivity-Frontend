@@ -14,7 +14,7 @@
               </div>
               <div class="d-flex justify-content-between align-items-end flex-wrap">
                 <button class="btn btn-primary mt-2 mt-xl-0 mr-2" (click)="exportExcel()">Create Excel</button>
-                <button class="btn btn-primary mt-2 mt-xl-0">Generate report</button>
+                <button class="btn btn-primary mt-2 mt-xl-0" (click)="exportPDF()">Generate report</button>
               </div>
             </div>
           </div>
@@ -175,7 +175,7 @@
                 <p class="text-muted">By looking to the graph, one can extract useful information about how the glucose
                   is fluctuating during the test </p>
               </div>
-              <canvas baseChart
+              <canvas baseChart #glucoseChart
                       [datasets]="glucoseData"
                       [labels]="glucoseLabel"
                       [options]="lineChartOptions"
@@ -198,7 +198,7 @@
                 <p class="text-muted">Normally, the values should rise in the beginning and fall back near the end of
                   the test. A diagnosis is extracted from the chart </p>
               </div>
-              <canvas baseChart
+              <canvas baseChart #insulinChart
                       [datasets]="insulinData"
                       [labels]="insulinLabel"
                       [options]="lineChartOptions"

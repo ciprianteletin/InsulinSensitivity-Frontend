@@ -24,16 +24,32 @@ export class FileExporterService {
       {headers: this.fileHeaders, responseType: 'blob', observe: 'response'});
   }
 
-  public downloadFile(data: Blob): void {
+  public downloadExcel(data: Blob): void {
     const blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
     saveAs(blob, 'insulin.xlsx');
     this.notificationService.notify(NotificationType.SUCCESS, 'Your file was downloaded with success!');
   }
 
+  public downloadPDF(data: Blob): void {
+    const blob = new Blob([data], {type: 'application/pdf'});
+    saveAs(blob, 'insulin.pdf');
+    this.notificationService.notify(NotificationType.SUCCESS, 'Your file was downloaded with success!');
+  }
+
+  public exportPDF(glucoseImg: string, insulinImg: string, originalResponse: any, data: DataIndexModel): Observable<HttpResponse<Blob>> {
+    return this.http.post(`${environment.url}/index/pdf`, new Pair(originalResponse, data), {
+      params: {
+        glucoseImg,
+        insulinImg
+      },
+      headers: this.fileHeaders, responseType: 'blob', observe: 'response'
+    });
+  }
+
   public get fileHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+      Accept: 'text/html,application/xhtml+xml,application/pdf,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
     });
   }
 }

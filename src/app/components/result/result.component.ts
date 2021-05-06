@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {DataIndexModel} from '../../model/form/data-index.model';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
@@ -17,6 +17,9 @@ import {InsulinConverter} from '../../converters/insulin.converter';
   styleUrls: ['./result.component.css']
 })
 export class ResultComponent implements OnInit, OnDestroy {
+  @ViewChild('glucoseChart') glucoseChart: ElementRef;
+  @ViewChild('insulinChart') insulinChart: ElementRef;
+
   private normalValuesGlucose: number[] = [99, 155, 155, 147, 139];
   private insertedGlucose: number[];
   private normalValuesInsulin: number[] = [8, 60, 60, 50, 40, 70];
@@ -91,13 +94,23 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.resultOrder = this.resultOrder === 'Ascending' ? 'Descending' : 'Ascending';
   }
 
+  exportPDF(): void {
+    const glucoseImg = this.glucoseChart.nativeElement.toDataURL('image/png');
+    const insulinImg = this.insulinChart.nativeElement.toDataURL('image/png');
+
+    this.fileExporter.exportPDF(glucoseImg, insulinImg, this.originalResponse, this.indexData)
+      .subscribe((pdf: HttpResponse<Blob>) => {
+        this.fileExporter.downloadPDF(pdf.body);
+      }, () => this.notificationService.notify(NotificationType.ERROR, 'PDF download failed!'));
+  }
+
   exportExcel(): void {
     if (!this.indexData || !this.originalResponse) {
       this.notificationService.notify(NotificationType.ERROR, 'Data not loaded!');
     }
     this.excelExportSubscription = this.fileExporter.exportExcelResult(this.indexData, this.originalResponse)
       .subscribe((excel: HttpResponse<Blob>) => {
-        this.fileExporter.downloadFile(excel.body);
+        this.fileExporter.downloadExcel(excel.body);
       }, () => this.notificationService.notify(NotificationType.ERROR, 'Excel download failed!'));
   }
 
