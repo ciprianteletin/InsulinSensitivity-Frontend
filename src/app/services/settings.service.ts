@@ -20,6 +20,24 @@ export class SettingsService {
   private readonly accountInfo = 'accountInfo';
   private readonly accountPassword = 'accountPassword';
 
+  private static buildDate(date: string): string {
+    const splitter = date.split('/');
+    let newDate = '';
+    if (splitter[0].length === 1) {
+      newDate = `0${splitter[0]}/`;
+    } else {
+      newDate = `${splitter[0]}/`;
+    }
+
+    if (splitter[1].length === 1) {
+      newDate += `0${splitter[1]}/`;
+    } else {
+      newDate += `${splitter[1]}/`;
+    }
+
+    return newDate + splitter[2];
+  }
+
   constructor(private authService: AuthenticationService,
               private http: HttpClient,
               private cacheService: CacheService,
@@ -57,6 +75,17 @@ export class SettingsService {
       }
       return;
     }
+  }
+
+  public deleteHistoryByDate(fromDate: string, toDate: string): void {
+    this.http.delete(`${environment.url}/history/delete`, {
+      params: {
+        fromDate: SettingsService.buildDate(fromDate),
+        toDate: SettingsService.buildDate(toDate)
+      }
+    })
+      .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'History deleted with success!'),
+        () => this.notificationService.notify(NotificationType.ERROR, 'Error occurred during history deletion!'));
   }
 
   public deleteUserAccount(id: number): void {

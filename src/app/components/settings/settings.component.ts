@@ -16,7 +16,6 @@ import {NotificationType} from '../../constants/notification-type.enum';
 import {NotificationService} from '../../services/notification.service';
 import {ModalManagerService} from '../../services/modal-manager.service';
 
-
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -36,6 +35,8 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   // elements custom data structures
   private divSections: ElementRef[];
   private formMap: CustomFormMap;
+  // date picker
+  @ViewChild('dp') datePicker: any;
   // subscriptions
   private mainSubscription = new Subscription();
   private userSubscription: Subscription;
@@ -88,11 +89,31 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onSaveChanges(): void {
     const activePanel = this.utilsService.getActiveElementId(this.divSections);
+    if (activePanel === 'accountHistory') {
+      this.submitDate();
+      return;
+    }
+    this.submitForm(activePanel);
+  }
+
+  private submitForm(activePanel: string): void {
     const flag = this.settingUtils.checkValidForm(activePanel, this.formMap);
     if (flag) {
       this.settingsService.submitActiveForm(activePanel, this.formMap, this.mainDetailedUser);
       this.alignMainAndDisplayedUser();
     }
+  }
+
+  private submitDate(): void {
+    const fromDate: { year: number, month: number, day: number } = this.datePicker.fromDate;
+    const toDate: { year: number, month: number, day: number } = this.datePicker.toDate;
+    if (!fromDate || !toDate) {
+      return;
+    }
+
+    const from: string = this.settingUtils.buildDate(fromDate);
+    const to: string = this.settingUtils.buildDate(toDate);
+    this.settingsService.deleteHistoryByDate(from, to);
   }
 
   openDeleteModal(): void {
@@ -112,7 +133,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.detailedUser = Object.assign({}, this.mainDetailedUser);
         this.detailedUser.details = Object.assign({}, this.mainDetailedUser.details);
         break;
-      case 'activeHistory':
+      case 'accountHistory':
         this.utilsService.onResetDate();
         break;
     }

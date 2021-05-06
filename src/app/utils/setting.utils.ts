@@ -1,4 +1,3 @@
-import {UtilsService} from '../services/utils.service';
 import {CustomFormMap} from '../model/representation/custom-form-map.model';
 import {Injectable} from '@angular/core';
 
@@ -9,15 +8,7 @@ import {Injectable} from '@angular/core';
  */
 @Injectable()
 export class SettingUtils {
-  constructor(private utilService: UtilsService) {
-  }
-
-  public resetFormOrElse(property: string, formMap: CustomFormMap): void {
-    if (formMap.hasOwnProperty(property)) {
-      formMap[property].resetForm();
-      return;
-    }
-    this.utilService.onResetDate();
+  constructor() {
   }
 
   public checkValidForm(property: string, formMap: CustomFormMap): boolean {
@@ -25,5 +16,9 @@ export class SettingUtils {
       return formMap[property].valid;
     }
     return true;
+  }
+
+  public buildDate(date: { year: number, month: number, day: number }): string {
+    return `${date.day}/${date.month}/${date.year}`;
   }
 }
