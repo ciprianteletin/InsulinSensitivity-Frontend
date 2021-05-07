@@ -48,12 +48,11 @@
       </ul>
     </li>
     <li>
-      <a (click)="navigateToHistory()"
-      >History</a>
+      <a *ngIf="isLoggedUser" (click)="navigateToHistory()">History</a>
     </li>
     <li>
-      <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
-      <ul class="collapse list-unstyled" id="settingsSubmenu">
+      <a *ngIf="isLoggedUser" href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
+      <ul *ngIf="isLoggedUser" class="collapse list-unstyled" id="settingsSubmenu">
         <li>
           <a (click)="onClickSettingsEvent('accountPassword')">Change password</a> <!--If not connected with gmail-->
         </li>

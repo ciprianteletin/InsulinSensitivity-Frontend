@@ -7,22 +7,24 @@ import {mergeMap} from 'rxjs/operators';
 import {CacheService} from './cache.service';
 import {CustomFormMap} from '../model/representation/custom-form-map.model';
 import {DetailedUserModel} from '../model/representation/detailed-user.model';
-import {AES, SHA3} from 'crypto-js';
+import {AES} from 'crypto-js';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {UserPasswordModel} from '../model/representation/user-password.model';
 import {NotificationType} from '../constants/notification-type.enum';
 import {NotificationService} from './notification.service';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
   private activeElementSubject = new BehaviorSubject<string>('accountGeneral');
+  private userImageChanged = new BehaviorSubject<string>(null);
   private readonly accountGeneral = 'accountGeneral';
   private readonly accountInfo = 'accountInfo';
   private readonly accountPassword = 'accountPassword';
 
   private static buildDate(date: string): string {
     const splitter = date.split('/');
-    let newDate = '';
+    let newDate: string;
     if (splitter[0].length === 1) {
       newDate = `0${splitter[0]}/`;
     } else {
@@ -42,6 +44,7 @@ export class SettingsService {
               private http: HttpClient,
               private cacheService: CacheService,
               private router: Router,
+              private cookieService: CookieService,
               private activeRoute: ActivatedRoute,
               private notificationService: NotificationService) {
   }
@@ -54,19 +57,24 @@ export class SettingsService {
     return this.activeElementSubject;
   }
 
+  public getImageChangedSubject(): BehaviorSubject<string> {
+    return this.userImageChanged;
+  }
+
   public getUserCountryOrNothing(username: string): Observable<{ country: string }> {
-    username = SHA3(username).toString();
+    username = AES.encrypt(username, environment.secretKey).toString();
     if (this.cacheService.checkIfPresent(username)) {
       return of({country: this.cacheService.getItem(username)});
     }
     return this.obtainCountry();
   }
 
-  public submitActiveForm(property: string, formMap: CustomFormMap, detailedUser: DetailedUserModel): void {
+  public submitActiveForm(property: string, selectedFile: File, formMap: CustomFormMap, detailedUser: DetailedUserModel): void {
     if (formMap.hasOwnProperty(property)) {
       switch (property) {
         case this.accountGeneral:
         case this.accountInfo:
+          this.onUploadPhoto(selectedFile, detailedUser.id);
           this.updateUserInformation(formMap, detailedUser);
           break;
         case this.accountPassword:
@@ -97,12 +105,26 @@ export class SettingsService {
       });
   }
 
+  private onUploadPhoto(selectedFile: File, id: number): void {
+    if (!selectedFile) {
+      return;
+    }
+    const uploadImageData = new FormData();
+    uploadImageData.append('imageFile', selectedFile, selectedFile.name);
+
+    this.http.post<DetailedUserModel>(`${environment.url}/user/upload/${id}`, uploadImageData, {observe: 'response'})
+      .subscribe((user) => {
+        const image = 'data:image/jpeg;base64,' + user.body.details.profileImage;
+        this.userImageChanged.next(image);
+      });
+  }
+
   private obtainCountry(): Observable<{ country: string }> {
     const params = {fields: 'country'};
     return this.http.get(`${environment.url}/user/ip`, {responseType: 'text'})
       .pipe(
         mergeMap(ip => {
-          const userIp = ip === '127.0.0.1' ? '79.118.48.107' : ip;
+          const userIp = ip === '127.0.0.1' || ip === '0:0:0:0:0:0:0:1' ? '79.118.48.107' : ip;
           return this.http.get<{ country: string }>(`${environment.countryAPI}/${userIp}`, {params, withCredentials: false});
         }));
   }
@@ -112,11 +134,20 @@ export class SettingsService {
     this.http.put(`${environment.url}/user/updateInformation/${detailedUser.id}`, updateInfo)
       .subscribe(() => {
         if (detailedUser.username !== updateInfo.username) {
+          this.updateCache(updateInfo.username);
           this.changeQueryParams(updateInfo.username);
           this.emitUserIfDifferent(detailedUser, updateInfo.username);
           this.updateCacheIfAvailable(detailedUser.username, updateInfo.username);
         }
       });
+  }
+
+  private updateCache(username: string): void {
+    const rememberMe = this.cookieService.check('rememberMe');
+    if (rememberMe) {
+      username = AES.encrypt(username, environment.secretKey).toString();
+      this.cookieService.set('username', username);
+    }
   }
 
   private updatePassword(formMap: CustomFormMap, detailedUser: DetailedUserModel): void {

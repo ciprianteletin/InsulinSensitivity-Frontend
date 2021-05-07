@@ -11,6 +11,6 @@ export class DetailedUserModel {
     joinDate: string;
     gender: string;
     lastLoginDate: string;
-    profileImageUrl?: string;
+    profileImage?: Blob;
   };
 }

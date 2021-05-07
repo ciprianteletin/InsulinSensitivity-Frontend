@@ -22,6 +22,7 @@ import {errors} from '../constants/error.constants';
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
   user = new BehaviorSubject<UserModel>(null);
+  loggedUser = new BehaviorSubject<boolean>(false);
   private captchaEvent = new Subject<boolean>();
 
   private jwtHelper = new JwtHelperService();
@@ -140,6 +141,7 @@ export class AuthenticationService {
 
   private resetUserState(): void {
     this.user.next(null);
+    this.loggedUser.next(false);
     this.userId = null;
   }
 
@@ -177,6 +179,7 @@ export class AuthenticationService {
       username: response.body.username,
     };
     this.userId = response.body.id;
+    this.loggedUser.next(true);
     this.user.next(loggedUser);
   }
 

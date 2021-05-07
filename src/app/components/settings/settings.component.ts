@@ -40,6 +40,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   // subscriptions
   private mainSubscription = new Subscription();
   private userSubscription: Subscription;
+  private profileImageSubscription: Subscription;
   private deleteModalSubscription: Subscription;
   private activeElementSubscription: Subscription;
   // Data Model
@@ -48,10 +49,16 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   user: UserModel;
   mainDetailedUser: DetailedUserModel;
   detailedUser: DetailedUserModel;
+  // Save button string
+  submitButtonText = 'Save changes';
   // Browser size
   innerWidth: number;
   // Active element
   activeElement: string;
+  // file chooser
+  selectedFile: File;
+  profileImg = 'https://bootdey.com/img/Content/avatar/avatar1.png';
+  uploadStatus = '';
 
   constructor(private authService: AuthenticationService,
               private settingsService: SettingsService,
@@ -96,24 +103,9 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.submitForm(activePanel);
   }
 
-  private submitForm(activePanel: string): void {
-    const flag = this.settingUtils.checkValidForm(activePanel, this.formMap);
-    if (flag) {
-      this.settingsService.submitActiveForm(activePanel, this.formMap, this.mainDetailedUser);
-      this.alignMainAndDisplayedUser();
-    }
-  }
-
-  private submitDate(): void {
-    const fromDate: { year: number, month: number, day: number } = this.datePicker.fromDate;
-    const toDate: { year: number, month: number, day: number } = this.datePicker.toDate;
-    if (!fromDate || !toDate) {
-      return;
-    }
-
-    const from: string = this.settingUtils.buildDate(fromDate);
-    const to: string = this.settingUtils.buildDate(toDate);
-    this.settingsService.deleteHistoryByDate(from, to);
+  public onFileChanged(event): void {
+    this.selectedFile = event.target.files[0];
+    this.uploadStatus = 'Photo uploaded';
   }
 
   openDeleteModal(): void {
@@ -130,6 +122,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (activePanel) {
       case 'accountGeneral':
       case 'accountInfo':
+        this.resetUpload();
         this.detailedUser = Object.assign({}, this.mainDetailedUser);
         this.detailedUser.details = Object.assign({}, this.mainDetailedUser.details);
         break;
@@ -139,10 +132,39 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  public resetUpload(): void {
+    this.selectedFile = undefined;
+    this.uploadStatus = '';
+  }
+
+  private submitForm(activePanel: string): void {
+    const flag = this.settingUtils.checkValidForm(activePanel, this.formMap);
+    if (flag) {
+      this.settingsService.submitActiveForm(activePanel, this.selectedFile, this.formMap, this.mainDetailedUser);
+      this.alignMainAndDisplayedUser();
+      this.resetUpload();
+    }
+  }
+
+  private submitDate(): void {
+    const fromDate: { year: number, month: number, day: number } = this.datePicker.fromDate;
+    const toDate: { year: number, month: number, day: number } = this.datePicker.toDate;
+    if (!fromDate || !toDate) {
+      return;
+    }
+
+    const from: string = this.settingUtils.buildDate(fromDate);
+    const to: string = this.settingUtils.buildDate(toDate);
+    this.settingsService.deleteHistoryByDate(from, to);
+  }
+
   private setData(data: { detailedUser: DetailedUserModel, country: { country: string } }): void {
     this.mainDetailedUser = data.detailedUser;
     this.detailedUser = Object.assign({}, data.detailedUser);
     this.detailedUser.details = Object.assign({}, data.detailedUser.details);
+    if (this.detailedUser.details.profileImage) {
+      this.profileImg = 'data:image/jpeg;base64,' + this.detailedUser.details.profileImage;
+    }
     this.country = data.country.country;
     this.userAge = this.utilsService.convertBirthDayToAge(data.detailedUser.details.birthDay);
   }
@@ -169,7 +191,16 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.activeElementSubscription = this.settingsService.getActiveElementSubject()
-      .subscribe(active => this.activeElement = active);
+      .subscribe(active => {
+        this.activeElement = active;
+      });
+
+    this.profileImageSubscription = this.settingsService.getImageChangedSubject()
+      .subscribe(image => {
+        if (image) {
+          this.profileImg = image;
+        }
+      });
 
     this.addSubscriptions();
   }
@@ -182,6 +213,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mainSubscription.add(this.userSubscription);
     this.mainSubscription.add(this.deleteModalSubscription);
     this.mainSubscription.add(this.activeElementSubscription);
+    this.mainSubscription.add(this.profileImageSubscription);
   }
 
   private extractRouteData(): void {

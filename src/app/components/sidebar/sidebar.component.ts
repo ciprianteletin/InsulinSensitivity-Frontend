@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   indexList: any[] = [];
   active = false;
   username: string;
+  isLoggedUser: boolean;
 
   private mainSubscription = new Subscription();
   private sidebarSubscription: Subscription;
@@ -99,7 +100,10 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSubscription = this.authService.user
       .subscribe(user => {
         if (user !== null) {
+          this.isLoggedUser = true;
           this.username = user.username;
+        } else {
+          this.isLoggedUser = false;
         }
       });
 

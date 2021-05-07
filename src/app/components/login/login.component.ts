@@ -11,6 +11,10 @@ import {ReCaptcha2Component} from 'ngx-captcha';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ModalManagerService} from '../../services/modal-manager.service';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {CookieService} from 'ngx-cookie-service';
+import {AES} from 'crypto-js';
+import {environment} from '../../constants/environment';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -28,12 +32,14 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
   routerEvent: Subscription;
   siteKey: string;
   displayCaptcha = false;
+  username = '';
 
   constructor(private authService: AuthenticationService,
               private router: Router,
               private activeRoute: ActivatedRoute,
               private notificationService: NotificationService,
-              private modalManager: ModalManagerService) {
+              private modalManager: ModalManagerService,
+              private cookieService: CookieService) {
     this.siteKey = '6LdlhXkaAAAAAF1yMLOiVExYDrkkaO_rtsJFDrQB';
   }
 
@@ -41,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
    * Subscribes to different events used for multiple purposes.
    */
   ngOnInit(): void {
+    this.consultCookie();
     this.subscribeToRouterEvents();
     this.getCaptchaEvents();
   }
@@ -55,14 +62,25 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
         return throwError(genericError);
       }))
       .subscribe(() => {
+        this.rememberMeCookie();
         this.router.navigate(['/insulin']);
         this.notificationService.notify(NotificationType.DEFAULT, 'You are now logged in!');
       });
   }
 
-
   onForgetPassword(): void {
     this.router.navigate(['forget'], {relativeTo: this.activeRoute});
+  }
+
+  private rememberMeCookie(): void {
+    const rememberMe = this.loginForm.value.remember;
+    if (rememberMe) {
+      this.cookieService.set('rememberMe', 'true');
+      const username = AES.encrypt(this.loginForm.value.username, environment.secretKey).toString();
+      this.cookieService.set('username', username);
+    } else {
+      this.cookieService.deleteAll();
+    }
   }
 
   private isFormEmpty(): boolean {
@@ -82,6 +100,13 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
       .subscribe(activateCaptcha => {
         this.displayCaptcha = activateCaptcha;
       });
+  }
+
+  private consultCookie(): void {
+    const rememberMe = this.cookieService.check('rememberMe');
+    if (rememberMe) {
+      this.username = AES.decrypt(this.cookieService.get('username'), environment.secretKey).toString(CryptoJS.enc.Utf8);
+    }
   }
 
   /**

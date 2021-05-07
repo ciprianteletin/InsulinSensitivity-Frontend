@@ -10,6 +10,7 @@ import {NotificationService} from '../../services/notification.service';
 import {NotificationType} from '../../constants/notification-type.enum';
 import {HttpResponse} from '@angular/common/http';
 import {InsulinConverter} from '../../converters/insulin.converter';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-result',
@@ -19,7 +20,8 @@ import {InsulinConverter} from '../../converters/insulin.converter';
 export class ResultComponent implements OnInit, OnDestroy {
   @ViewChild('glucoseChart') glucoseChart: ElementRef;
   @ViewChild('insulinChart') insulinChart: ElementRef;
-
+  public isLoggedUser: boolean;
+  // Glucose and insulin ranges
   private normalValuesGlucose: number[] = [99, 155, 155, 147, 139];
   private insertedGlucose: number[];
   private normalValuesInsulin: number[] = [8, 60, 60, 50, 40, 70];
@@ -37,6 +39,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   private passDataSubscription: Subscription;
   private passResponseSubscription: Subscription;
   private excelExportSubscription: Subscription;
+  private loggedUserSubscription: Subscription;
   // placeholders
   public glucosePlaceholder;
   public insulinPlaceholder;
@@ -73,10 +76,12 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   constructor(private insulinService: InsulinIndexesService,
               private fileExporter: FileExporterService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
+    this.createLoggedUserSubscription();
     this.createDataSubscription();
     this.createResponseSubscription();
     this.addSubscriptions();
@@ -187,6 +192,11 @@ export class ResultComponent implements OnInit, OnDestroy {
       });
   }
 
+  private createLoggedUserSubscription(): void {
+    this.loggedUserSubscription = this.authService.loggedUser
+      .subscribe(value => this.isLoggedUser = value);
+  }
+
   private getMessageResponse(response: string): void {
     const responseArray = response.split('|');
     this.mandatoryResponse = responseArray[0];
@@ -209,6 +219,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.mainSubscription.add(this.passDataSubscription);
     this.mainSubscription.add(this.passResponseSubscription);
     this.mainSubscription.add(this.excelExportSubscription);
+    this.mainSubscription.add(this.loggedUserSubscription);
   }
 
   ngOnDestroy(): void {

@@ -60,10 +60,6 @@ label.btn {
   margin-bottom: 30px;
 }
 
-.text-light {
-  color: #babbbc !important;
-}
-
 .card {
   background-clip: padding-box;
   box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
@@ -109,7 +105,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
   width: 85%;
 }
 
-@media(max-width: 900px) {
+@media (max-width: 900px) {
   .down {
     width: 100%;
     position: initial;
@@ -132,7 +128,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     width: 100%;
   }
 
-  .hide-small{
+  .hide-small {
     display: none;
   }
 }

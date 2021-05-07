@@ -70,14 +70,15 @@
                  [ngClass]="{'active': activeElement === 'accountGeneral', 'show': activeElement === 'accountGeneral'}"
                  #accountGeneral>
               <div class="card-body media align-items-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
+                <img [src]="profileImg" alt="" class="d-block ui-w-80">
                 <div class="media-body ml-4">
                   <label class="btn btn-outline-primary">
                     Upload new photo
-                    <input type="file" class="account-settings-fileinput">
+                    <input type="file" class="account-settings-fileinput" (change)="onFileChanged($event)">
                   </label> &nbsp;
-                  <button type="button" class="btn btn-default md-btn-flat">Reset</button>
-                  <div class="text-light small mt-1">Allowed JPG or PNG. Max size of 800K</div>
+                  <button type="button" class="btn btn-default" (click)="resetUpload()">Reset</button>
+                  <span class="ml-2 text-black-50">{{uploadStatus}}</span>
+                  <div class="text-black-50 small mt-1">Allowed JPG or PNG. Max size of 800K</div>
                 </div>
               </div>
               <hr class="border-light m-0">
@@ -281,7 +282,7 @@
       </div>
     </div>
     <div class="text-right mt-3">
-      <button type="button" class="btn btn-primary" (click)="onSaveChanges()">Save changes</button>&nbsp;
+      <button type="button" class="btn btn-primary" (click)="onSaveChanges()">{{submitButtonText}}</button>&nbsp;
       <button type="button" class="btn btn-danger" (click)="clearCurrentForm()">Cancel</button>
     </div>
   </div>

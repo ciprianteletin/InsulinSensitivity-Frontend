@@ -13,8 +13,8 @@
                 </div>
               </div>
               <div class="d-flex justify-content-between align-items-end flex-wrap">
-                <button class="btn btn-primary mt-2 mt-xl-0 mr-2" (click)="exportExcel()">Create Excel</button>
-                <button class="btn btn-primary mt-2 mt-xl-0" (click)="exportPDF()">Generate report</button>
+                <button *ngIf="isLoggedUser" class="btn btn-primary mt-2 mt-xl-0 mr-2" (click)="exportExcel()">Create Excel</button>
+                <button *ngIf="isLoggedUser" class="btn btn-primary mt-2 mt-xl-0" (click)="exportPDF()">Generate report</button>
               </div>
             </div>
           </div>
