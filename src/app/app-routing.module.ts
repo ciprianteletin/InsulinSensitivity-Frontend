@@ -16,18 +16,20 @@ import {CountryResolver} from './resolver/country.resolver';
 import {ResultComponent} from './components/result/result.component';
 import {HistoryComponent} from './components/history/history.component';
 import {SummaryResolver} from './resolver/summary.resolver';
+import {LoggedInGuard} from './guards/logged-in.guard';
+import {NotLoggedGuard} from './guards/not-logged.guard';
 
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
   {
-    path: 'login', component: LoginComponent, canDeactivate: [CanDeactivateGuard], children: [
+    path: 'login', component: LoginComponent, canActivate: [NotLoggedGuard], canDeactivate: [CanDeactivateGuard], children: [
       {path: 'forget', component: MailComponent}
     ]
   },
-  {path: 'register', component: RegisterComponent, canDeactivate: [CanDeactivateGuard]},
+  {path: 'register', component: RegisterComponent, canActivate: [NotLoggedGuard], canDeactivate: [CanDeactivateGuard]},
   {path: 'register/details', component: RegisterDetailsComponent, canDeactivate: [CanDeactivateGuard]},
   {
-    path: 'settings', component: SettingsComponent, resolve: {
+    path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard], resolve: {
       detailedUser: DetailedUserResolver,
       country: CountryResolver
     }
@@ -41,7 +43,7 @@ const routes: Routes = [
   },
   {path: 'results', component: ResultComponent},
   {
-    path: 'history', component: HistoryComponent, resolve: {
+    path: 'history', component: HistoryComponent, canActivate: [LoggedInGuard], resolve: {
       summary: SummaryResolver
     }
   },

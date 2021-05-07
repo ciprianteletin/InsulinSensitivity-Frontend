@@ -25,6 +25,8 @@ import {ResultComponent} from './components/result/result.component';
 import {HistoryComponent} from './components/history/history.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ModalModule} from './modules/modal.module';
+import {LoggedInGuard} from './guards/logged-in.guard';
+import {NotLoggedGuard} from './guards/not-logged.guard';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -72,7 +74,8 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     CookieService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true},
+    LoggedInGuard, NotLoggedGuard
   ],
   bootstrap: [AppComponent]
 })

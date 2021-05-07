@@ -25,6 +25,7 @@ export class AuthenticationService {
   loggedUser = new BehaviorSubject<boolean>(false);
   private captchaEvent = new Subject<boolean>();
 
+  private isLoggedIn = false;
   private jwtHelper = new JwtHelperService();
   private timerRefreshToken: any;
   private userId: number;
@@ -134,6 +135,10 @@ export class AuthenticationService {
     return this.captchaEvent;
   }
 
+  isLoggedUser(): boolean {
+    return this.isLoggedIn;
+  }
+
   private handleAuth(response: HttpResponse<any>): void {
     this.handleAuthToken(response);
     this.emitLoggedUser(response);
@@ -143,6 +148,7 @@ export class AuthenticationService {
     this.user.next(null);
     this.loggedUser.next(false);
     this.userId = null;
+    this.isLoggedIn = false;
   }
 
   /**
@@ -179,6 +185,7 @@ export class AuthenticationService {
       username: response.body.username,
     };
     this.userId = response.body.id;
+    this.isLoggedIn = true;
     this.loggedUser.next(true);
     this.user.next(loggedUser);
   }
