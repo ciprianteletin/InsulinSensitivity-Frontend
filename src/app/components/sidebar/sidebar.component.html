@@ -51,7 +51,8 @@
       <a *ngIf="isLoggedUser" (click)="navigateToHistory()">History</a>
     </li>
     <li>
-      <a *ngIf="isLoggedUser" href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settings</a>
+      <a *ngIf="isLoggedUser" href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false"
+         class="dropdown-toggle">Settings</a>
       <ul *ngIf="isLoggedUser" class="collapse list-unstyled" id="settingsSubmenu">
         <li>
           <a (click)="onClickSettingsEvent('accountPassword')">Change password</a> <!--If not connected with gmail-->
@@ -65,10 +66,12 @@
       </ul>
     </li>
     <li>
-      <a href="readmore.html">Read More</a>
+      <a href="#">Read More</a>
     </li>
     <li>
-      <a href="#">Contact</a>
+      <a [routerLink]="['/contact-us']"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: true}">Contact Us</a>
     </li>
   </ul>
 

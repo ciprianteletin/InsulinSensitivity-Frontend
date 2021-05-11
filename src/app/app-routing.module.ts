@@ -18,6 +18,7 @@ import {HistoryComponent} from './components/history/history.component';
 import {SummaryResolver} from './resolver/summary.resolver';
 import {LoggedInGuard} from './guards/logged-in.guard';
 import {NotLoggedGuard} from './guards/not-logged.guard';
+import {ContactUsComponent} from './components/contact-us/contact-us.component';
 
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
@@ -47,6 +48,7 @@ const routes: Routes = [
       summary: SummaryResolver
     }
   },
+  {path: 'contact-us', component: ContactUsComponent},
   {path: 'resetPassword/:code', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}

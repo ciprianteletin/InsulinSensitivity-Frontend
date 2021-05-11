@@ -12,6 +12,7 @@ import {NotificationService} from './notification.service';
 import {NotificationType} from '../constants/notification-type.enum';
 import {CacheService} from './cache.service';
 import {errors} from '../constants/error.constants';
+import {CookieService} from 'ngx-cookie-service';
 
 /**
  * Service that tackles every request/operation related to the authentication process. It returns an Observable, letting
@@ -32,6 +33,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient,
               private router: Router,
+              private cookieService: CookieService,
               private notificationService: NotificationService,
               private cacheService: CacheService) {
   }
@@ -95,18 +97,21 @@ export class AuthenticationService {
    * case of page/browser refresh.
    */
   autoLogin(): Promise<any> {
-    return this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
-      .pipe(tap((res => {
-          // if the status is 204, it means that "NO_CONTENT" was sent
-          if (res.status !== environment.no_content) {
-            this.handleAuth(res);
-          }
-        })),
-        catchError((err) => {
-          this.notificationService.notify(NotificationType.ERROR, 'Autologin failed!');
-          this.unexpectedLogout();
-          return of(err);
-        })).toPromise();
+    if (this.cookieService.check('refreshToken')) {
+      return this.http.get<HttpResponse<UserModel>>(`${environment.url}/autologin`, environment.httpOptions)
+        .pipe(tap((res => {
+            // if the status is 204, it means that "NO_CONTENT" was sent
+            if (res.status !== environment.no_content) {
+              this.handleAuth(res);
+            }
+          })),
+          catchError((err) => {
+            this.notificationService.notify(NotificationType.ERROR, 'Autologin failed!');
+            this.unexpectedLogout();
+            return of(err);
+          })).toPromise();
+    }
+    return Promise.resolve();
   }
 
   /**
