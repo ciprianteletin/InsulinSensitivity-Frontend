@@ -48,7 +48,11 @@ const routes: Routes = [
       summary: SummaryResolver
     }
   },
-  {path: 'contact-us', component: ContactUsComponent},
+  {
+    path: 'contact-us', component: ContactUsComponent, resolve: {
+      detailedUser: DetailedUserResolver
+    }
+  },
   {path: 'resetPassword/:code', component: ResetPasswordComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo: 'not-found'}

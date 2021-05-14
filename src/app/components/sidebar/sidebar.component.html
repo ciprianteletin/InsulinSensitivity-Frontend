@@ -69,9 +69,7 @@
       <a href="#">Read More</a>
     </li>
     <li>
-      <a [routerLink]="['/contact-us']"
-         routerLinkActive="active"
-         [routerLinkActiveOptions]="{exact: true}">Contact Us</a>
+      <a (click)="navigateToContactUs()">Contact Us</a>
     </li>
   </ul>
 

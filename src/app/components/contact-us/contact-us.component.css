@@ -116,16 +116,25 @@
   }
 }
 
+.ng-invalid.ng-touched {
+  border-bottom: 1px solid red;
+}
+
 label.error {
-  font-size: 12px;
-  color: red;
+  font-size: 14px !important;
+  color: red !important;
+  border-bottom: none;
+}
+
+.no-border {
+  border-bottom: none !important;
 }
 
 #message {
   resize: vertical;
 }
 
-#form-message-warning, #form-message-success {
+.hidden {
   display: none;
 }
 

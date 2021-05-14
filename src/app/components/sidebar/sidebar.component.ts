@@ -96,6 +96,17 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     }).then();
   }
 
+  public navigateToContactUs(): void {
+    if (this.username) {
+      this.router.navigate(['/contact-us'], {
+        queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
+      }).then();
+      return;
+    }
+    this.router.navigate(['/contact-us']).then();
+  }
+
+
   private createSubscriptions(): void {
     this.userSubscription = this.authService.user
       .subscribe(user => {
