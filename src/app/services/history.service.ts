@@ -19,8 +19,7 @@ export class HistoryService {
     return this.http.get<Pair<DataIndexModel, any>>(`${environment.url}/history/result/${historyId}`);
   }
 
-  deleteById(historyId: number): void {
-    this.http.delete(`${environment.url}/history/delete/${historyId}`)
-      .subscribe();
+  deleteById(historyId: number): Observable<any> {
+    return this.http.delete(`${environment.url}/history/delete/${historyId}`);
   }
 }

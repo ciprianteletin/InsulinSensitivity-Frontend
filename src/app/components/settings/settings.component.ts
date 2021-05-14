@@ -15,6 +15,8 @@ import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
 import {NotificationType} from '../../constants/notification-type.enum';
 import {NotificationService} from '../../services/notification.service';
 import {ModalManagerService} from '../../services/modal-manager.service';
+import {DeleteIndexModalComponent} from '../delete-index-modal/delete-index-modal.component';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
@@ -42,6 +44,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   private userSubscription: Subscription;
   private profileImageSubscription: Subscription;
   private deleteModalSubscription: Subscription;
+  private deleteHistorySubscription: Subscription;
   private activeElementSubscription: Subscription;
   // Data Model
   country: string;
@@ -115,6 +118,19 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   onLogout(): void {
     this.authService.logout()
       .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'Logged out with success!'));
+  }
+
+  onDeleteAllHistory(): void {
+    this.modalManager.openDeleteIndexModal(DeleteIndexModalComponent,
+      'Are you sure you want to delete the entire index history?',
+      'All history information related to this account will be deleted!');
+    this.deleteHistorySubscription = this.modalManager.deleteIndexModalResult
+      .pipe(take(1))
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.settingsService.deleteAllHistory();
+        }
+      });
   }
 
   clearCurrentForm(): void {
@@ -212,6 +228,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
   private addSubscriptions(): void {
     this.mainSubscription.add(this.userSubscription);
     this.mainSubscription.add(this.deleteModalSubscription);
+    this.mainSubscription.add(this.deleteHistorySubscription);
     this.mainSubscription.add(this.activeElementSubscription);
     this.mainSubscription.add(this.profileImageSubscription);
   }

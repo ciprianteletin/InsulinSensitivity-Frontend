@@ -12,6 +12,7 @@ import {FileExporterService} from '../../services/file-exporter.service';
 import {HttpResponse} from '@angular/common/http';
 import {NotificationType} from '../../constants/notification-type.enum';
 import {NotificationService} from '../../services/notification.service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-history',
@@ -93,7 +94,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.getRouteData();
   }
 
-  onGoToReports(historyId: number): void {
+  onGoToReports(historyId: number, event: Event): void {
+    event.stopPropagation();
     this.isLoading = true;
     this.historyService.getMandatoryAndSummaryPair(historyId)
       .subscribe(pair => {
@@ -107,18 +109,34 @@ export class HistoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDeleteIndexHistory(historyId: number): void {
-    this.modalManager.openDeleteIndexModal(DeleteIndexModalComponent);
+  trackById(id: number, history: IndexSummaryModel): number {
+    return history.id;
+  }
+
+  onDeleteIndexHistory(historyId: number, event: Event): void {
+    event.stopPropagation();
+    this.modalManager.openDeleteIndexModal(DeleteIndexModalComponent,
+      'Are you sure you want to delete the selected history item?',
+      'All information related to this index will be deleted!');
     this.deleteIndexSubscription = this.modalManager.deleteIndexModalResult
+      .pipe(take(1))
       .subscribe(result => {
         if (result) {
-          this.historyService.deleteById(historyId);
-          this.removeFromList(historyId);
+          this.isLoading = true;
+          this.historyService.deleteById(historyId)
+            .subscribe(() => {
+              this.removeFromList(historyId);
+              this.isLoading = false;
+            }, () => this.isLoading = false);
         }
       });
   }
 
   onExportExcel(): void {
+    if (this.indexSummary.length === 0) {
+      this.notificationService.notify(NotificationType.WARNING, 'No history available for export!');
+      return;
+    }
     this.isLoading = true;
     const indexId: number[] = [];
     this.indexSummary.forEach(index => indexId.push(index.id));
@@ -175,9 +193,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   private removeFromList(historyId: number): void {
     const summaryPoz = this.indexSummary.findIndex(item => item.id === historyId);
-    this.indexSummary.splice(summaryPoz, 1);
-    const originalPoz = this.originalSummary.findIndex(item => item.id === historyId);
-    this.originalSummary.splice(originalPoz, 1);
+    if (summaryPoz !== -1) {
+      this.indexSummary.splice(summaryPoz, 1);
+      const originalPoz = this.originalSummary.findIndex(item => item.id === historyId);
+      this.originalSummary.splice(originalPoz, 1);
+    }
   }
 
   private getRouteData(): void {

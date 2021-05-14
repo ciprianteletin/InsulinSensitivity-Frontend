@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {ModalInterface} from '../model/util/modal.interface';
-import {Subject, from, Observable} from 'rxjs';
+import {Subject, from, Observable, BehaviorSubject} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class ModalManagerService {
@@ -11,6 +11,7 @@ export class ModalManagerService {
 
   deleteAccModalResult = new Subject<boolean>();
   deleteIndexModalResult = new Subject<boolean>();
+  setTextDeleteModalSubject = new BehaviorSubject<{ t1: string, t2: string }>(null);
 
   constructor(private modalService: NgbModal) {
   }
@@ -40,8 +41,9 @@ export class ModalManagerService {
     this.confirmModalRef.close(true);
   }
 
-  openDeleteIndexModal(component: ModalInterface): void {
+  openDeleteIndexModal(component: ModalInterface, strongText: string, text: string): void {
     this.deleteIndexRef = this.modalService.open(component, {centered: true});
+    this.setTextDeleteModalSubject.next({t1: strongText, t2: text});
   }
 
   onOkDeleteIndexModal(): void {

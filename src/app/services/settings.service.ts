@@ -96,6 +96,12 @@ export class SettingsService {
         () => this.notificationService.notify(NotificationType.ERROR, 'Error occurred during history deletion!'));
   }
 
+  public deleteAllHistory(): void {
+    this.http.delete(`${environment.url}/history/deleteAll`)
+      .subscribe(() => this.notificationService.notify(NotificationType.SUCCESS, 'History deleted with success!'),
+        () => this.notificationService.notify(NotificationType.ERROR, 'Error occurred during history deletion!'));
+  }
+
   public deleteUserAccount(id: number): void {
     this.http.delete(`${environment.url}/user/delete/${id}`)
       .subscribe(() => {

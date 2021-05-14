@@ -27,7 +27,7 @@
                data-toggle="list"
                href="#accountHistory">
                Clear history</a>
-            <button class="list-group-item list-group-item-action" (click)="openDeleteModal()">Delete</button>
+            <button class="list-group-item list-group-item-action" (click)="openDeleteModal()">Delete Account</button>
             <button class="btn logout btn-danger down" (click)="onLogout()">Logout</button>
           </div>
 
@@ -58,7 +58,7 @@
                  [ngClass]="{'active': activeElement === 'accountHistory'}"
                  data-toggle="list"
                  href="#accountHistory">Clear history</a>
-              <button class="list-group-item list-group-item-action">Delete</button>
+              <button class="list-group-item list-group-item-action">Delete Account</button>
               <button class="btn logout btn-danger down" (click)="onLogout()">Logout</button>
             </div>
           </ng-template>
@@ -270,7 +270,8 @@
                 <br>
                 <app-date-picker #dp></app-date-picker>
                 <div class="big-margin-bottom">&nbsp;</div>
-                <div class="alert alert-warning mt-5">
+                <button class="btn btn-dark" (click)="onDeleteAllHistory()">Delete all history</button>
+                <div class="alert alert-warning mt-3">
                   Once the history is deleted, there is no way to establish it back. This procedure could affect how
                   data is displayed
                   and interpreted. After you selected the interval, press the button "Save changes".
