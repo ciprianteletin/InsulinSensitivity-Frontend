@@ -3,8 +3,8 @@
     <h3>InsulinX Sidebar Menu</h3>
   </div>
 
-  <p>Choose action</p>
   <ul class="list-unstyled components">
+    <p>Choose action</p>
     <li class="active">
       <a href="#calculateSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Choose
         indexs</a>
@@ -66,7 +66,9 @@
       </ul>
     </li>
     <li>
-      <a href="#">Read More</a>
+      <a [routerLink]="['']"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: true}">Home Page</a>
     </li>
     <li>
       <a (click)="navigateToContactUs()">Contact Us</a>

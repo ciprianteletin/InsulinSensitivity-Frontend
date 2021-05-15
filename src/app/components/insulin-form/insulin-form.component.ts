@@ -13,6 +13,7 @@ import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 import {ModalManagerService} from '../../services/modal-manager.service';
 import {NotificationService} from '../../services/notification.service';
 import {NotificationType} from '../../constants/notification-type.enum';
+import {HeaderService} from '../../services/header.service';
 
 @Component({
   selector: 'app-insulin-form',
@@ -30,6 +31,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
   private addSubscription: Subscription;
   private removeSubscription: Subscription;
   private resetFormSubscription: Subscription;
+  private calculateIndexSubscription: Subscription;
   // placeholders
   placeholderGlucose = 'mg/dL'; // alternative mmol/L
   placeholderInsulin = 'μIU/mL'; // alternative pmol/L
@@ -44,6 +46,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private headerService: HeaderService,
               private formBuilder: JsonFormBuilder,
               private insulinService: InsulinIndexesService,
               private modalManager: ModalManagerService,
@@ -148,6 +151,8 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
       .subscribe(index => this.formBuilder.removeFieldsIfNeeded(index));
     this.resetFormSubscription = this.formBuilder.getRefreshObject()
       .subscribe(fields => this.fields = fields);
+    this.calculateIndexSubscription = this.headerService.getCalculateIndexEvent()
+      .subscribe(() => this.fields = this.formBuilder.getFields(this.userModel, this.insulinService.getIndexList()));
     this.addSubscriptions();
   }
 
@@ -164,6 +169,7 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
     this.mainSubscription.add(this.addSubscription);
     this.mainSubscription.add(this.removeSubscription);
     this.mainSubscription.add(this.resetFormSubscription);
+    this.mainSubscription.add(this.calculateIndexSubscription);
   }
 
   private isFormEmpty(): boolean {

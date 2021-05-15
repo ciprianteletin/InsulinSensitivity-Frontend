@@ -8,16 +8,17 @@
   align-content: center;
   align-items: center;
   justify-content: center;
-  top: 50px;
+  top: 100px;
   left: 50px;
-  background-color: white;
   min-height: 60%;
   height: auto;
   width: 50%;
-  background-color: rgba(2, 50, 88, 0.6);
+  background-color: rgba(2, 50, 88, 0.5);
+  border: 1px solid rgba(2, 50, 88, 0.5);
+  border-radius: 5%;
 }
 
-@media(max-width: 1300px) {
+@media(max-width: 769px) {
   .container {
     background-color: transparent;
     display: initial;
@@ -26,6 +27,7 @@
     align-content: initial;
     align-items: initial;
     justify-content: initial;
+    border: none;
   }
 
   #reduce-width {

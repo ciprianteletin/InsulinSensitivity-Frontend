@@ -11,6 +11,7 @@ import {SettingsService} from './settings.service';
 @Injectable({providedIn: 'root'})
 export class HeaderService {
   private activateSidebar = new Subject<void>();
+  private calculateIndexPressed = new Subject<void>();
 
   constructor(private authService: AuthenticationService,
               private notificationService: NotificationService,
@@ -46,5 +47,13 @@ export class HeaderService {
 
   getSidebarEvent(): Subject<void> {
     return this.activateSidebar;
+  }
+
+  getCalculateIndexEvent(): Subject<void> {
+    return this.calculateIndexPressed;
+  }
+
+  emitCalculateIndexEvent(): void {
+    this.calculateIndexPressed.next();
   }
 }

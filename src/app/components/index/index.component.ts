@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-index',
@@ -17,6 +18,11 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true
+    });
   }
 
   onCloseModal(): void {

@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   private mainSubscription = new Subscription();
   private sidebarSubscription: Subscription;
   private userSubscription: Subscription;
+  private calculateIndexSubscription: Subscription;
 
   constructor(private headerService: HeaderService,
               private authService: AuthenticationService,
@@ -120,11 +121,15 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.sidebarSubscription = this.headerService.getSidebarEvent()
       .subscribe(() => this.active = !this.active);
+
+    this.calculateIndexSubscription = this.headerService.getCalculateIndexEvent()
+      .subscribe(() => this.activateClickedIndexes());
   }
 
   private addSubscriptions(): void {
     this.mainSubscription.add(this.userSubscription);
     this.mainSubscription.add(this.sidebarSubscription);
+    this.mainSubscription.add(this.calculateIndexSubscription);
   }
 
   ngOnDestroy(): void {

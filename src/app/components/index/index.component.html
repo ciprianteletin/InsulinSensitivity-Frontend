@@ -1,35 +1,182 @@
-<div class="full-bg">
-  <app-header></app-header>
-  <main class="wrapper">
-    <div class="model hidden" #modal appModal>
-      <button class="close-modal" (click)="onCloseModal()">&times;</button>
-      <h1>What we really do?</h1>
-      <p>
-        We calculate up to fifteen indices of insulin sensitivity or
-        insulin resistance in order to provide accurate data about any risk
-        of diabetes or other similar problems. In order to calculate this kind
-        of data we likely need input from an Oral Glucose Tolerance Test and some
-        additional data like BMI, age, sex etc. Each formula is proved scientifically
-        to be as accurate as possible. By using a combination of those indices, we
-        can provide accurate results regarding your healthy.<br>
-        For more details about us and what we do, please contact us.
-      </p>
-    </div>
-    <div class="overlay hidden" (click)="onCloseModal()" #overlay appModal></div>
-    <div class="container">
-      <div class="about-box">
-        <h1>Welcome to our page!</h1>
-        <p>We provide advanced calculations to determine the risk of having diabetes or pre-diabetes, in order to
-          prevent
-          something that could affect your life.
-          Our calculations depends on seven indexes of sensibility to insulin, highly accurate in determining any kind
-          of
-          risk to getting diabetes.
-          For more information, press the button below.
-        </p>
-        <button class="btn" id="read-more" (click)="onActivateModal()"><i class="fas fa-chevron-right"></i>Read More
-        </button>
+<app-header></app-header>
+
+<section id="front" class="d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1"
+        data-aos="fade-up">
+        <div>
+          <h1>InsulinX</h1>
+          <h2>The best solution for insulin index calculation, easy to use, high performant and reliable on any
+            device.</h2>
+        </div>
+      </div>
+      <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 front-img"
+           data-aos="fade-up">
+        <img src="../../../assets/images/pancreas-home-no-bg.png" class="img-fluid" alt="complete-clinic">
       </div>
     </div>
-  </main>
-</div>
+  </div>
+</section>
+
+<main id="main">
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>InsulinX Features</h2>
+        <p>The application contains a high number of features, designed to make the life of patients and medical
+          personal easier. To enjoy each feature at maximum, we recommend to create a free personal account.</p>
+      </div>
+      <div class="row no-gutters">
+        <div class="col-xl-7 d-flex align-items-stretch order-2 order-lg-1">
+          <div class="content d-flex flex-column justify-content-center">
+            <div class="row">
+              <div class="col-md-6 icon-box" data-aos="fade-up">
+                <h4>Index calculation</h4>
+                <p>We provide a configurable form which allows to calculate up to 15 insulin indexes, including the most
+                  used ones</p>
+              </div>
+              <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+                <h4>Result interpretation</h4>
+                <p>After the data is inserted and the indexes are calculated, we deliver chart interpretation for
+                  glucose and insulin levels</p>
+              </div>
+              <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+                <h4>History</h4>
+                <p>Each time a number of indexes is calculated, the results are stored in a secured database to be
+                  visualized later</p>
+              </div>
+              <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="600">
+                <h4>Excel export</h4>
+                <p>You can directly download your result in a .xlsl document, or you can filter what to download from
+                  history directly</p>
+              </div>
+              <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="700">
+                <h4>PDF generator</h4>
+                <p>On the result page, you have the possibility to generate from the charts a pdf that can be shared
+                  with anyone</p>
+              </div>
+              <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="800">
+                <h4>Explicabo consectetur</h4>
+                <p>Est autem dicta beatae suscipit. Sint veritatis et sit quasi ab aut inventore</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="image col-xl-5 d-flex align-items-stretch justify-content-center order-1 order-lg-2"
+             data-aos="fade-left" data-aos-delay="100">
+          <img src="../../../assets/images/hospital-staff-removebg.png" class="img-fluid" alt="Features">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="details" class="details">
+    <div class="container">
+      <div class="row content">
+        <div class="col-md-4" data-aos="fade-right">
+          <img src="../../../assets/images/chart-presentation.png" class="img-fluid" alt="Chart presentation">
+        </div>
+        <div class="col-md-8 pt-4" data-aos="fade-up">
+          <h3>Input visualization and interpretation using self-explanatory charts</h3>
+          <p class="font-italic">
+            Your data from the OGTT test is analyzed and graphically represented using powerful charts.
+            Based on your input, we can determine in what health category you are situated.
+          </p>
+          <p>There are up to 12 category of diabetes, insulin resistance or pre-diabetes as follows:</p>
+          <ul>
+            <li> Healthy, Impaired Fasting Glucose, Impaired Glucose Tolerance</li>
+            <li> Impaired Fasting Glucose + Impaired Glucose Tolerance, Diabetes</li>
+            <li> Diabetes with Impaired Glucose Tolerance, Diabetes with Impaired Fasting Glucose</li>
+            <li> Diabetes with Normal Fasting Glucose, Diabetes with Normal 2 hour Post-Glucose</li>
+            <li> Insulin Resistance derived from glucose at 30 or 60 minutes during OGTT test</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row content">
+        <div class="col-md-4 order-1 order-md-2" data-aos="fade-left">
+          <img src="../../../assets/images/calc-image.png" class="img-fluid" alt="Index calculation">
+        </div>
+        <div class="col-md-8 pt-5 order-2 order-md-1" data-aos="fade-up">
+          <h3>Index calculation using accurate methods</h3>
+          <p class="font-italic">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore
+            magna aliqua.
+          </p>
+          <p>
+            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum
+          </p>
+          <p>
+            Inventore id enim dolor dicta qui et magni molestiae. Mollitia optio officia illum ut cupiditate eos autem.
+            Soluta dolorum repellendus repellat amet autem rerum illum in. Quibusdam occaecati est nisi esse. Saepe aut
+            dignissimos distinctio id enim.
+          </p>
+        </div>
+      </div>
+
+      <div class="row content">
+        <div class="col-md-4" data-aos="fade-right">
+          <img src="" class="img-fluid" alt="test">
+        </div>
+        <div class="col-md-8 pt-5" data-aos="fade-up">
+          <h3>Sunt consequatur ad ut est nulla consectetur reiciendis animi voluptas</h3>
+          <p>Cupiditate placeat cupiditate placeat est ipsam culpa. Delectus quia minima quod. Sunt saepe odit aut quia
+            voluptatem hic voluptas dolor doloremque.</p>
+          <ul>
+            <li> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+            <li> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+            <li> Facilis ut et voluptatem aperiam. Autem soluta ad fugiat.</li>
+          </ul>
+          <p>
+            Qui consequatur temporibus. Enim et corporis sit sunt harum praesentium suscipit ut voluptatem. Et nihil
+            magni debitis consequatur est.
+          </p>
+          <p>
+            Suscipit enim et. Ut optio esse quidem quam reiciendis esse odit excepturi. Vel dolores rerum soluta
+            explicabo vel fugiat eum non.
+          </p>
+        </div>
+      </div>
+
+      <div class="row content">
+        <div class="col-md-4 order-1 order-md-2" data-aos="fade-left">
+          <img src="" class="img-fluid" alt="test">
+        </div>
+        <div class="col-md-8 pt-5 order-2 order-md-1" data-aos="fade-up">
+          <h3>Quas et necessitatibus eaque impedit ipsum animi consequatur incidunt in</h3>
+          <p class="font-italic">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore
+            magna aliqua.
+          </p>
+          <p>
+            Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum
+          </p>
+          <ul>
+            <li> Et praesentium laboriosam architecto nam .</li>
+            <li>Eius et voluptate. Enim earum tempore aliquid. Nobis et sunt consequatur. Aut repellat in numquam velit
+              quo dignissimos et.
+            </li>
+            <li>Facilis ut et voluptatem aperiam. Autem soluta ad fugiat.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="footer">
+  <div class="container py-4">
+    <div class="copyright">
+      &copy; Copyright <strong><span>InsulinX</span></strong>. All Rights Reserved
+    </div>
+  </div>
+</footer>
+

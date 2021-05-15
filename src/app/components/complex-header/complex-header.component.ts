@@ -33,6 +33,7 @@ export class ComplexHeaderComponent implements OnInit, OnDestroy {
   navigateInsulinForm(): void {
     this.insulinService.populateWithCompleteIndexes();
     this.headerService.navigateInsulinCalculator(this.username);
+    this.headerService.emitCalculateIndexEvent();
   }
 
   navigateSettings(): void {
