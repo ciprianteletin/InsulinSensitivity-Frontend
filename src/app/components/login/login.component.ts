@@ -118,7 +118,9 @@ export class LoginComponent implements OnInit, OnDestroy, CanLeave {
       return true;
     }
     if (!this.isFormEmpty() && !this.loginForm.submitted) {
-      this.modalManager.openConfirmModal(ConfirmModalComponent);
+      this.modalManager.openConfirmModal(ConfirmModalComponent,
+        'Are you sure you want to leave Login page?',
+        'All data will be lost!');
       return this.modalManager.getConfirmResult();
     }
     return true;

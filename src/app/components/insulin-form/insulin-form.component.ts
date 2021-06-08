@@ -204,7 +204,9 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isFormEmpty() && !this.isSubmitted) {
-      this.modalManager.openConfirmModal(ConfirmModalComponent);
+      this.modalManager.openConfirmModal(ConfirmModalComponent,
+        'Are you sure you want to leave the index calculator?',
+        'All data will be lost!');
       return this.modalManager.getConfirmResult();
     }
     return true;

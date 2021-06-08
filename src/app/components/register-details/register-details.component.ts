@@ -57,7 +57,9 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
    */
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isFormEmpty() && !this.completeRegisterForm.submitted) {
-      this.modalManager.openConfirmModal(ConfirmModalComponent);
+      this.modalManager.openConfirmModal(ConfirmModalComponent,
+        'Are you sure you don\'t want to register?',
+        'All data will be lost!');
       return this.modalManager.getConfirmResult();
     }
     return true;

@@ -12,6 +12,7 @@ export class ModalManagerService {
   deleteAccModalResult = new Subject<boolean>();
   deleteIndexModalResult = new Subject<boolean>();
   setTextDeleteModalSubject = new BehaviorSubject<{ t1: string, t2: string }>(null);
+  setTextConfirmModalSubject = new BehaviorSubject<{ t1: string, t2: string }>(null);
 
   constructor(private modalService: NgbModal) {
   }
@@ -29,8 +30,9 @@ export class ModalManagerService {
     this.deleteAccModalResult.next(true);
   }
 
-  openConfirmModal(component: ModalInterface): void {
-    this.confirmModalRef = this.modalService.open(component);
+  openConfirmModal(component: ModalInterface, strongText: string, text: string): void {
+    this.confirmModalRef = this.modalService.open(component, {centered: true});
+    this.setTextConfirmModalSubject.next({t1: strongText, t2: text});
   }
 
   closeConfirmModal(): void {

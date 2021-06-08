@@ -139,6 +139,10 @@ export class AuthenticationService {
     return this.isLoggedIn;
   }
 
+  checkPassword(password: string): Observable<number> {
+    return this.http.get<number>(`${environment.url}/checkPassword/${password}`);
+  }
+
   private handleAuth(response: HttpResponse<any>): void {
     this.handleAuthToken(response);
     this.emitLoggedUser(response);
