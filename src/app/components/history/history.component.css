@@ -2,6 +2,7 @@
   background: #16222A;
   background: -webkit-linear-gradient(to right, #3A6073, #16222A);
   background: linear-gradient(to right, #3A6073, #16222A);
+
   min-height: 94vh !important;
   height: auto !important;
   overflow: auto !important;

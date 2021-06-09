@@ -3,7 +3,7 @@ import {AuthenticationService} from './authentication.service';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../constants/environment';
-import {mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap} from 'rxjs/operators';
 import {CacheService} from './cache.service';
 import {CustomFormMap} from '../model/representation/custom-form-map.model';
 import {DetailedUserModel} from '../model/representation/detailed-user.model';
@@ -129,6 +129,7 @@ export class SettingsService {
     const params = {fields: 'country'};
     return this.http.get(`${environment.url}/user/ip`, {responseType: 'text'})
       .pipe(
+        catchError(() => of('Unknown')),
         mergeMap(ip => {
           const userIp = ip === '127.0.0.1' || ip === '0:0:0:0:0:0:0:1' ? '79.118.48.107' : ip;
           return this.http.get<{ country: string }>(`${environment.countryAPI}/${userIp}`, {params, withCredentials: false});

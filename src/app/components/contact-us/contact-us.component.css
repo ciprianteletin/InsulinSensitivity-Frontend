@@ -4,11 +4,14 @@
   background: linear-gradient(to right, #3A6073, #16222A);
   height: 100%;
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: -1;
 }
 
 .content {
-  padding: 7rem 0;
+  padding: 7rem 0 0 0;
 }
 
 .form-control {
@@ -24,10 +27,6 @@
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: darkgray;
   opacity: 1; /* Firefox */
-}
-
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: darkgray;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */

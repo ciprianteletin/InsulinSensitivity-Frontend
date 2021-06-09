@@ -2,9 +2,14 @@
   background: #16222A;
   background: -webkit-linear-gradient(to right, #3A6073, #16222A);
   background: linear-gradient(to right, #3A6073, #16222A);
-  min-height: 94vh !important;
+  min-height: 100% !important;
   height: auto !important;
   overflow: auto !important;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 h4 {
@@ -119,9 +124,8 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 
 @media (max-width: 850px) {
   .container {
-    min-height: 100vh;
     min-width: 90%;
-    height: auto;
+    margin-bottom: 15px;
   }
 
   .form-group {

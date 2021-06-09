@@ -38,9 +38,20 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.addSubscriptions();
   }
 
+  /**
+   * In order to avoid cases where selected indexes remain selected, even when we leave the page,
+   * we want to clear the list and reset the css classes. In case if we are on the calculator,
+   * we don't want to get rid of the selected indexes, so we check the route before doing any
+   * kind of modification.
+   */
   ngAfterViewInit(): void {
     this.indexList = Array.from(this.indexParent.nativeElement.children);
-    this.activateClickedIndexes();
+    if (!this.router.url.includes('calculator')) {
+      this.resetClasses();
+      this.insulinService.clearList();
+    } else {
+      this.activateClickedIndexes();
+    }
   }
 
   onClickSettingsEvent(id: string): void {
@@ -91,6 +102,14 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  private resetClasses(): void {
+    const activeList = this.insulinService.getIndexList();
+    activeList.forEach(index => {
+      const item = this.getIndexFromList(index).children[0];
+      this.renderer.removeClass(item, 'active-link');
+    });
+  }
+
   private navigateToSettings(): void {
     this.router.navigate(['/settings'], {
       queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}
@@ -106,7 +125,6 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.router.navigate(['/contact-us']).then();
   }
-
 
   private createSubscriptions(): void {
     this.userSubscription = this.authService.user
