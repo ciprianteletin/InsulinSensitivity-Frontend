@@ -1,0 +1,161 @@
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <app-sidebar></app-sidebar>
+  <!-- Page Content  -->
+  <div id="content">
+    <app-complex-header></app-complex-header>
+    <main>
+      <h2>Predict diabetes</h2>
+      <p>Based on data provided from basic medical analysis, the model can predict with an accuracy of 95% if a patient
+        has diabetes or not. Nevertheless of the result, you should not take it as granted or as a replacement
+        for a specialised medic. Even if the model predict that you are healthy, in case of any symptoms, please
+        contact your doctor. The inserted data is not collected by any means by our solution. It is used
+        only for the predictability of diabetes. For the model to work correctly, insert all data requested by
+        the application.</p>
+    </main>
+    <div class="container">
+      <form id="reduce-width" (ngSubmit)="onSubmitClassification()" #classif="ngForm">
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="age" class="text-warning">Age*</label>
+            <input type="number"
+                   id="age"
+                   placeholder="23"
+                   name="age"
+                   ngModel
+                   appOnlyNumbers
+                   required
+                   class="form-control">
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="gender" class="text-warning">Gender*</label>
+            <select class="form-control"
+                    name="gender"
+                    [ngModel]="'M'"
+                    id="gender"
+                    required>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 form-group">
+            <label for="glucose" class="text-warning">Glucose*</label>
+            <input type="text"
+                   class="form-control"
+                   name="glucose"
+                   ngModel
+                   required
+                   appDecimalsNumbers
+                   [placeholder]="placeholderGlucose"
+                   id="glucose">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="cholesterol" class="text-warning">Cholesterol*</label>
+            <input type="text"
+                   class="form-control"
+                   name="cholesterol"
+                   ngModel
+                   required
+                   appDecimalsNumbers
+                   [placeholder]="placeholderGlucose"
+                   id="cholesterol">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="hdl" class="text-warning">HDL*</label>
+            <input type="text"
+                   class="form-control"
+                   name="hdl"
+                   ngModel
+                   appDecimalsNumbers
+                   required
+                   [placeholder]="placeholderGlucose"
+                   id="hdl">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 form-group">
+            <label for="systolic" class="text-warning">Systolic BP*</label>
+            <input type="text"
+                   class="form-control"
+                   ngModel
+                   required
+                   appDecimalsNumbers
+                   name="systolic"
+                   placeholder="mmHg"
+                   id="systolic">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="diastolic" class="text-warning">Diastolic BP*</label>
+            <input type="text"
+                   required
+                   class="form-control"
+                   name="diastolic"
+                   ngModel
+                   appDecimalsNumbers
+                   placeholder="mmHg"
+                   id="diastolic">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="height" class="text-warning">Height*</label>
+            <input type="number"
+                   class="form-control"
+                   name="height"
+                   ngModel
+                   required
+                   appOnlyNumbers
+                   placeholder="cm"
+                   id="height">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 form-group">
+            <label for="weight" class="text-warning">Weight*</label>
+            <input type="number"
+                   class="form-control"
+                   id="weight"
+                   name="weight"
+                   ngModel
+                   required
+                   appOnlyNumbers
+                   placeholder="kg">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="waist" class="text-warning">Waist*</label>
+            <input type="number"
+                   class="form-control"
+                   id="waist"
+                   name="waist"
+                   ngModel
+                   required
+                   appOnlyNumbers
+                   placeholder="cm">
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="hip" class="text-warning">Hip*</label>
+            <input type="number"
+                   class="form-control"
+                   name="hip"
+                   ngModel
+                   required
+                   appOnlyNumbers
+                   id="hip"
+                   placeholder="cm">
+          </div>
+        </div>
+
+        <button type="submit"
+                [disabled]="!classif.valid"
+                class="btn btn-danger rounded ml-1 mr-2 mb-2">Compute
+        </button>
+        <button type="button" class="btn btn-danger rounded mb-2 mr-2" (click)="onConvertMgMmol()">
+          {{this.placeholderGlucose}}<i class="fas fa-exchange-alt"></i>{{this.alternatePlaceholderGlucose}}</button>
+        <p class="result" [ngClass]="{'text-danger': this.numericResult === 1, 'dark-green': this.numericResult === 0}">{{resultText}}</p>
+      </form>
+    </div>
+  </div>
+</div>

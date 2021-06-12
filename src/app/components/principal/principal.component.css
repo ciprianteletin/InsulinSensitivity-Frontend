@@ -1,11 +1,14 @@
 .full-bg {
-  background: url('../../../assets/images/home-background.png') no-repeat fixed center center;
+  background: url('../../../assets/images/home-background.jpg') no-repeat fixed center center;
 }
 
 main {
   padding-left: 20px;
+  padding-right: 20px;
+  text-align: justify;
 }
 
 p {
-  font-weight: bold !important;
+  font-size: 18px !important;
+  font-weight: bolder !important;
 }

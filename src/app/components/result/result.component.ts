@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {DataIndexModel} from '../../model/form/data-index.model';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
 import {Color, Label} from 'ng2-charts';
@@ -11,13 +11,16 @@ import {NotificationType} from '../../constants/notification-type.enum';
 import {HttpResponse} from '@angular/common/http';
 import {InsulinConverter} from '../../converters/insulin.converter';
 import {AuthenticationService} from '../../services/authentication.service';
+import {CanLeave} from '../../guards/utils/can.leave';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {ModalManagerService} from '../../services/modal-manager.service';
 
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.css']
 })
-export class ResultComponent implements OnInit, OnDestroy {
+export class ResultComponent implements OnInit, OnDestroy, CanLeave {
   @ViewChild('glucoseChart') glucoseChart: ElementRef;
   @ViewChild('insulinChart') insulinChart: ElementRef;
   public isLoggedUser: boolean;
@@ -77,7 +80,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   constructor(private insulinService: InsulinIndexesService,
               private fileExporter: FileExporterService,
               private notificationService: NotificationService,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private modalManager: ModalManagerService) {
   }
 
   ngOnInit(): void {
@@ -224,5 +228,12 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mainSubscription.unsubscribe();
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    this.modalManager.openConfirmModal(ConfirmModalComponent,
+      'Are you sure you want to leave the page?',
+      'All data will be lost!');
+    return this.modalManager.getConfirmResult();
   }
 }

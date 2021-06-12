@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {RegisterBasicModel} from '../../model/representation/register-basic.model';
 import {NgForm} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
@@ -20,19 +20,25 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
   @ViewChild('f') completeRegisterForm: NgForm;
   basicDetails: RegisterBasicModel;
   isLoading = false;
+  refreshError = false;
 
   startDate = {year: 1980, month: 1, day: 1};
   dateMin = {year: 1950, month: 1, day: 1};
   dateMax = {year: 2021, month: 1, day: 1};
 
   constructor(private router: Router,
+              private route: ActivatedRoute,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService,
               private modalManager: ModalManagerService) {
-    this.basicDetails = this.router.getCurrentNavigation().extras.state.registerBasic;
+    this.basicDetails = this.router.getCurrentNavigation().extras.state?.registerBasic;
   }
 
   ngOnInit(): void {
+    if (!this.basicDetails) {
+      this.refreshError = true;
+      this.router.navigate(['../../register'], {relativeTo: this.route});
+    }
   }
 
   onSubmitUser(): void {
@@ -56,7 +62,7 @@ export class RegisterDetailsComponent implements OnInit, CanLeave {
    * that the user really wants to leave the page and that it was not a mistake.
    */
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.isFormEmpty() && !this.completeRegisterForm.submitted) {
+    if (!this.isFormEmpty() && !this.completeRegisterForm.submitted && !this.refreshError) {
       this.modalManager.openConfirmModal(ConfirmModalComponent,
         'Are you sure you don\'t want to register?',
         'All data will be lost!');

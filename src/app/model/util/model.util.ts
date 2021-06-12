@@ -9,7 +9,7 @@ export class ModelUtil {
       username: basicUser.username,
       password: basicUser.password,
       email: basicUser.email,
-      role: form.value.medic ? 'medic' : 'patient',
+      role: 'patient',
       firstName: form.value.firstName,
       lastName: form.value.lastName,
       phoneNr: form.value.phone,

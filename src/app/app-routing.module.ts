@@ -19,6 +19,8 @@ import {SummaryResolver} from './resolver/summary.resolver';
 import {LoggedInGuard} from './guards/logged-in.guard';
 import {NotLoggedGuard} from './guards/not-logged.guard';
 import {ContactUsComponent} from './components/contact-us/contact-us.component';
+import {PredictDiabetesComponent} from './components/predict-diabetes/predict-diabetes.component';
+import {PredictEvolutionComponent} from './components/predict-evolution/predict-evolution.component';
 
 const routes: Routes = [
   {path: '', component: IndexComponent, pathMatch: 'full'},
@@ -42,7 +44,9 @@ const routes: Routes = [
       detailedUser: DetailedUserResolver
     }
   },
-  {path: 'results', component: ResultComponent},
+  {path: 'predict/diabetes', component: PredictDiabetesComponent, canActivate: [LoggedInGuard]},
+  {path: 'predict/evolution', component: PredictEvolutionComponent, canActivate: [LoggedInGuard]},
+  {path: 'results', component: ResultComponent, canDeactivate: [CanDeactivateGuard]},
   {
     path: 'history', component: HistoryComponent, canActivate: [LoggedInGuard], resolve: {
       summary: SummaryResolver

@@ -55,13 +55,25 @@
          class="dropdown-toggle">Settings</a>
       <ul *ngIf="isLoggedUser" class="collapse list-unstyled" id="settingsSubmenu">
         <li>
-          <a (click)="onClickSettingsEvent('accountPassword')">Change password</a> <!--If not connected with gmail-->
+          <a (click)="onClickSettingsEvent('accountPassword')">Change password</a>
         </li>
         <li>
           <a (click)="onClickSettingsEvent('accountInfo')">Add information to account</a>
         </li>
         <li>
           <a (click)="onClickSettingsEvent('accountHistory')">Reset History</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a *ngIf="isLoggedUser" href="#predictMenu" data-toggle="collapse" aria-expanded="false"
+         class="dropdown-toggle">Predict</a>
+      <ul *ngIf="isLoggedUser" class="collapse list-unstyled" id="predictMenu">
+        <li>
+          <a (click)="onPredictDiabetes()">Diabetes</a>
+        </li>
+        <li>
+          <a (click)="onPredictEvolution()">Disease evolution</a>
         </li>
       </ul>
     </li>

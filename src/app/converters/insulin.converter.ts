@@ -4,7 +4,14 @@ export class InsulinConverter {
   }
 
   public static roundValue(value: number): number {
-    return Math.round((value + Number.EPSILON) * 1000) / 1000;
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
+
+  public checkEmptyConvertGlucose(value: string, placeholder: string): string {
+    if (value === '') {
+      return '';
+    }
+    return this.convertGlucose(value, placeholder);
   }
 
   convertMgAndMmol(model: any, currentPlaceholder: string): any {
@@ -30,7 +37,7 @@ export class InsulinConverter {
     };
   }
 
-  private convertGlucose(value: string, currentPlaceholder: string): string {
+  public convertGlucose(value: string, currentPlaceholder: string): string {
     if (value === undefined || isNaN(Number(value))) {
       return undefined;
     }

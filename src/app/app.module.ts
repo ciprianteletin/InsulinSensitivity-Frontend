@@ -27,7 +27,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ModalModule} from './modules/modal.module';
 import {LoggedInGuard} from './guards/logged-in.guard';
 import {NotLoggedGuard} from './guards/not-logged.guard';
-import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import {ContactUsComponent} from './components/contact-us/contact-us.component';
+import {PredictDiabetesComponent} from './components/predict-diabetes/predict-diabetes.component';
+import {PredictEvolutionComponent} from './components/predict-evolution/predict-evolution.component';
 
 export function initApp(appInitService: AppInitService): () => Promise<any> {
   return () => appInitService.init();
@@ -44,6 +46,8 @@ export function initApp(appInitService: AppInitService): () => Promise<any> {
     ResultComponent,
     HistoryComponent,
     ContactUsComponent,
+    PredictDiabetesComponent,
+    PredictEvolutionComponent,
   ],
   imports: [
     BrowserModule,

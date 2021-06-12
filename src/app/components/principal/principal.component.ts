@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 
 @Component({
@@ -6,15 +6,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.css', '../../../assets/styles/utils.css']
 })
-export class PrincipalComponent implements OnInit, OnDestroy {
+export class PrincipalComponent implements OnInit {
 
   constructor() {
   }
 
   ngOnInit(): void {
 
-  }
-
-  ngOnDestroy(): void {
   }
 }

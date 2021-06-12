@@ -59,6 +59,14 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.navigateToSettings();
   }
 
+  onPredictDiabetes(): void {
+    this.router.navigate(['/predict/diabetes']);
+  }
+
+  onPredictEvolution(): void {
+    this.router.navigate(['/predict/evolution']);
+  }
+
   navigateToHistory(): void {
     this.router.navigate(['/history'], {
       queryParams: {username: AES.encrypt(this.username, environment.secretKey).toString()}

@@ -12,6 +12,7 @@ import {ChartsModule} from 'ng2-charts';
 import {ResultSortPipe} from '../pipes/result-sort.pipe';
 import {IndexSortPipe} from '../pipes/index-sort.pipe';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import {DecimalNumbersDirective} from '../directives/decimal-numbers.directive';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
     HeaderComponent,
     DatePickerComponent,
     ResultSortPipe,
-    IndexSortPipe
+    IndexSortPipe,
+    DecimalNumbersDirective
   ],
   imports: [CommonModule, AppRoutingModule, NgbModule, ChartsModule,  NgMultiSelectDropDownModule.forRoot()],
   exports: [
@@ -37,6 +39,7 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
     ChartsModule,
     ResultSortPipe,
     IndexSortPipe,
+    DecimalNumbersDirective,
     NgMultiSelectDropDownModule
   ]
 })

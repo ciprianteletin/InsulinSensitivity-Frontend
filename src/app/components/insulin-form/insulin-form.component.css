@@ -17,21 +17,3 @@
   border: 1px solid rgba(2, 50, 88, 0.5);
   border-radius: 5%;
 }
-
-@media(max-width: 769px) {
-  .container {
-    background-color: transparent;
-    display: initial;
-    top: initial;
-    left: initial;
-    align-content: initial;
-    align-items: initial;
-    justify-content: initial;
-    border: none;
-  }
-
-  #reduce-width {
-    width: 50%;
-    margin: 0 auto;
-  }
-}

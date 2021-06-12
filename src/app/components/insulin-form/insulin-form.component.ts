@@ -18,7 +18,9 @@ import {HeaderService} from '../../services/header.service';
 @Component({
   selector: 'app-insulin-form',
   templateUrl: './insulin-form.component.html',
-  styleUrls: ['./insulin-form.component.css', '../../../assets/styles/utils.css']
+  styleUrls: ['./insulin-form.component.css',
+    '../../../assets/styles/utils.css',
+    '../../../assets/styles/forms.css']
 })
 export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
   userModel: DetailedUserModel;
