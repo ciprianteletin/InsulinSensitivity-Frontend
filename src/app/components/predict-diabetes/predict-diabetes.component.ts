@@ -1,32 +1,52 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {InsulinConverter} from '../../converters/insulin.converter';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {MlService} from '../../services/ml.service';
+import {DetailedUserModel} from '../../model/representation/detailed-user.model';
+import {ActivatedRoute} from '@angular/router';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {CanLeave} from '../../guards/utils/can.leave';
+import {ModalManagerService} from '../../services/modal-manager.service';
+import {UtilsService} from '../../services/utils.service';
 
 @Component({
   selector: 'app-predict-diabetes',
   templateUrl: './predict-diabetes.component.html',
   styleUrls: ['./predict-diabetes.component.css',
+    '../../../assets/styles/predict.css',
     '../../../assets/styles/utils.css',
     '../../../assets/styles/forms.css']
 })
-export class PredictDiabetesComponent implements OnInit, OnDestroy {
+export class PredictDiabetesComponent implements OnInit, OnDestroy, CanLeave {
 
   @ViewChild('classif') classifForm: NgForm;
   placeholderGlucose = 'mg/dL';
   alternatePlaceholderGlucose = 'mmol/L';
-  insulinConverter: InsulinConverter;
   resultText = '';
+  userModel: DetailedUserModel;
+  gender = 'M';
+  age: number = undefined;
   numericResult: number;
   percentage: number;
-  classifierSubscription: Subscription = new Subscription();
 
-  constructor(private mlService: MlService) {
+  private insulinConverter: InsulinConverter;
+  private isSubmitted = false;
+  private classifierSubscription: Subscription = new Subscription();
+
+  constructor(private mlService: MlService,
+              private route: ActivatedRoute,
+              private modalManager: ModalManagerService,
+              private utilsService: UtilsService) {
     this.insulinConverter = new InsulinConverter();
   }
 
   ngOnInit(): void {
+    this.route.data.subscribe((data: { detailedUser: DetailedUserModel }) => {
+      this.userModel = data.detailedUser;
+      this.age = this.utilsService.convertBirthDayToAge(this.userModel.details.birthDay);
+      this.gender = this.userModel.details.gender;
+    });
   }
 
   onSubmitClassification(): void {
@@ -36,7 +56,8 @@ export class PredictDiabetesComponent implements OnInit, OnDestroy {
     };
     this.classifierSubscription = this.mlService.sendToClassification(json)
       .subscribe((response) => {
-        this.numericResult = Number(response.result);
+        this.isSubmitted = true;
+        this.numericResult = +response.result;
 
         if (this.numericResult === 1) {
           this.resultText = `You have a probability of ${response.probability} to be diabetic!`;
@@ -60,16 +81,46 @@ export class PredictDiabetesComponent implements OnInit, OnDestroy {
   private convertFormValues(): void {
     const glucose = this.insulinConverter.checkEmptyConvertGlucose
     (this.classifForm.value.glucose, this.placeholderGlucose);
-    const cholesterol = this.insulinConverter.checkEmptyConvertGlucose
+    const cholesterol = this.insulinConverter.checkEmptyConvertCholesterol
     (this.classifForm.value.cholesterol, this.placeholderGlucose);
-    const HDL = this.insulinConverter.checkEmptyConvertGlucose
-    (this.classifForm.value.HDL, this.placeholderGlucose);
+    const hdl = this.insulinConverter.checkEmptyConvertCholesterol
+    (this.classifForm.value.hdl, this.placeholderGlucose);
 
     this.classifForm.control.patchValue({
       glucose,
       cholesterol,
-      HDL
+      hdl
     });
+  }
+
+  private isFormEmpty(): boolean {
+    if (this.isSubmitted) {
+      return true;
+    }
+    let flag = true;
+    for (const key in this.classifForm.value) {
+      if (this.classifForm.value.hasOwnProperty(key) && this.checkKey(key) && this.classifForm.value[key]) {
+        flag = false;
+      }
+    }
+    return flag;
+  }
+
+  private checkKey(key: string): boolean {
+    if (this.userModel === null) {
+      return key !== 'gender';
+    }
+    return key !== 'gender' && key !== 'age';
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.isFormEmpty() && !this.isSubmitted) {
+      this.modalManager.openConfirmModal(ConfirmModalComponent,
+        'Are you sure you want to leave the diabetes predictor?',
+        'All data will be lost!');
+      return this.modalManager.getConfirmResult();
+    }
+    return true;
   }
 
   ngOnDestroy(): void {

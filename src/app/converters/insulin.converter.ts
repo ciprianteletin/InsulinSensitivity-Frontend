@@ -14,6 +14,20 @@ export class InsulinConverter {
     return this.convertGlucose(value, placeholder);
   }
 
+  public checkEmptyConvertCholesterol(value: string, placeholder: string): string {
+    if (value === '') {
+      return '';
+    }
+    return this.convertCholesterol(value, placeholder);
+  }
+
+  public checkEmptyConvertTriglycerides(value: string, placeholder: string): string {
+    if (value === '') {
+      return '';
+    }
+    return this.convertTriglycerides(value, placeholder);
+  }
+
   convertMgAndMmol(model: any, currentPlaceholder: string): any {
     return {
       ...model,
@@ -22,8 +36,8 @@ export class InsulinConverter {
       glucoseSix: this.convertGlucose(model.glucoseSix, currentPlaceholder),
       glucoseOneTwenty: this.convertGlucose(model.glucoseOneTwenty, currentPlaceholder),
       nefa: this.convertNefa(model.nefa, currentPlaceholder),
-      hdl: this.convertHDL(model.hdl, currentPlaceholder),
-      triglyceride: this.convertTriglicerides(model.triglyceride, currentPlaceholder)
+      hdl: this.convertCholesterol(model.hdl, currentPlaceholder),
+      triglyceride: this.convertTriglycerides(model.triglyceride, currentPlaceholder)
     };
   }
 
@@ -79,7 +93,7 @@ export class InsulinConverter {
     return val.toString();
   }
 
-  private convertTriglicerides(value: string, currentPlaceholder: string): string {
+  private convertTriglycerides(value: string, currentPlaceholder: string): string {
     if (value === undefined || isNaN(Number(value))) {
       return undefined;
     }
@@ -93,7 +107,7 @@ export class InsulinConverter {
     return val.toString();
   }
 
-  private convertHDL(value: string, currentPlaceholder: string): string {
+  private convertCholesterol(value: string, currentPlaceholder: string): string {
     if (value === undefined || isNaN(Number(value))) {
       return undefined;
     }

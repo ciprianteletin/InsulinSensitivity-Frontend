@@ -44,8 +44,18 @@ const routes: Routes = [
       detailedUser: DetailedUserResolver
     }
   },
-  {path: 'predict/diabetes', component: PredictDiabetesComponent, canActivate: [LoggedInGuard]},
-  {path: 'predict/evolution', component: PredictEvolutionComponent, canActivate: [LoggedInGuard]},
+  {
+    path: 'predict/diabetes', component: PredictDiabetesComponent, canActivate: [LoggedInGuard], canDeactivate: [CanDeactivateGuard],
+    resolve: {
+      detailedUser: DetailedUserResolver
+    }
+  },
+  {
+    path: 'predict/evolution', component: PredictEvolutionComponent, canActivate: [LoggedInGuard], canDeactivate: [CanDeactivateGuard],
+    resolve: {
+      detailedUser: DetailedUserResolver
+    }
+  },
   {path: 'results', component: ResultComponent, canDeactivate: [CanDeactivateGuard]},
   {
     path: 'history', component: HistoryComponent, canActivate: [LoggedInGuard], resolve: {

@@ -22,7 +22,7 @@
                    id="age"
                    placeholder="23"
                    name="age"
-                   ngModel
+                   [ngModel]="this.age"
                    appOnlyNumbers
                    required
                    class="form-control">
@@ -31,7 +31,7 @@
             <label for="gender" class="text-warning">Gender*</label>
             <select class="form-control"
                     name="gender"
-                    [ngModel]="'M'"
+                    [ngModel]="this.gender"
                     id="gender"
                     required>
               <option value="M">Male</option>
@@ -154,7 +154,8 @@
         </button>
         <button type="button" class="btn btn-danger rounded mb-2 mr-2" (click)="onConvertMgMmol()">
           {{this.placeholderGlucose}}<i class="fas fa-exchange-alt"></i>{{this.alternatePlaceholderGlucose}}</button>
-        <p class="result" [ngClass]="{'text-danger': this.numericResult === 1, 'dark-green': this.numericResult === 0}">{{resultText}}</p>
+        <p class="result"
+           [ngClass]="{'text-danger': this.numericResult === 1, 'dark-green': this.numericResult === 0}">{{resultText}}</p>
       </form>
     </div>
   </div>

@@ -89,13 +89,13 @@ export class InsulinFormComponent implements OnInit, OnDestroy, CanLeave {
       this.notificationService.notify(NotificationType.WARNING, 'Select at least one index!');
       return;
     }
-    this.isSubmitted = true;
     this.checkForAdditionalIndex();
     const username: string = this.userModel !== null ? this.userModel.username : null;
     const data: DataIndexModel = this.insulinService
       .buildDataModel(this.model, this.placeholderGlucose, this.placeholderInsulin);
     this.insulinService.sendDataIndexes(data, username)
       .subscribe((response) => {
+        this.isSubmitted = true;
         this.insulinService.emitResponse(response);
         this.router.navigate(['results']);
       });

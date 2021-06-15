@@ -12,4 +12,8 @@ export class MlService {
   public sendToClassification(data: string): Observable<any> {
     return this.http.post(`${environment.url}/classification/predict`, data);
   }
+
+  public sendToRegression(data: string): Observable<any> {
+    return this.http.post(`${environment.url}/classification/evolution`, data);
+  }
 }
