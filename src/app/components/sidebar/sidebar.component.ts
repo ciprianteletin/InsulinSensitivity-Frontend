@@ -7,6 +7,8 @@ import {AES} from 'crypto-js';
 import {environment} from '../../constants/environment';
 import {Router} from '@angular/router';
 import {InsulinIndexesService} from '../../services/insulin-indexes.service';
+import {NotificationService} from '../../services/notification.service';
+import {NotificationType} from '../../constants/notification-type.enum';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,6 +30,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private headerService: HeaderService,
               private authService: AuthenticationService,
               private settingsService: SettingsService,
+              private notificationService: NotificationService,
               private router: Router,
               private renderer: Renderer2,
               private insulinService: InsulinIndexesService) {
@@ -86,6 +89,10 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   calculateIndexes(): void {
+    if (this.insulinService.isEmptyList()) {
+      this.notificationService.notify(NotificationType.WARNING, 'Please select at least one index!');
+      return;
+    }
     this.headerService.navigateInsulinCalculator(this.username);
   }
 

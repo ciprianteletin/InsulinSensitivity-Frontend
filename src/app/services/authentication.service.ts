@@ -25,6 +25,7 @@ export class AuthenticationService {
   loggedUser = new BehaviorSubject<boolean>(false);
   private captchaEvent = new Subject<boolean>();
 
+  public logoutClicked = false;
   private isLoggedIn = false;
   private jwtHelper = new JwtHelperService();
   private timerRefreshToken: any;
@@ -62,6 +63,7 @@ export class AuthenticationService {
    * manual log-out. Also redirect the user to the main page
    */
   logout(): Observable<any> {
+    this.logoutClicked = true;
     return this.http.get(`${environment.url}/logout/${this.userId}`)
       .pipe(tap(() => {
         this.router.navigate(['/']);
@@ -144,6 +146,7 @@ export class AuthenticationService {
   }
 
   private handleAuth(response: HttpResponse<any>): void {
+    this.logoutClicked = false;
     this.handleAuthToken(response);
     this.emitLoggedUser(response);
   }

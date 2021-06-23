@@ -170,6 +170,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   onFilterData(): void {
+    this.indexSummary = [...this.originalSummary];
     let temp = SorterUtil.sortByDate(this.indexSummary, this.selectedValue);
     temp = SorterUtil.sortByStatus(temp, this.statusSelected);
     temp = SorterUtil.sortByIndex(temp, this.indexSelected);
