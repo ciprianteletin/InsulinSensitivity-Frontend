@@ -29,9 +29,10 @@ a:focus {
   border-bottom: 1px double grey;
 }
 
-#sidebar p {
+.p-like {
   color: steelblue;
   padding: 10px;
+  font-size: 21px;
 }
 
 #sidebar ul li a {
