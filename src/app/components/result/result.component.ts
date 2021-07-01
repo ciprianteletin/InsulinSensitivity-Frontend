@@ -14,6 +14,7 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {CanLeave} from '../../guards/utils/can.leave';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 import {ModalManagerService} from '../../services/modal-manager.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-result',
@@ -79,6 +80,7 @@ export class ResultComponent implements OnInit, OnDestroy, CanLeave {
 
   constructor(private insulinService: InsulinIndexesService,
               private fileExporter: FileExporterService,
+              private router: Router,
               private notificationService: NotificationService,
               private authService: AuthenticationService,
               private modalManager: ModalManagerService) {
@@ -171,6 +173,10 @@ export class ResultComponent implements OnInit, OnDestroy, CanLeave {
   private createDataSubscription(): void {
     this.passDataSubscription = this.insulinService.getDataEvent()
       .subscribe(data => {
+        if (!data) {
+          this.router.navigate(['/insulin']);
+          return;
+        }
         this.indexData = data;
         const glucosePlaceholder = data.glucoseMandatory.glucosePlaceholder;
         const insulinPlaceholder = data.insulinMandatory.insulinPlaceholder;
@@ -184,6 +190,10 @@ export class ResultComponent implements OnInit, OnDestroy, CanLeave {
   private createResponseSubscription(): void {
     this.passResponseSubscription = this.insulinService.getResponseEvent()
       .subscribe(response => {
+        if (!response) {
+          this.router.navigate(['/insulin']);
+          return;
+        }
         this.originalResponse = response;
         this.getMessageResponse(response.result);
         for (const index in response.results) {

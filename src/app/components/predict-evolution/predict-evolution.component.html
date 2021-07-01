@@ -127,9 +127,9 @@
 
         <button type="submit"
                 [disabled]="!evol.valid"
-                class="btn btn-danger rounded ml-1 mr-2 mb-2">Compute
+                class="btn btn-danger rounded pt-2 ml-1 mr-2 mb-2">Compute
         </button>
-        <button type="button" class="btn btn-danger rounded mb-2 mr-2" (click)="onConvertMgMmol()">
+        <button type="button" class="btn btn-danger rounded pt-2 mb-2 mr-2" (click)="onConvertMgMmol()">
           {{this.placeholderGlucose}}<i class="fas fa-exchange-alt"></i>{{this.alternatePlaceholderGlucose}}</button>
         <p class="result"
            [ngClass]="{'text-danger': this.category === 2, 'dark-green': this.category === 0, 'dark-yellow': this.category === 1}">

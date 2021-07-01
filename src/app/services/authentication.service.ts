@@ -169,7 +169,7 @@ export class AuthenticationService {
     const refreshTime = this.jwtHelper.getTokenExpirationDate(token).getTime()
       - new Date().getTime() - environment.fiveMinutesInMs;
     this.clearTimeoutIfNeeded();
-    this.timerRefreshToken = setTimeout(() => this.getNewToken(), refreshTime);
+    this.timerRefreshToken = setTimeout(this.getNewToken, refreshTime);
     localStorage.setItem(environment.bearer, token);
   }
 
