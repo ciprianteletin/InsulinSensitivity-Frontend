@@ -61,7 +61,6 @@ export class InsulinConverter {
     } else {
       val = val * 18;
     }
-    val = InsulinConverter.roundValue(val);
     return val.toString();
   }
 
@@ -75,7 +74,6 @@ export class InsulinConverter {
     } else {
       val = val * 6;
     }
-    val = InsulinConverter.roundValue(val);
     return val.toString();
   }
 
@@ -89,7 +87,6 @@ export class InsulinConverter {
     } else {
       val = val / 0.35;
     }
-    val = InsulinConverter.roundValue(val);
     return val.toString();
   }
 
@@ -103,7 +100,6 @@ export class InsulinConverter {
     } else {
       val = val / 0.01129;
     }
-    val = InsulinConverter.roundValue(val);
     return val.toString();
   }
 
@@ -117,7 +113,6 @@ export class InsulinConverter {
     } else {
       val = val * 38.67;
     }
-    val = InsulinConverter.roundValue(val);
     return val.toString();
   }
 }
