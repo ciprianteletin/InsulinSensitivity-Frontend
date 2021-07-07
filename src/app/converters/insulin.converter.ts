@@ -1,3 +1,6 @@
+/**
+ * Class used mainly for converting values from one unit of measurement to another.
+ */
 export class InsulinConverter {
 
   constructor() {

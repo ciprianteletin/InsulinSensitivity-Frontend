@@ -8,6 +8,9 @@ import {saveAs} from 'file-saver';
 import {NotificationType} from '../constants/notification-type.enum';
 import {NotificationService} from './notification.service';
 
+/**
+ * Service created for exporting different kinds of documents (excel or pdf)
+ */
 @Injectable({providedIn: 'root'})
 export class FileExporterService {
   constructor(private http: HttpClient,

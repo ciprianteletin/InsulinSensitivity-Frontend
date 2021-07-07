@@ -5,6 +5,9 @@ import {AuthenticationService} from '../services/authentication.service';
 import {exhaustMap, take} from 'rxjs/operators';
 import {environment} from '../constants/environment';
 
+/**
+ * Intercept any request and send the jwt token to the server, if the user is authenticated.
+ */
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(private authService: AuthenticationService) {
